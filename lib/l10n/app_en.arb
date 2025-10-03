@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Demo",
+  "homePageTitle": "Home Page",
+  "pushButtonMessage": "You have pushed the button this many times:",
+  "increment": "Increment"
+}
