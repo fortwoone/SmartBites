@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:food/db/tables.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +8,10 @@ import 'package:flutter/widgets.dart';
 class DBAccess{
     static final DB_NAME = "shopping_lists.db";
     static final DB_VERSION = 1;
+
+    DBAccess._priv();
+
+    static final DBAccess inst = DBAccess._priv();
 
     static Database? _db;
 
@@ -54,4 +59,53 @@ class DBAccess{
             "PRAGMA foreign_keys = ON"
         );
     }
+
+    /// Update or insert a shopping list into the database.
+    Future<DBShoppingList> upsertList(DBShoppingList lst) async{
+        Database db = await inst.database;
+
+        int? count = Sqflite.firstIntValue(
+            await db.rawQuery(
+                "SELECT COUNT(*) FROM shopping_list WHERE id = ?", [lst.id]
+            )
+        );
+        if (count == 0){
+            await db.insert(
+                "shopping_list",
+                lst.toMap(),
+                conflictAlgorithm: ConflictAlgorithm.replace
+            );
+        }
+        else{
+            await db.update("shopping_list", lst.toMap(), where: "id = ?", whereArgs: [lst.id]);
+        }
+
+        return lst;
+    }
+
+    /// Update or insert a product reference into the database.
+    Future<DBShoppingProduct> upsertProduct(DBShoppingProduct product) async{
+        Database db = await inst.database;
+
+        int? count = Sqflite.firstIntValue(
+            await db.rawQuery(
+                "SELECT COUNT(*) FROM shopping_product WHERE barcode = ?", [product.barcode]
+            )
+        );
+
+        if (count == 0){
+            await db.insert(
+                "shopping_product",
+                product.toMap(),
+                conflictAlgorithm: ConflictAlgorithm.replace
+            );
+        }
+        else{
+            await db.update("shopping_product", product.toMap(), where: "barcode = ?", whereArgs: [product.barcode]);
+        }
+
+        return product;
+    }
+
+
 }
