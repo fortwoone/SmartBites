@@ -1,3 +1,4 @@
+// TODO: add a way to convert DB references into OFF objects for display.
 import 'dart:async';
 
 import 'package:food/db/tables.dart';
@@ -47,7 +48,8 @@ class DBAccess{
         await db.execute(
             """
             CREATE TABLE shopping_product(
-                barcode INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY,
+                barcode TEXT NOT NULL,
                 list_id INTEGER NOT NULL,
                 FOREIGN KEY (list_id) REFERENCES shopping_list(id)
             )"""
@@ -89,7 +91,7 @@ class DBAccess{
 
         int? count = Sqflite.firstIntValue(
             await db.rawQuery(
-                "SELECT COUNT(*) FROM shopping_product WHERE barcode = ?", [product.barcode]
+                "SELECT COUNT(*) FROM shopping_product WHERE id = ?", [product.id]
             )
         );
 
@@ -101,11 +103,35 @@ class DBAccess{
             );
         }
         else{
-            await db.update("shopping_product", product.toMap(), where: "barcode = ?", whereArgs: [product.barcode]);
+            await db.update("shopping_product", product.toMap(), where: "id = ?", whereArgs: [product.id]);
         }
 
         return product;
     }
 
+    /// Deletes information about a list in the database.
+    /// This includes removing references to the products stored in the database.
+    Future<int> deleteShoppingList(int list_id) async{
+        Database db = await inst.database;
+        await db.delete("shopping_product", where: "list_id = ?", whereArgs: [list_id]);
+        return await db.delete("shopping_list", where: "id = ?", whereArgs: [list_id]);
+    }
 
+    Future<List<DBShoppingProduct>> fetchProductsForList(DBShoppingList lst) async{
+        Database db = await inst.database;
+        List<Map<String, dynamic>> results = await db.query(
+            "shopping_product",
+            where: "list_id = ?",
+            whereArgs: [lst.id]
+        );
+
+        List<DBShoppingProduct> ret = [];
+
+        for (var result in results) {
+            DBShoppingProduct prod = DBShoppingProduct.fromMap(result);
+            ret.add(prod);
+        }
+
+        return ret;
+    }
 }

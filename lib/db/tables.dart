@@ -6,17 +6,19 @@ import 'package:flutter/widgets.dart';
 
 // region Table models
 class DBShoppingProduct{
-    int barcode;
+    int id;
+    String barcode;
     int list_id;
 
-    DBShoppingProduct({required this.barcode, required this.list_id});
+    DBShoppingProduct({required this.id, required this.barcode, required this.list_id});
 
     static DBShoppingProduct fromMap(Map<String, dynamic> input){
-        return DBShoppingProduct(barcode: input["barcode"], list_id: input["list_id"]);
+        return DBShoppingProduct(id: input["id"], barcode: input["barcode"], list_id: input["list_id"]);
     }
 
     Map<String, dynamic> toMap(){
         return {
+            "id": id,
             "barcode": barcode,
             "list_id": list_id
         };
