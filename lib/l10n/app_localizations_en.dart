@@ -19,4 +19,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get increment => 'Increment';
+
+  @override
+  String get new_sl => 'New Shopping List';
+
+  @override
+  String get name_shop_list => 'Please enter a name for the new shopping list: ';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get ok => 'OK';
 }

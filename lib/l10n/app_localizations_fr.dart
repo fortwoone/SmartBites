@@ -19,4 +19,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get increment => 'Incrémenter';
+
+  @override
+  String get new_sl => 'Nouvelle liste de courses';
+
+  @override
+  String get name_shop_list => 'Donnez un nom à cette nouvelle liste de courses : ';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get ok => 'OK';
 }

@@ -3,5 +3,9 @@
   "appTitle": "Flutter Demo",
   "homePageTitle": "Home Page",
   "pushButtonMessage": "You have pushed the button this many times:",
-  "increment": "Increment"
+  "increment": "Increment",
+  "new_sl": "New Shopping List",
+  "name_shop_list": "Please enter a name for the new shopping list: ",
+  "cancel": "Cancel",
+  "ok": "OK"
 }

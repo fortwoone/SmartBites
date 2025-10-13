@@ -3,5 +3,9 @@
   "appTitle": "Flutter Démo",
   "homePageTitle": "Page d'accueil",
   "pushButtonMessage": "Vous avez appuyé sur le bouton autant de fois :",
-  "increment": "Incrémenter"
+  "increment": "Incrémenter",
+  "new_sl": "Nouvelle liste de courses",
+  "name_shop_list": "Donnez un nom à cette nouvelle liste de courses : ",
+  "cancel": "Annuler",
+  "ok": "OK"
 }

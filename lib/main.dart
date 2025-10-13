@@ -40,10 +40,38 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
     int _counter = 0;
 
+    final edit_controller = TextEditingController();
+
     void _incrementCounter() {
         setState(() {
             _counter++;
         });
+    }
+
+    Future<String?> askListName(BuildContext context) async{
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.name_shop_list),
+                    content: TextField(
+                        controller: edit_controller,
+                    ),
+                    actions: [
+                        ElevatedButton(
+                            child: Text(loc.cancel),
+                            onPressed: () => Navigator.pop(context)
+                        ),
+                        ElevatedButton(
+                            onPressed: () => Navigator.pop(context, edit_controller.text),
+                            child: Text(loc.ok)
+                        )
+                    ]
+                );
+            }
+        );
     }
 
     @override
@@ -73,7 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
             ),
             floatingActionButton: FloatingActionButton(
-                onPressed: _incrementCounter,
+                onPressed: () async{
+                    var result = await askListName(context);
+                },
                 tooltip: t.increment,
                 child: const Icon(Icons.add),
             ),
