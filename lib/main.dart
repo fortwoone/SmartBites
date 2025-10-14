@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:food/db/database.dart';
+import 'package:food/db/tables.dart';
 import 'package:food/l10n/app_localizations.dart';
 import "package:openfoodfacts/openfoodfacts.dart";
 
@@ -97,12 +99,21 @@ class _MyHomePageState extends State<MyHomePage> {
                             '$_counter',
                             style: Theme.of(context).textTheme.headlineMedium,
                         ),
+                        IconButton(
+                            onPressed: onPressed, icon: Icon(Icons.add)
+                        )
                     ],
                 ),
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: () async{
-                    var result = await askListName(context);
+                    String? result = await askListName(context);
+                    print(result);
+                    if (result != null && result.isNotEmpty){
+                        DBAccess.inst.upsertList(
+                            DBShoppingList(name: result)
+                        );
+                    }
                 },
                 tooltip: t.increment,
                 child: const Icon(Icons.add),

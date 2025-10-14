@@ -6,22 +6,31 @@ import 'package:flutter/widgets.dart';
 
 // region Table models
 class DBShoppingProduct{
-    int id;
+    int? id;
     String barcode;
     int list_id;
 
-    DBShoppingProduct({required this.id, required this.barcode, required this.list_id});
+    DBShoppingProduct({required this.barcode, required this.list_id});
 
     static DBShoppingProduct fromMap(Map<String, dynamic> input){
-        return DBShoppingProduct(id: input["id"], barcode: input["barcode"], list_id: input["list_id"]);
+        var ret = DBShoppingProduct(barcode: input["barcode"], list_id: input["list_id"]);
+        if (input.containsKey("id")){
+            ret.id = input["id"];
+        }
+        return ret;
     }
 
     Map<String, dynamic> toMap(){
-        return {
-            "id": id,
+        var ret = {
             "barcode": barcode,
             "list_id": list_id
         };
+
+        if (id != null){
+            ret["id"] = id!;
+        }
+
+        return ret;
     }
 
     @override
@@ -31,25 +40,36 @@ class DBShoppingProduct{
 }
 
 class DBShoppingList{
-    int id;
+    int? id;
     String name;
 
-    DBShoppingList({required this.id, required this.name});
+    DBShoppingList({required this.name});
 
     static DBShoppingList fromMap(Map<String, dynamic> input){
-        return DBShoppingList(id: input["id"], name: input["name"]);
+        var ret = DBShoppingList(name: input["name"]);
+
+        if (input.containsKey("id")){
+            ret.id = input["id"];
+        }
+
+        return ret;
     }
 
     Map<String, dynamic> toMap(){
-        return {
-            "id": id,
+        var ret = {
             "name": name,
         };
+
+        if (id != null){
+            ret["id"] = id!.toString();
+        }
+
+        return ret;
     }
 
     @override
     String toString() {
-        return "DBShoppingList{id: $id, name: $name}";
+        return "DBShoppingList{name: $name}";
     }
 }
 // endregion

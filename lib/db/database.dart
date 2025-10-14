@@ -27,6 +27,7 @@ class DBAccess{
 
     Future<Database> _initDB() async{
         String path = join(await getDatabasesPath(), DB_NAME);
+        print(path);
         return await openDatabase(
             path,
             version: DB_VERSION,
@@ -40,7 +41,7 @@ class DBAccess{
         await db.execute(
             """
             CREATE TABLE shopping_list(
-                id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL UNIQUE
             )"""
         );
@@ -48,7 +49,7 @@ class DBAccess{
         await db.execute(
             """
             CREATE TABLE shopping_product(
-                id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 barcode TEXT NOT NULL,
                 list_id INTEGER NOT NULL,
                 FOREIGN KEY (list_id) REFERENCES shopping_list(id)
