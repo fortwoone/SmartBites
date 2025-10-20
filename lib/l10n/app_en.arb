@@ -3,5 +3,11 @@
   "appTitle": "Flutter Demo",
   "homePageTitle": "Home Page",
   "pushButtonMessage": "You have pushed the button this many times:",
-  "increment": "Increment"
+  "increment": "Increment",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "perform_login": "Log in",
+  "shopping_lists": "Shopping Lists",
+  "new_list": "New Shopping List"
 }

@@ -118,6 +118,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get increment;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @perform_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get perform_login;
+
+  /// No description provided for @shopping_lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Lists'**
+  String get shopping_lists;
+
+  /// No description provided for @new_list.
+  ///
+  /// In en, this message translates to:
+  /// **'New Shopping List'**
+  String get new_list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
