@@ -12,7 +12,7 @@ class OpenFoodFactsRepository {
   /// Throws an exception on network / parsing errors.
   Future<Product?> fetchProductByBarcode(String barcode) async {
     final uri = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
-    final response = await client.get(uri).timeout(const Duration(seconds: 10));
+    final response = await client.get(uri).timeout(const Duration(seconds: 30));
 
     if (response.statusCode != 200) {
       throw Exception('Network error: ${response.statusCode}');
@@ -38,7 +38,7 @@ class OpenFoodFactsRepository {
           '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize',
     );
 
-    final response = await client.get(uri).timeout(const Duration(seconds: 10));
+    final response = await client.get(uri).timeout(const Duration(seconds: 30));
     if (response.statusCode != 200) {
       throw Exception('Network error: ${response.statusCode}');
     }
