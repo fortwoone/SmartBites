@@ -1,4 +1,4 @@
-//dart
+// A page that displays detailed information about a product
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
@@ -7,12 +7,14 @@ class ProductDetailPage extends StatelessWidget {
   final String barcode;
   final OpenFoodFactsRepository repository;
 
+  // Constructor with required barcode and optional repository
   ProductDetailPage({
     super.key,
     required this.barcode,
     OpenFoodFactsRepository? repository,
   }) : repository = repository ?? OpenFoodFactsRepository();
 
+  // Widget to display product image and error handling
   Widget _buildImage(String? url) {
     final borderRadius = BorderRadius.circular(12);
     if (url == null || url.isEmpty) {
@@ -30,32 +32,29 @@ class ProductDetailPage extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: borderRadius,
-      child: Image.network(
-        url,
-        height: 220,
-        width: double.infinity,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          if (progress == null) return child;
-          return Container(
-            height: 220,
-            color: Colors.grey.shade100,
-            child: const Center(child: CircularProgressIndicator()),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: 220,
-            color: Colors.grey.shade200,
-            child: const Center(
-              child: Icon(Icons.broken_image, size: 56, color: Colors.grey),
-            ),
-          );
-        },
+      child: Container(
+        color: Colors.grey.shade100,
+        padding: const EdgeInsets.all(8), // keep space from rounded edges
+        child: AspectRatio(
+          aspectRatio: 16 / 9, // fixed display ratio to avoid heavy cropping
+          child: Image.network(
+            url,
+            fit: BoxFit.contain, // avoid cropping, respect whole image
+            alignment: Alignment.center,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return Container(
+                color: Colors.grey.shade100,
+                child: const Center(child: CircularProgressIndicator()),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
 
+  // Card displaying basic product info: name, brand, barcode
   Widget _buildInfoCard(BuildContext context, Product product) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -80,6 +79,7 @@ class ProductDetailPage extends StatelessWidget {
     );
   }
 
+  // Widget to display ingredients text
   Widget _buildIngredients(String? text) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const Text('Ingredients', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -88,30 +88,107 @@ class ProductDetailPage extends StatelessWidget {
     ]);
   }
 
+  // Widget to display nutriments in a structured format
   Widget _buildNutriments(Map<String, dynamic>? nutriments) {
     if (nutriments == null || nutriments.isEmpty) {
       return const Text('No nutriments data.');
     }
 
-    final rows = nutriments.entries.map((e) {
-      final value = e.value?.toString() ?? '-';
+    // Define which nutriments to show and their labels (order matters)
+    final Map<String, String> selected = {
+      'energy-kcal_100g': 'Énergie',
+      'fat_100g': 'Matières grasses',
+      'saturated-fat_100g': 'Acides gras saturés',
+      'carbohydrates_100g': 'Glucides',
+      'sugars_100g': 'Sucres',
+      'fiber_100g': 'Fibres alimentaires',
+      'proteins_100g': 'Protéines',
+      'salt_100g': 'Sel',
+    };
+
+    // Units to append for the selected nutriments
+    final Map<String, String> units = {
+      'energy-kcal_100g': 'kcal',
+      'fat_100g': 'g',
+      'saturated-fat_100g': 'g',
+      'carbohydrates_100g': 'g',
+      'sugars_100g': 'g',
+      'fiber_100g': 'g',
+      'proteins_100g': 'g',
+      'salt_100g': 'g',
+    };
+
+    String formatValue(dynamic v) {
+      if (v == null) return '-';
+      if (v is num) {
+        // show integer if whole number, otherwise show as double with max 2 decimals
+        if (v % 1 == 0) return v.toInt().toString();
+        return v.toStringAsFixed(2);
+      }
+      final s = v.toString();
+      final n = double.tryParse(s);
+      if (n != null) {
+        if (n % 1 == 0) return n.toInt().toString();
+        return n.toStringAsFixed(2);
+      }
+      return s;
+    }
+
+    // Header row: shows that values are "per 100g / 100ml"
+    final header = Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        children: [
+          const Text(
+              'Tableau nutritionnel',
+              style: TextStyle(fontWeight: FontWeight.bold)
+          ),
+          const Expanded(child: SizedBox()), // Spacer
+          const Text(
+            'pour 100g / 100ml',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+
+    final rows = selected.entries.map((entry) {
+      final raw = nutriments[entry.key];
+      final unit = units[entry.key];
+      final valueText = raw == null ? '-' : '${formatValue(raw)}${unit != null && raw != null ? ' $unit' : ''}';
+
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(e.key, style: const TextStyle(color: Colors.black87)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
-        ]),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                entry.value,
+                style: const TextStyle(color: Colors.black87),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(valueText, style: const TextStyle(fontWeight: FontWeight.w600)),
+          ],
+        ),
       );
     }).toList();
 
-    return Column(children: rows);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        header,
+        ...rows,
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product $barcode'),
+        title: Text('Product Details'),
       ),
       body: FutureBuilder<Product?>(
         future: repository.fetchProductByBarcode(barcode),
@@ -147,7 +224,6 @@ class ProductDetailPage extends StatelessWidget {
               const SizedBox(height: 6),
               _buildIngredients(product.ingredientsText),
               const SizedBox(height: 12),
-              const Text('Nutritional values', style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               _buildNutriments(product.nutriments),
               const SizedBox(height: 20),
