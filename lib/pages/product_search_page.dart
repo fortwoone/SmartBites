@@ -96,7 +96,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                     title: Text(_titleFor(p)),
                     subtitle: Text(p.brands ?? ''),
                     onTap: () {
-                      final code = p.barcode ?? ''; // expects Product to expose a barcode field set by fromJson
+                      final code = p.barcode; // expects Product to expose a barcode field set by fromJson
                       if (code.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('No barcode available for this product')));
