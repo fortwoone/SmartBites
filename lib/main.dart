@@ -45,39 +45,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  final _future = Supabase.instance.client
+      .from('instruments')
+      .select();
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(t.homePageTitle),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(t.pushButtonMessage),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: t.increment,
-        child: const Icon(Icons.add),
+      body: FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final instruments = snapshot.data!;
+          print(instruments);
+          return ListView.builder(
+            itemCount: instruments.length,
+            itemBuilder: ((context, id) {
+              final instrument = instruments[id];
+              return ListTile(
+                title: Text(instrument['name']),
+              );
+            }),
+          );
+        },
       ),
     );
   }
