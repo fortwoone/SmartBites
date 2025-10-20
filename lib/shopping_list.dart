@@ -17,6 +17,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         return Scaffold(
             appBar: AppBar(
                 title: Text(loc.shopping_lists),
+                automaticallyImplyLeading: false,
                 flexibleSpace: Container(
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(

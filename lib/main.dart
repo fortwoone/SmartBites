@@ -52,6 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 24)
                         ),
                         TextField(
+                            enableSuggestions: false,
+                            autocorrect: false,
                             decoration: InputDecoration(border:OutlineInputBorder()),
                             controller: email_ctrl
                         ),
@@ -60,6 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 24)
                         ),
                         TextField(
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
                             decoration: InputDecoration(border:OutlineInputBorder()),
                             controller: passwd_ctrl
                         ),
