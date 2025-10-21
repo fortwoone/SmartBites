@@ -3,5 +3,12 @@
   "appTitle": "Flutter Démo",
   "homePageTitle": "Page d'accueil",
   "pushButtonMessage": "Vous avez appuyé sur le bouton autant de fois :",
-  "increment": "Incrémenter"
+  "increment": "Incrémenter",
+  "login": "Connexion",
+  "email": "E-mail",
+  "password": "Mot de passe",
+  "perform_login": "Se connecter",
+  "shopping_lists": "Listes de courses",
+  "new_list": "Nouvelle liste de courses",
+  "list": "Liste : "
 }

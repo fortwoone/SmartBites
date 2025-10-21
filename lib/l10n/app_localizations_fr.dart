@@ -19,4 +19,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get increment => 'Incrémenter';
+
+  @override
+  String get login => 'Connexion';
+
+  @override
+  String get email => 'E-mail';
+
+  @override
+  String get password => 'Mot de passe';
+
+  @override
+  String get perform_login => 'Se connecter';
+
+  @override
+  String get shopping_lists => 'Listes de courses';
+
+  @override
+  String get new_list => 'Nouvelle liste de courses';
+
+  @override
+  String get list => 'Liste : ';
 }
