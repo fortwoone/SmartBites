@@ -1,10 +1,8 @@
 // dart
-// File: `lib/main.dart`
+// File: `lib/pages/next_page.dart`
 import 'package:flutter/material.dart';
 import 'widgets/app_nav_bar.dart';
-import 'next_page.dart';
-
-void main() => runApp(const MyApp());
+import 'main.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,20 +12,20 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (ctx) => const HomeScreen(),
-        '/next': (ctx) => const NextPage(),
+        '/': (ctx) => const NextPage(),
+        '/next': (ctx) => const HomeScreen(),
       },
     );
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class NextPage extends StatefulWidget {
+  const NextPage({super.key});
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  State<NextPage> createState() => _HomeScreenState();
 
-class _HomeScreenState extends State<HomeScreen> {
+}
+  class _HomeScreenState extends State<NextPage> {
   String _query = '';
 
   void _onSearchChanged(String q) {
@@ -42,14 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppNavBar(
-        title: 'Products',
+        title: 'Recetes',
         showSearch: true,
         onSearchChanged: _onSearchChanged,
         onSearchSubmitted: _onSearchSubmitted,
         showSquareButtons: true,
-        backgroundColor: Colors.green,
-        rightRoute: '/next',
-        leftRoute: '/',// pass the route name — simple setup
+        backgroundColor: Colors.red,
+        rightRoute: '/next', // pass the route name — simple setup
+        leftRoute: '/',
       ),
       body: Center(
         child: Text('Search value: $_query'),
