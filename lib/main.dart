@@ -144,7 +144,9 @@ class _MyHomePageState extends State<MyHomePage> {
         if (session != null){
             await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ShoppingListMenu())
+                MaterialPageRoute(
+                    builder: (context) => ShoppingListMenu(session: session!)
+                )
             );
         }
     }
