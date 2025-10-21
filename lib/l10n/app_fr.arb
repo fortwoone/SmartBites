@@ -9,5 +9,6 @@
   "password": "Mot de passe",
   "perform_login": "Se connecter",
   "shopping_lists": "Listes de courses",
-  "new_list": "Nouvelle liste de courses"
+  "new_list": "Nouvelle liste de courses",
+  "list": "Liste : "
 }

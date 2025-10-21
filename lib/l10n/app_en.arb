@@ -9,5 +9,6 @@
   "password": "Password",
   "perform_login": "Log in",
   "shopping_lists": "Shopping Lists",
-  "new_list": "New Shopping List"
+  "new_list": "New Shopping List",
+  "list": "List: "
 }

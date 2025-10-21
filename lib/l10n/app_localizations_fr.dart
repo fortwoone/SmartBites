@@ -37,4 +37,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get new_list => 'Nouvelle liste de courses';
+
+  @override
+  String get list => 'Liste : ';
 }

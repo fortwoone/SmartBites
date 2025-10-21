@@ -154,6 +154,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Shopping List'**
   String get new_list;
+
+  /// No description provided for @list.
+  ///
+  /// In en, this message translates to:
+  /// **'List: '**
+  String get list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -9,11 +9,15 @@ class ShoppingList{
 
     /// Create a shopping list in memory from retrieved data in the database.
     static ShoppingList fromMap(Map<String, dynamic> orig){
+        List<String> products = [];
+        for (String product in orig["products"]){
+            products.add(product);
+        }
         return ShoppingList(
             id: orig["id"],
             name: orig["name"],
             user_id: orig["user_id"],
-            products: orig["products"]
+            products: products
         );
     }
 
