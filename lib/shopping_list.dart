@@ -17,12 +17,55 @@ class ShoppingListDetail extends StatefulWidget{
 }
 
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
+    Future<bool?> askDeleteList(BuildContext context) async{
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.confirm),
+                    content: Text(loc.delete_list),
+                    actions: [
+                        ElevatedButton(
+                            child: Text(loc.no),
+                            onPressed: () => Navigator.pop(context, false)
+                        ),
+                        ElevatedButton(
+                            child: Text(loc.yes),
+                            onPressed: () => Navigator.pop(context, true)
+                        )
+                    ]
+                );
+            }
+        );
+    }
+
     @override
     Widget build(BuildContext context){
         final loc = AppLocalizations.of(context)!;
         return Scaffold(
             appBar: AppBar(
                 title: Text(loc.list + widget.list.name),
+                actions: [
+                    IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () async{
+                            final bool? result = await askDeleteList(context);
+                            if (!context.mounted){
+                                return;
+                            }
+                            if (result != null){
+                                if (result){
+                                    Navigator.pop(context, true);
+                                }
+                            }
+                            else{
+                                debugPrint("Result was null");
+                            }
+                        }
+                    )
+                ],
                 flexibleSpace: Container(
                     decoration: const BoxDecoration(
                         gradient: LinearGradient(
@@ -40,7 +83,9 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     itemCount: min(10, widget.list.products.length),
                     itemBuilder: (context, index){
                         String product_barcode = widget.list.products[index];
-                        return ListTile(title: Text(product_barcode));
+                        return ListTile(
+                            title: Text(product_barcode)
+                        );
                     }
                 )
             )
@@ -64,6 +109,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
     late User user;
     List<ShoppingList> existing_lists = [];
     bool _isLoading = true;
+    TextEditingController lname_ctrl = TextEditingController();
 
     @override
     void initState(){
@@ -94,6 +140,61 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         }
     }
 
+    bool _listNameAvailableForUser(String name){
+        for (ShoppingList lst in existing_lists){
+            if (lst.name == name){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    Future<void> showNameTaken(BuildContext context) async{
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.error),
+                    content: Text(loc.list_name_already_used),
+                    actions: [
+                        ElevatedButton(
+                            child: Text("OK"),
+                            onPressed: () => Navigator.pop(context)
+                        ),
+                    ]
+                );
+            }
+        );
+    }
+
+    Future<String?> askListName(BuildContext context) async{
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.new_list),
+                    content: TextField(
+                        controller: lname_ctrl
+                    ),
+                    actions: [
+                        ElevatedButton(
+                            child: Text(loc.cancel),
+                            onPressed: () => Navigator.pop(context)
+                        ),
+                        ElevatedButton(
+                            child: Text("OK"),
+                            onPressed: () => Navigator.pop(context, lname_ctrl.text)
+                        )
+                    ]
+                );
+            }
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         final loc = AppLocalizations.of(context)!;
@@ -121,8 +222,8 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
                             ShoppingList lst = existing_lists[index];
                             return ListTile(
                                 title: Text(lst.name, style: TextStyle(fontSize: 24)),
-                                onTap: (){
-                                    Navigator.push(
+                                onTap: () async{
+                                    final result = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context){
@@ -130,11 +231,56 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
                                             }
                                         )
                                     );
+                                    if (result != null){
+                                        if (result){
+                                            await supabase.from(
+                                                "shopping_list"
+                                            ).delete().eq("id", lst.id!);
+                                            setState(
+                                                (){
+                                                    existing_lists.removeAt(index);
+                                                }
+                                            );
+                                        }
+                                    }
+                                    else{
+                                        debugPrint("Result was null");
+                                    }
                                 }
                             );
                         }
                     )
-            )
+            ),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () async{
+                    final result = await askListName(context);
+                    if (result != null){
+                        if (!_listNameAvailableForUser(result)){
+                            if (!context.mounted) {
+                                return;
+                            }
+                            await showNameTaken(context);
+                            return;
+                        }
+
+                        ShoppingList added_lst = ShoppingList(
+                            name: result.toString(),
+                            user_id: user.id,
+                            products: []
+                        );
+                        List<Map<String, dynamic>> inserted = await supabase.from(
+                            "shopping_list"
+                        ).insert(added_lst.toMap()).select();
+                        added_lst.id = inserted[0]["id"];
+                        setState(
+                            (){
+                                existing_lists.add(added_lst);
+                            }
+                        );
+                    }
+                },
+                child: const Icon(Icons.add)
+            ),
         );
     }
 }

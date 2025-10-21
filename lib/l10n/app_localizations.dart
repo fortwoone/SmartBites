@@ -160,6 +160,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'List: '**
   String get list;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @list_name_already_used.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already a shopping list using this name. Please choose another name.'**
+  String get list_name_already_used;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @delete_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this shopping list? This action can\'t be undone!'**
+  String get delete_list;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

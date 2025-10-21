@@ -10,5 +10,12 @@
   "perform_login": "Log in",
   "shopping_lists": "Shopping Lists",
   "new_list": "New Shopping List",
-  "list": "List: "
+  "list": "List: ",
+  "cancel": "Cancel",
+  "error": "Error",
+  "list_name_already_used": "There is already a shopping list using this name. Please choose another name.",
+  "confirm": "Confirm",
+  "delete_list": "Are you sure you want to delete this shopping list? This action can't be undone!",
+  "yes": "Yes",
+  "no": "No"
 }

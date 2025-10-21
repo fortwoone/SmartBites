@@ -10,5 +10,12 @@
   "perform_login": "Se connecter",
   "shopping_lists": "Listes de courses",
   "new_list": "Nouvelle liste de courses",
-  "list": "Liste : "
+  "list": "Liste : ",
+  "cancel": "Annuler",
+  "error": "Erreur",
+  "list_name_already_used": "Il y a déjà une liste de courses avec le nom que vous avez écrit. Choisissez-en un autre.",
+  "confirm": "Confirmation",
+  "delete_list": "Voulez-vous vraiment supprimer cette liste de courses ? Attention, cette action est irréversible !",
+  "yes": "Oui",
+  "no": "Non"
 }

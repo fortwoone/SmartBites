@@ -40,4 +40,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get list => 'List: ';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get list_name_already_used => 'There is already a shopping list using this name. Please choose another name.';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get delete_list => 'Are you sure you want to delete this shopping list? This action can\'t be undone!';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 }
