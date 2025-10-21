@@ -8,6 +8,16 @@
   "email": "Email",
   "password": "Password",
   "perform_login": "Log in",
+  "login_failed": "Error during logging",
+  "fill_fields": "You have to fill all fields",
+  "email_hint": "Enter your mail",
+  "hint_passwd": "Enter your password",
+  "register": "Register",
   "shopping_lists": "Shopping Lists",
-  "new_list": "New Shopping List"
+  "new_list": "New Shopping List",
+  "register_failed": "Error during register",
+  "cancel" : "Cancel",
+  "validate": "Validate",
+  "register_success": "Succesfully registered"
+
 }
