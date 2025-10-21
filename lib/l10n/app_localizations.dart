@@ -208,6 +208,11 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Succesfully registered'**
   String get register_success;
+  /// No description provided for @list.
+  ///
+  /// In en, this message translates to:
+  /// **'List: '**
+  String get list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

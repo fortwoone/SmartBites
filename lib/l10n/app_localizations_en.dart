@@ -64,4 +64,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get register_success => 'Succesfully registered';
+  String get list => 'List: ';
 }
