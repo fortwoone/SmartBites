@@ -57,12 +57,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get register_failed => 'Erreur lors de l\'inscription';
 
   @override
-  String get cancel => 'Annuler';
-
-  @override
   String get validate => 'Valider';
 
   @override
-  String get register_success => 'Inscription validé';
+  String get register_success => 'Inscription validée';
+
+  @override
   String get list => 'Liste : ';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get error => 'Erreur';
+
+  @override
+  String get list_name_already_used => 'Il y a déjà une liste de courses avec le nom que vous avez écrit. Choisissez-en un autre.';
+
+  @override
+  String get confirm => 'Confirmation';
+
+  @override
+  String get delete_list => 'Voulez-vous vraiment supprimer cette liste de courses ? Attention, cette action est irréversible !';
+
+  @override
+  String get yes => 'Oui';
+
+  @override
+  String get no => 'Non';
+
+  @override
+  String get add_product => 'Ajouter un produit';
+
+  @override
+  String get add_product_msg => 'Entrez le code-barres du produit que vous souhaitez ajouter à cette liste de courses. (NOTE : ceci est un dialogue de test. Aucune vérification n\'est faite. Les versions ultérieures afficheront un écran de recherche de produits à la place.)';
+
+  @override
+  String get delete_product => 'Voulez-vous vraiment retirer ce produit de la liste de courses actuelle ? Vous ne pouvez pas revenir en arrière !';
 }

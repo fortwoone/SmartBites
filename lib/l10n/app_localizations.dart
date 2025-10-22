@@ -191,12 +191,6 @@ abstract class AppLocalizations {
   /// **'Error during register'**
   String get register_failed;
 
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
   /// No description provided for @validate.
   ///
   /// In en, this message translates to:
@@ -208,11 +202,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Succesfully registered'**
   String get register_success;
+
   /// No description provided for @list.
   ///
   /// In en, this message translates to:
   /// **'List: '**
   String get list;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @list_name_already_used.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already a shopping list using this name. Please choose another name.'**
+  String get list_name_already_used;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @delete_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this shopping list? This action can\'t be undone!'**
+  String get delete_list;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @add_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Product'**
+  String get add_product;
+
+  /// No description provided for @add_product_msg.
+  ///
+  /// In en, this message translates to:
+  /// **'Please type the barcode of the product you wish to add to this list. (NOTE: this is a dummy input dialogue. Later versions should instead display a product search screen.)'**
+  String get add_product_msg;
+
+  /// No description provided for @delete_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to remove this product from the current shopping list? You can\'t undo this action!'**
+  String get delete_product;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
