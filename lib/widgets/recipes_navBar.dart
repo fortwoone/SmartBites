@@ -1,13 +1,17 @@
 // dart
-// File: `lib/pages/next_page.dart`
+// File: `lib/pages/recipes_navBar.dart`
 import 'package:flutter/material.dart';
-import 'widgets/app_nav_bar.dart';
-import 'main.dart';
+import 'package:food/l10n/app_localizations_en.dart';
+import '../l10n/app_localizations.dart';
+import 'app_nav_bar.dart';
+import '../main.dart';
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -38,9 +42,10 @@ class NextPage extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppNavBar(
-        title: 'Recetes',
+        title: AppLocalizations.of(context)!.recipes,
         showSearch: true,
         onSearchChanged: _onSearchChanged,
         onSearchSubmitted: _onSearchSubmitted,

@@ -94,4 +94,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get delete_product => 'Voulez-vous vraiment retirer ce produit de la liste de courses actuelle ? Vous ne pouvez pas revenir en arrière !';
+
+  @override
+  String get recipes => 'Recettes';
+
+  @override
+  String get products => 'Produits';
+
+  @override
+  String get hint_search => 'Rechercher ...';
 }

@@ -28,5 +28,9 @@
   "no": "No",
   "add_product": "Add Product",
   "add_product_msg": "Please type the barcode of the product you wish to add to this list. (NOTE: this is a dummy input dialogue. Later versions should instead display a product search screen.)",
-  "delete_product": "Do you really want to remove this product from the current shopping list? You can't undo this action!"
+  "delete_product": "Do you really want to remove this product from the current shopping list? You can't undo this action!",
+  "recipes": "Recipes",
+  "products": "Products",
+  "hint_search": "Search..."
+
 }

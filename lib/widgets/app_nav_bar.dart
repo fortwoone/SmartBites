@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 class AppNavBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool showSearch;
@@ -56,7 +58,7 @@ class _AppNavBarState extends State<AppNavBar> {
 
   Widget _squareButton({
     required Color color,
-    required IconData icon,
+    required Widget child,
     required VoidCallback onPressed,
   }) {
     return Container(
@@ -69,7 +71,7 @@ class _AppNavBarState extends State<AppNavBar> {
       child: IconButton(
         padding: EdgeInsets.zero,
         constraints: BoxConstraints.tight(Size(kToolbarHeight, kToolbarHeight)),
-        icon: Icon(icon, color: Colors.white, size: 20),
+        icon: child,
         onPressed: onPressed,
       ),
     );
@@ -104,18 +106,23 @@ class _AppNavBarState extends State<AppNavBar> {
           padding: const EdgeInsets.only(left: 6),
           child: _squareButton(
             color: Colors.red,
-            icon: Icons.account_balance_wallet_outlined,
+            child: SizedBox(
+              width: kToolbarHeight * 0.8, // ajuste la taille si nécessaire
+              child: Image.asset(
+                'lib/ressources/cuisine_icon.png',
+                fit: BoxFit.contain,
+              ),
+            ),
             onPressed: () {
-              // Si possible, on revient en arrière
-              if (Navigator.of(context).canPop() && ModalRoute.of(context)?.settings.name != widget.rightRoute) {
+              if (Navigator.of(context).canPop() &&
+                  ModalRoute.of(context)?.settings.name != widget.rightRoute) {
                 Navigator.of(context).pop();
-              }
-              // Sinon, on navigue vers la route donnée
-              else if (widget.rightRoute != null) {
+              } else if (widget.rightRoute != null) {
                 _safeNavigateTo(widget.rightRoute!);
               }
-            }
-          ),
+            },
+          )
+          ,
         ),
       );
     }
@@ -127,14 +134,18 @@ class _AppNavBarState extends State<AppNavBar> {
         padding: const EdgeInsets.only(right: 6),
         child: _squareButton(
           color: Colors.green,
-          icon: Icons.add_business_outlined,
+          child: SizedBox(
+            width: kToolbarHeight * 0.8, // ajuste selon la taille du logo
+            child: Image.asset(
+              'lib/ressources/ingredients_icon.png',
+              fit: BoxFit.contain,
+            ),
+          ),
           onPressed: () {
-            // Si possible, on revient en arrière
-            if (Navigator.of(context).canPop() && ModalRoute.of(context)?.settings.name != widget.leftRoute) {
+            if (Navigator.of(context).canPop() &&
+                ModalRoute.of(context)?.settings.name != widget.leftRoute) {
               Navigator.of(context).pop();
-            }
-            // Sinon, on navigue vers la route donnée
-            else if (widget.leftRoute != null) {
+            } else if (widget.leftRoute != null) {
               _safeNavigateTo(widget.leftRoute!);
             }
           },
@@ -153,9 +164,9 @@ class _AppNavBarState extends State<AppNavBar> {
         autofocus: true,
         textInputAction: TextInputAction.search,
         style: const TextStyle(color: Colors.white),
-        decoration: const InputDecoration(
-          hintText: 'Search...',
-          hintStyle: TextStyle(color: Colors.white70),
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context)!.hint_search,
+          hintStyle: const TextStyle(color: Colors.white70),
           border: InputBorder.none,
           isDense: true,
         ),

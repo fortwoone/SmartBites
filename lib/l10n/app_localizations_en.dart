@@ -94,4 +94,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete_product => 'Do you really want to remove this product from the current shopping list? You can\'t undo this action!';
+
+  @override
+  String get recipes => 'Recipes';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get hint_search => 'Search...';
 }
