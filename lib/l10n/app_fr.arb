@@ -8,7 +8,16 @@
   "email": "E-mail",
   "password": "Mot de passe",
   "perform_login": "Se connecter",
+  "login_failed": "Erreur lors de la connexion",
+  "fill_fields": "Vous devez renseigner tous les champs",
+  "email_hint": "Veuillez entrer votre adresse mail",
+  "hint_passwd": "Veuillez entrer votre mot de passe",
+  "register": "S'inscrire",
   "shopping_lists": "Listes de courses",
   "new_list": "Nouvelle liste de courses",
+  "register_failed": "Erreur lors de l'inscription",
+  "cancel" : "Annuler",
+  "validate": "Valider",
+  "register_success": "Inscription validé"
   "list": "Liste : "
 }

@@ -33,11 +33,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get perform_login => 'Se connecter';
 
   @override
+  String get login_failed => 'Erreur lors de la connexion';
+
+  @override
+  String get fill_fields => 'Vous devez renseigner tous les champs';
+
+  @override
+  String get email_hint => 'Veuillez entrer votre adresse mail';
+
+  @override
+  String get hint_passwd => 'Veuillez entrer votre mot de passe';
+
+  @override
+  String get register => 'S\'inscrire';
+
+  @override
   String get shopping_lists => 'Listes de courses';
 
   @override
   String get new_list => 'Nouvelle liste de courses';
 
   @override
+  String get register_failed => 'Erreur lors de l\'inscription';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get validate => 'Valider';
+
+  @override
+  String get register_success => 'Inscription validé';
   String get list => 'Liste : ';
 }

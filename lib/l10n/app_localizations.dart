@@ -143,6 +143,36 @@ abstract class AppLocalizations {
   /// **'Log in'**
   String get perform_login;
 
+  /// No description provided for @login_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during logging'**
+  String get login_failed;
+
+  /// No description provided for @fill_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'You have to fill all fields'**
+  String get fill_fields;
+
+  /// No description provided for @email_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your mail'**
+  String get email_hint;
+
+  /// No description provided for @hint_passwd.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get hint_passwd;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
   /// No description provided for @shopping_lists.
   ///
   /// In en, this message translates to:
@@ -155,6 +185,29 @@ abstract class AppLocalizations {
   /// **'New Shopping List'**
   String get new_list;
 
+  /// No description provided for @register_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during register'**
+  String get register_failed;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @validate.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate'**
+  String get validate;
+
+  /// No description provided for @register_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Succesfully registered'**
+  String get register_success;
   /// No description provided for @list.
   ///
   /// In en, this message translates to:
