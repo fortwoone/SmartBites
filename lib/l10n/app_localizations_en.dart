@@ -61,4 +61,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no => 'No';
+
+  @override
+  String get add_product => 'Add Product';
+
+  @override
+  String get add_product_msg => 'Please type the barcode of the product you wish to add to this list. (NOTE: this is a dummy input dialogue. Later versions should instead display a product search screen.)';
+
+  @override
+  String get delete_product => 'Do you really want to remove this product from the current shopping list? You can\'t undo this action!';
 }

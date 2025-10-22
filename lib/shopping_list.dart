@@ -8,15 +8,19 @@ import "package:food/db_objects/shopping_lst.dart";
 
 
 class ShoppingListDetail extends StatefulWidget{
-    final ShoppingList list;
+    ShoppingList list;
 
-    const ShoppingListDetail({super.key, required this.list});
+    ShoppingListDetail({super.key, required this.list});
 
     @override
     State<ShoppingListDetail> createState() => _ShoppingListDetailState();
 }
 
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
+    TextEditingController product_ctrl = TextEditingController();
+
+    final supabase = Supabase.instance.client;
+
     Future<bool?> askDeleteList(BuildContext context) async{
         final loc = AppLocalizations.of(context)!;
 
@@ -34,6 +38,55 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                         ElevatedButton(
                             child: Text(loc.yes),
                             onPressed: () => Navigator.pop(context, true)
+                        )
+                    ]
+                );
+            }
+        );
+    }
+
+    Future<bool?> askDeleteProduct(BuildContext context) async{
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.confirm),
+                    content: Text(loc.delete_product),
+                    actions: [
+                        ElevatedButton(
+                            child: Text(loc.no),
+                            onPressed: () => Navigator.pop(context)
+                        ),
+                        ElevatedButton(
+                            child: Text(loc.yes),
+                            onPressed: () => Navigator.pop(context, true)
+                        )
+                    ]
+                );
+            }
+        );
+    }
+
+    Future<String?> askAddProduct(BuildContext context) async{
+        // TODO: à remplacer dans une future version par l'écran de recherche des produits.
+        final loc = AppLocalizations.of(context)!;
+
+        return showDialog(
+            context: context,
+            builder: (context){
+                return AlertDialog(
+                    title: Text(loc.add_product),
+                    content: TextField(controller: product_ctrl),
+                    actions: [
+                        ElevatedButton(
+                            child: Text(loc.cancel),
+                            onPressed: () => Navigator.pop(context)
+                        ),
+                        ElevatedButton(
+                            child: Text("OK"),
+                            onPressed: () => Navigator.pop(context, product_ctrl.text)
                         )
                     ]
                 );
@@ -84,11 +137,63 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     itemBuilder: (context, index){
                         String product_barcode = widget.list.products[index];
                         return ListTile(
-                            title: Text(product_barcode)
+                            title: Text(product_barcode),
+                            trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () async{
+                                    final result = await askDeleteProduct(context);
+                                    if (!context.mounted){
+                                        return;
+                                    }
+
+                                    if (result != null){
+                                        if (result){
+                                            // D'abord on retire le produit de la liste
+                                            List<String> computed_products = List<String>.from(widget.list.products);
+                                            computed_products.removeAt(index);
+                                            // On applique les changements à la BD
+                                            await supabase.from(
+                                                "shopping_list"
+                                            ).update(
+                                                {"products": computed_products}
+                                            ).eq("id", widget.list.id!);
+                                            setState(
+                                                (){
+                                                    widget.list.products = computed_products;
+                                                }
+                                            );
+                                        }
+                                    }
+                                }
+                            ),
                         );
                     }
                 )
-            )
+            ),
+            floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () async{
+                    final result = await askAddProduct(context);
+                    if (!context.mounted){
+                        return;
+                    }
+
+                    if (result != null){
+                        widget.list.products.add(result.toString());
+                        // On applique les changements à la BD
+                        final data = await supabase.from(
+                            "shopping_list"
+                        ).update(
+                            {"products": widget.list.products}
+                        ).eq("id", widget.list.id!).select();
+                        setState(
+                            (){
+                                widget.list.products.add(result.toString());
+                            }
+                        );
+                    }
+                }
+            ),
         );
     }
 }

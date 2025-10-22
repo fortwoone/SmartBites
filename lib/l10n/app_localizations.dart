@@ -202,6 +202,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no;
+
+  /// No description provided for @add_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Product'**
+  String get add_product;
+
+  /// No description provided for @add_product_msg.
+  ///
+  /// In en, this message translates to:
+  /// **'Please type the barcode of the product you wish to add to this list. (NOTE: this is a dummy input dialogue. Later versions should instead display a product search screen.)'**
+  String get add_product_msg;
+
+  /// No description provided for @delete_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to remove this product from the current shopping list? You can\'t undo this action!'**
+  String get delete_product;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -61,4 +61,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get no => 'Non';
+
+  @override
+  String get add_product => 'Ajouter un produit';
+
+  @override
+  String get add_product_msg => 'Entrez le code-barres du produit que vous souhaitez ajouter à cette liste de courses. (NOTE : ceci est un dialogue de test. Aucune vérification n\'est faite. Les versions ultérieures afficheront un écran de recherche de produits à la place.)';
+
+  @override
+  String get delete_product => 'Voulez-vous vraiment retirer ce produit de la liste de courses actuelle ? Vous ne pouvez pas revenir en arrière !';
 }
