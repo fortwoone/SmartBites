@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.session != null && context.mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ShoppingListMenu()),
+          MaterialPageRoute(builder: (context) => ShoppingListMenu(session: response.session!)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
