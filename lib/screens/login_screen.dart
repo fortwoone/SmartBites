@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/l10n/app_localizations.dart';
+import 'package:food/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'shopping_list.dart'; // your shopping list screen
 import 'register_screen.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.session != null && context.mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ShoppingListMenu(session: response.session!)),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
