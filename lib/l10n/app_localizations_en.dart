@@ -33,10 +33,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get perform_login => 'Log in';
 
   @override
+  String get login_failed => 'Error during logging';
+
+  @override
+  String get fill_fields => 'You have to fill all fields';
+
+  @override
+  String get email_hint => 'Enter your mail';
+
+  @override
+  String get hint_passwd => 'Enter your password';
+
+  @override
+  String get register => 'Register';
+
+  @override
   String get shopping_lists => 'Shopping Lists';
 
   @override
   String get new_list => 'New Shopping List';
+
+  @override
+  String get register_failed => 'Error during register';
+
+  @override
+  String get validate => 'Validate';
+
+  @override
+  String get register_success => 'Succesfully registered';
 
   @override
   String get list => 'List: ';
