@@ -1,6 +1,6 @@
 //dart
 import 'package:flutter/material.dart';
-import 'pages/product_search_page.dart';
+import 'package:food/screens/product_search_page.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
@@ -76,9 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppNavBar(
-        title: AppLocalizations.of(context)!.products,
+        title: loc.products,
         showSearch: true,
         onSearchChanged: _onSearchChanged,
         onSearchSubmitted: _onSearchSubmitted,
@@ -95,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               icon: const Icon(Icons.shopping_cart),
-              label: const Text('Voir ma liste de courses'),
+              label: Text(loc.slists),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,

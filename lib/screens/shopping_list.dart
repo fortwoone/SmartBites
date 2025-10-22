@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:food/db_objects/shopping_lst.dart";
+import 'package:food/screens/product_search_page.dart';
 
 
 class ShoppingListDetail extends StatefulWidget{
@@ -187,9 +188,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                             {"products": widget.list.products}
                         ).eq("id", widget.list.id!).select();
                         setState(
-                            (){
-                                widget.list.products.add(result.toString());
-                            }
+                            (){}
                         );
                     }
                 }

@@ -286,6 +286,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search...'**
   String get hint_search;
+
+  /// No description provided for @slists.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Lists'**
+  String get slists;
+
+  /// No description provided for @enter_product_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a product name.'**
+  String get enter_product_name;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
