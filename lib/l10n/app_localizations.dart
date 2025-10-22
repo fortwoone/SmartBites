@@ -118,6 +118,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get increment;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @perform_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get perform_login;
+
+  /// No description provided for @login_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during logging'**
+  String get login_failed;
+
+  /// No description provided for @fill_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'You have to fill all fields'**
+  String get fill_fields;
+
+  /// No description provided for @email_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your mail'**
+  String get email_hint;
+
+  /// No description provided for @hint_passwd.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get hint_passwd;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @shopping_lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Lists'**
+  String get shopping_lists;
+
+  /// No description provided for @new_list.
+  ///
+  /// In en, this message translates to:
+  /// **'New Shopping List'**
+  String get new_list;
+
+  /// No description provided for @register_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during register'**
+  String get register_failed;
+
+  /// No description provided for @validate.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate'**
+  String get validate;
+
+  /// No description provided for @register_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Succesfully registered'**
+  String get register_success;
+
+  /// No description provided for @list.
+  ///
+  /// In en, this message translates to:
+  /// **'List: '**
+  String get list;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @list_name_already_used.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already a shopping list using this name. Please choose another name.'**
+  String get list_name_already_used;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @delete_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this shopping list? This action can\'t be undone!'**
+  String get delete_list;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @add_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Product'**
+  String get add_product;
+
+  /// No description provided for @add_product_msg.
+  ///
+  /// In en, this message translates to:
+  /// **'Please type the barcode of the product you wish to add to this list. (NOTE: this is a dummy input dialogue. Later versions should instead display a product search screen.)'**
+  String get add_product_msg;
+
+  /// No description provided for @delete_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to remove this product from the current shopping list? You can\'t undo this action!'**
+  String get delete_product;
+
+  /// No description provided for @recipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipes;
+
+  /// No description provided for @products.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get products;
+
+  /// No description provided for @hint_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get hint_search;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
