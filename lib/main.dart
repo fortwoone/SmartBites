@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_screen.dart';
 import 'package:food/widgets/bottom_action_bar.dart';
 import 'models/product.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
 
@@ -115,9 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppNavBar(
-        title: AppLocalizations.of(context)!.products,
+        title: loc.products,
         showSearch: true,
         onSearchSubmitted: _onSearchSubmitted,
         showSquareButtons: true,

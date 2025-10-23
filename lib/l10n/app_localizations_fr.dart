@@ -105,6 +105,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hint_search => 'Rechercher ...';
 
   @override
+  String get slists => 'Listes de courses';
+
+  @override
+  String get enter_product_name => 'Veuillez entrer un nom de produit.';
+
+  @override
+  String get add_this_product => 'Ajouter ce produit';
   String get disconnect => 'Se déconnecter';
 
   @override
