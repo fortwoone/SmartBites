@@ -1,10 +1,11 @@
-//dart
 import 'package:flutter/material.dart';
 import 'pages/product_search_page.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'widgets/bottom_action_bar.dart';
+
 
 import 'screens/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
@@ -20,15 +21,22 @@ Future<void> main() async {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0dWlqZW9yeXducWpnbXFiY2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA5MDQ4MDcsImV4cCI6MjA3NjQ4MDgwN30._iADlHpMD_9_5Y_tUnuaayvPwBEW2Dqg4osxUo7ox9U',
   );
 
-  runApp(const MyApp());
+  final session = Supabase.instance.client.auth.currentSession;
+
+  runApp(MyApp(
+    initialRoute: session != null ? '/home' : '/login',
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
     final repo = OpenFoodFactsRepository();
+
     return MaterialApp(
       title: 'SmartBites',
       locale: const Locale('fr'),
@@ -43,7 +51,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+
+      initialRoute: initialRoute,
       routes: {
         '/login': (ctx) => const LoginScreen(),
         '/home': (ctx) => const HomeScreen(),
@@ -51,7 +60,6 @@ class MyApp extends StatelessWidget {
         '/shopping': (ctx) {
           final session = Supabase.instance.client.auth.currentSession;
           if (session == null) {
-            // Si pas connecté, retour login
             return const LoginScreen();
           }
           return ShoppingListMenu(session: session);
@@ -88,26 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
         leftRoute: '/home',
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Search value: $_query'),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.shopping_cart),
-              label: const Text('Voir ma liste de courses'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/shopping');
-              },
-            ),
-          ],
-        ),
+        child: Text('Search value: $_query'),
       ),
+      bottomNavigationBar: const BottomActionBar(),
     );
   }
 }
