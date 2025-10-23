@@ -8,9 +8,10 @@ import '../models/product.dart';
 
 class ProductSearchPage extends StatefulWidget {
     final OpenFoodFactsRepository repository;
+    final bool inAddMode;
 
-    ProductSearchPage({super.key, OpenFoodFactsRepository? repository})
-        : repository = repository ?? OpenFoodFactsRepository();
+    ProductSearchPage({super.key, OpenFoodFactsRepository? repository, bool? inAddMode})
+    : repository = repository ?? OpenFoodFactsRepository(), inAddMode = inAddMode ?? false;
 
     @override
     State<ProductSearchPage> createState() => _ProductSearchPageState();
@@ -134,18 +135,29 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                                                   : const SizedBox(width: 56, height: 56),
                                               title: Text(_titleFor(p)),
                                               subtitle: Text(p.brands ?? ''),
-                                              onTap: () {
+                                              onTap: () async {
                                                   final code = p.barcode; // expects Product to expose a barcode field set by fromJson
                                                   if (code.isEmpty) {
                                                       ScaffoldMessenger.of(context).showSnackBar(
                                                           const SnackBar(content: Text('Pas de code-barres disponible')));
                                                       return;
                                                   }
-                                                  Navigator.of(context).push(
+                                                  final result = await Navigator.push(
+                                                      context,
                                                       MaterialPageRoute(
-                                                        builder: (_) => ProductDetailPage(barcode: code, repository: widget.repository),
+                                                          builder: (_) => ProductDetailPage(
+                                                              barcode: code,
+                                                              repository: widget.repository,
+                                                              inAddMode: widget.inAddMode
+                                                          ),
                                                       ),
                                                   );
+                                                  if (!context.mounted){
+                                                      return;
+                                                  }
+                                                  if (widget.inAddMode && result != null){
+                                                      Navigator.pop(context, result);
+                                                  }
                                               },
                                           );
                                     },

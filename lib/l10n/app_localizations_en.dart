@@ -109,4 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enter_product_name => 'Please enter a product name.';
+
+  @override
+  String get add_this_product => 'Add this product';
 }

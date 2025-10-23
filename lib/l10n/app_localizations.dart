@@ -298,6 +298,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter a product name.'**
   String get enter_product_name;
+
+  /// No description provided for @add_this_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this product'**
+  String get add_this_product;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

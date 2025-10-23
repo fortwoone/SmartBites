@@ -33,5 +33,6 @@
   "products": "Products",
   "hint_search": "Search...",
   "slists": "Shopping Lists",
-  "enter_product_name": "Please enter a product name."
+  "enter_product_name": "Please enter a product name.",
+  "add_this_product": "Add this product"
 }

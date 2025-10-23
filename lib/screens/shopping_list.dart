@@ -74,25 +74,31 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         // TODO: à remplacer dans une future version par l'écran de recherche des produits.
         final loc = AppLocalizations.of(context)!;
 
-        return showDialog(
-            context: context,
-            builder: (context){
-                return AlertDialog(
-                    title: Text(loc.add_product),
-                    content: TextField(controller: product_ctrl),
-                    actions: [
-                        ElevatedButton(
-                            child: Text(loc.cancel),
-                            onPressed: () => Navigator.pop(context)
-                        ),
-                        ElevatedButton(
-                            child: Text("OK"),
-                            onPressed: () => Navigator.pop(context, product_ctrl.text)
-                        )
-                    ]
-                );
-            }
+        return Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductSearchPage(inAddMode: true)
+            )
         );
+        // return showDialog(
+        //     context: context,
+        //     builder: (context){
+        //         return AlertDialog(
+        //             title: Text(loc.add_product),
+        //             content: TextField(controller: product_ctrl),
+        //             actions: [
+        //                 ElevatedButton(
+        //                     child: Text(loc.cancel),
+        //                     onPressed: () => Navigator.pop(context)
+        //                 ),
+        //                 ElevatedButton(
+        //                     child: Text("OK"),
+        //                     onPressed: () => Navigator.pop(context, product_ctrl.text)
+        //                 )
+        //             ]
+        //         );
+        //     }
+        // );
     }
 
     @override
