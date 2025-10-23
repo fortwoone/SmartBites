@@ -1,9 +1,8 @@
 // dart
-// File: `lib/pages/recipes_navBar.dart`
+// File: `lib/pages/recipes_search_screen.dart`
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations_en.dart';
 import '../l10n/app_localizations.dart';
-import 'app_nav_bar.dart';
+import '../widgets/app_nav_bar.dart';
 import '../main.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (ctx) => const NextPage(),
-        '/next': (ctx) => const HomeScreen(),
+        '/next': (ctx) => HomeScreen(),
       },
     );
   }
