@@ -12,7 +12,7 @@ class OpenFoodFactsRepository {
   /// Throws an exception on network / parsing errors.
   Future<Product?> fetchProductByBarcode(String barcode) async {
     final uri = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
-    final response = await client.get(uri).timeout(const Duration(seconds: 30));
+    final response = await client.get(uri).timeout(const Duration(seconds: 60));
 
     if (response.statusCode != 200) {
       throw Exception('Network error: ${response.statusCode}');

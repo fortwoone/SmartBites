@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
       initialRoute: initialRoute,
       routes: {
         '/login': (ctx) => const LoginScreen(),
-        '/': (ctx) => HomeScreen(),
         '/next': (ctx) => const NextPage(),
         '/shopping': (ctx) {
           final session = Supabase.instance.client.auth.currentSession;
@@ -124,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
         showSquareButtons: true,
         backgroundColor: Colors.green,
         rightRoute: '/next',
-        leftRoute: '/',
       ),
       body: Center(
         child: Column(
