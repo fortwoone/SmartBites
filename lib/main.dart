@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/product_detail_screen.dart';
+import 'package:food/widgets/bottom_action_bar.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -119,7 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppNavBar(
         title: AppLocalizations.of(context)!.products,
         showSearch: true,
-        onSearchChanged: _onSearchChanged,
         onSearchSubmitted: _onSearchSubmitted,
         showSquareButtons: true,
         backgroundColor: Colors.green,
@@ -127,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
         leftRoute: '/',
       ),
       body: Center(
-        child: Text('Search value: $_query'),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -164,18 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-            ),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.shopping_cart),
-              label: const Text('Voir ma liste de courses'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/shopping');
-              },
             ),
           ],
         ),
