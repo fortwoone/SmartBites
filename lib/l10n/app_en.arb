@@ -35,4 +35,7 @@
   "slists": "Shopping Lists",
   "enter_product_name": "Please enter a product name.",
   "add_this_product": "Add this product"
+  "disconnect": "Disconnect",
+  "product_list": "See my products lists"
+
 }

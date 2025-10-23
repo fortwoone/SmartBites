@@ -112,4 +112,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get add_this_product => 'Ajouter ce produit';
+  String get disconnect => 'Se déconnecter';
+
+  @override
+  String get product_list => 'Voir mes listes de courses';
 }
