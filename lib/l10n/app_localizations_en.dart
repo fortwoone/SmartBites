@@ -103,4 +103,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hint_search => 'Search...';
+
+  @override
+  String get disconnect => 'Disconnect';
+
+  @override
+  String get product_list => 'See my products lists';
 }

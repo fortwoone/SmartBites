@@ -31,6 +31,9 @@
   "delete_product": "Voulez-vous vraiment retirer ce produit de la liste de courses actuelle ? Vous ne pouvez pas revenir en arrière !",
   "recipes": "Recettes",
   "products": "Produits",
-  "hint_search": "Rechercher ..."
+  "hint_search": "Rechercher ...",
+  "disconnect": "Se déconnecter",
+  "product_list": "Voir mes listes de courses"
+
 
 }
