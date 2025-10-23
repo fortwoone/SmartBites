@@ -31,6 +31,8 @@
   "delete_product": "Do you really want to remove this product from the current shopping list? You can't undo this action!",
   "recipes": "Recipes",
   "products": "Products",
-  "hint_search": "Search..."
+  "hint_search": "Search...",
+  "disconnect": "Disconnect",
+  "product_list": "See my products lists"
 
 }

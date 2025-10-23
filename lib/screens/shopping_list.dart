@@ -181,7 +181,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     if (result != null){
                         widget.list.products.add(result.toString());
                         // On applique les changements à la BD
-                        final data = await supabase.from(
+                        final _ = await supabase.from(
                             "shopping_list"
                         ).update(
                             {"products": widget.list.products}
@@ -218,6 +218,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
 
     @override
     void initState(){
+    super.initState();
         user = widget.session.user;
         list_query = supabase.from("shopping_list").select();
         getUserLists();
