@@ -1,34 +1,15 @@
-// dart
-// File: `lib/pages/recipes_search_screen.dart`
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/app_nav_bar.dart';
-import '../main.dart';
 
-class MyApp extends StatelessWidget {
+class RecipesSearchScreen extends StatefulWidget {
+  const RecipesSearchScreen({super.key});
 
-  const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (ctx) => const NextPage(),
-        '/next': (ctx) => HomeScreen(),
-      },
-    );
-  }
+  State<RecipesSearchScreen> createState() => _RecipesSearchScreenState();
 }
 
-class NextPage extends StatefulWidget {
-  const NextPage({super.key});
-  @override
-  State<NextPage> createState() => _HomeScreenState();
-
-}
-  class _HomeScreenState extends State<NextPage> {
+class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
   String _query = '';
 
   void _onSearchChanged(String q) {
@@ -41,17 +22,18 @@ class NextPage extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppNavBar(
-        title: AppLocalizations.of(context)!.recipes,
+        title: loc.recipes,
         showSearch: true,
         onSearchChanged: _onSearchChanged,
         onSearchSubmitted: _onSearchSubmitted,
         showSquareButtons: true,
         backgroundColor: Colors.red,
-        rightRoute: '/next', // pass the route name — simple setup
-        leftRoute: '/',
+        rightRoute: '/home', // route existante définie dans main.dart
+        leftRoute: '/shopping', // ou une autre page selon ton app
       ),
       body: Center(
         child: Text('Search value: $_query'),
