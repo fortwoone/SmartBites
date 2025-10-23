@@ -237,7 +237,7 @@ class ProductDetailPage extends StatelessWidget {
                                     ElevatedButton(
                                         child: Text(loc.add_this_product),
                                         onPressed: (){
-                                            Navigator.pop(context, barcode);
+                                            Navigator.pop(context, product);
                                         }
                                     )
                                 ]

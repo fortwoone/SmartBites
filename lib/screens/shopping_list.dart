@@ -3,24 +3,55 @@ import "dart:math";
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
+import 'package:food/models/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:food/db_objects/shopping_lst.dart";
+import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
+import 'package:food/screens/product_detail_page.dart';
 
 
 class ShoppingListDetail extends StatefulWidget{
     ShoppingList list;
+    User? user;
 
-    ShoppingListDetail({super.key, required this.list});
+    ShoppingListDetail({super.key, required this.list, this.user});
 
     @override
     State<ShoppingListDetail> createState() => _ShoppingListDetailState();
 }
 
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
-    TextEditingController product_ctrl = TextEditingController();
-
+    bool _isLoading = true;
+    Map<String, CachedProduct> cachedProducts = {};
     final supabase = Supabase.instance.client;
+
+    @override
+    void initState(){
+        super.initState();
+        _isLoading = true;
+        _getCachedProductData();
+    }
+
+    Future<void> _getCachedProductData() async{
+        Map<String, dynamic>? result;
+        for (String barcode in widget.list.products){
+            result = await supabase.rpc(
+                "get_cache_entry",
+                params: {
+                    "p_barcode": barcode
+                }
+            );
+            if (result != null){
+                cachedProducts[barcode] = CachedProduct.fromMap(result);
+            }
+        }
+        setState(
+            (){
+                _isLoading = false;
+            }
+        );
+    }
 
     Future<bool?> askDeleteList(BuildContext context) async{
         final loc = AppLocalizations.of(context)!;
@@ -70,8 +101,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         );
     }
 
-    Future<String?> askAddProduct(BuildContext context) async{
-        // TODO: à remplacer dans une future version par l'écran de recherche des produits.
+    Future<Product?> askAddProduct(BuildContext context) async{
         final loc = AppLocalizations.of(context)!;
 
         return Navigator.push(
@@ -80,25 +110,6 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 builder: (context) => ProductSearchPage(inAddMode: true)
             )
         );
-        // return showDialog(
-        //     context: context,
-        //     builder: (context){
-        //         return AlertDialog(
-        //             title: Text(loc.add_product),
-        //             content: TextField(controller: product_ctrl),
-        //             actions: [
-        //                 ElevatedButton(
-        //                     child: Text(loc.cancel),
-        //                     onPressed: () => Navigator.pop(context)
-        //                 ),
-        //                 ElevatedButton(
-        //                     child: Text("OK"),
-        //                     onPressed: () => Navigator.pop(context, product_ctrl.text)
-        //                 )
-        //             ]
-        //         );
-        //     }
-        // );
     }
 
     @override
@@ -139,12 +150,28 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 )
             ),
             body: Center(
-                child: ListView.builder(
-                    itemCount: min(10, widget.list.products.length),
+                child: _isLoading? const CircularProgressIndicator()
+                : ListView.builder(
+                    itemCount: widget.list.products.length,
                     itemBuilder: (context, index){
                         String product_barcode = widget.list.products[index];
+                        CachedProduct cached_entry = cachedProducts[product_barcode]!;
+
                         return ListTile(
-                            title: Text(product_barcode),
+                            leading: (cached_entry.img_small_url.trim().isEmpty)
+                            ? const SizedBox(width: 56, height: 56)
+                            : Image.network(
+                                cached_entry.img_small_url,
+                                width: 56,
+                                height: 56,
+                                fit: BoxFit.cover
+                            ),
+                            title: Text(
+                                loc.localeName.startsWith('fr')
+                                ? cached_entry.fr_name
+                                : cached_entry.en_name
+                            ),
+                            subtitle: Text(cached_entry.brands),
                             trailing: IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () async{
@@ -167,12 +194,24 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                             setState(
                                                 (){
                                                     widget.list.products = computed_products;
+                                                    cachedProducts.remove(product_barcode);
                                                 }
                                             );
                                         }
                                     }
                                 }
                             ),
+                            onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductDetailPage(
+                                            barcode: product_barcode,
+                                            inAddMode: false
+                                        )
+                                    )
+                                );
+                            }
                         );
                     }
                 )
@@ -186,7 +225,26 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     }
 
                     if (result != null){
-                        widget.list.products.add(result.toString());
+                        CachedProduct cached = CachedProduct(
+                            barcode: result.barcode,
+                            img_small_url: result.imageSmallURL ?? "",
+                            brands: result.brands ?? "",
+                            fr_name: result.frName ?? result.name!,
+                            en_name: result.enName ?? result.name!
+                        );
+
+                        final bool wasAddedToCache = await supabase.rpc(
+                            "add_entry_to_cache",
+                            params: {
+                                "product_barcode": cached.barcode,
+                                "p_img_small_url": cached.img_small_url,
+                                "p_brands": cached.brands,
+                                "p_fr_name": cached.fr_name,
+                                "p_en_name": cached.en_name
+                            }
+                        );
+
+                        widget.list.products.add(result.barcode);
                         // On applique les changements à la BD
                         final data = await supabase.from(
                             "shopping_list"
@@ -194,7 +252,10 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                             {"products": widget.list.products}
                         ).eq("id", widget.list.id!).select();
                         setState(
-                            (){}
+                            (){
+                                _isLoading = false;
+                                cachedProducts[cached.barcode] = cached;
+                            }
                         );
                     }
                 }
@@ -337,7 +398,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context){
-                                                return ShoppingListDetail(list: lst);
+                                                return ShoppingListDetail(list: lst, user: user);
                                             }
                                         )
                                     );

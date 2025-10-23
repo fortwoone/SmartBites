@@ -8,7 +8,7 @@ class ShoppingList{
     ShoppingList({this.id, required this.name, required this.user_id, required this.products});
 
     /// Create a shopping list in memory from retrieved data in the database.
-    static ShoppingList fromMap(Map<String, dynamic> orig){
+    factory ShoppingList.fromMap(Map<String, dynamic> orig){
         List<String> products = [];
         for (String product in orig["products"]){
             products.add(product);
