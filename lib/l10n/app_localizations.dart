@@ -304,6 +304,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add this product'**
   String get add_this_product;
+
   /// No description provided for @disconnect.
   ///
   /// In en, this message translates to:
@@ -315,6 +316,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See my products lists'**
   String get product_list;
+
+  /// No description provided for @rename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename the list'**
+  String get rename;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

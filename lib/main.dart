@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_search_page.dart';
-import 'package:food/screens/product_detail_screen.dart';
 import 'package:food/widgets/bottom_action_bar.dart';
-import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
