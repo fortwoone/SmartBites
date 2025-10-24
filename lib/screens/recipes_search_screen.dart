@@ -32,8 +32,8 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                 onSearchSubmitted: _onSearchSubmitted,
                 showSquareButtons: true,
                 backgroundColor: Colors.red,
-                rightRoute: '/home', // route existante définie dans main.dart
-                leftRoute: '/shopping', // ou une autre page selon ton app
+                rightRoute: '/next',
+                leftRoute: '/home',
             ),
             body: Center(
                 child: Text('Search value: $_query'),
