@@ -112,8 +112,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add_this_product => 'Add this product';
+
+  @override
   String get disconnect => 'Disconnect';
 
   @override
   String get product_list => 'See my products lists';
+
+  @override
+  String get rename => 'Rename the list';
 }

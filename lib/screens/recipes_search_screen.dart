@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/app_nav_bar.dart';
+import '../widgets/bottom_action_bar.dart';
 
 class RecipesSearchScreen extends StatefulWidget {
     const RecipesSearchScreen({super.key});
@@ -38,6 +39,7 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
             body: Center(
                 child: Text('Search value: $_query'),
             ),
+            bottomNavigationBar: const BottomActionBar(),
         );
     }
 }

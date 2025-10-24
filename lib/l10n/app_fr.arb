@@ -34,9 +34,11 @@
   "hint_search": "Rechercher ...",
   "slists": "Listes de courses",
   "enter_product_name": "Veuillez entrer un nom de produit.",
-  "add_this_product": "Ajouter ce produit"
+  "add_this_product": "Ajouter ce produit",
   "disconnect": "Se déconnecter",
-  "product_list": "Voir mes listes de courses"
+  "product_list": "Voir mes listes de courses",
+  "rename": "Renommer la liste"
+
 
 
 }
