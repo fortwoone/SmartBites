@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 showSquareButtons: true,
                 backgroundColor: Colors.green,
                 rightRoute: '/next',
-                leftRoute: '/home',
+
             ),
             body: Center(
                 child: Column(
