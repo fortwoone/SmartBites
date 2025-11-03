@@ -322,6 +322,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rename the list'**
   String get rename;
+
+  /// No description provided for @product_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Details'**
+  String get product_details;
+
+  /// No description provided for @energy_kcal_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energy_kcal_100g;
+
+  /// No description provided for @fat_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat'**
+  String get fat_100g;
+
+  /// No description provided for @saturated_fat_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturated Fat'**
+  String get saturated_fat_100g;
+
+  /// No description provided for @carbohydrates_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbohydrates'**
+  String get carbohydrates_100g;
+
+  /// No description provided for @sugars_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Sugars'**
+  String get sugars_100g;
+
+  /// No description provided for @fiber_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Fiber'**
+  String get fiber_100g;
+
+  /// No description provided for @salt_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Salt'**
+  String get salt_100g;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

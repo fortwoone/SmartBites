@@ -37,8 +37,15 @@
   "add_this_product": "Ajouter ce produit",
   "disconnect": "Se déconnecter",
   "product_list": "Voir mes listes de courses",
-  "rename": "Renommer la liste"
-
-
+  "rename": "Renommer la liste",
+  "product_details": "Détails du produit",
+  "energy_kcal_100g": "Énergie",
+  "fat_100g": "Matières grasses",
+  "saturated_fat_100g": "Acides gras saturés",
+  "carbohydrates_100g": "Glucides",
+  "sugars_100g": "Sucres",
+  "fiber_100g": "Fibres alimentaires",
+  "proteins_100g": "Protéines",
+  "salt_100g": "Sel"
 
 }

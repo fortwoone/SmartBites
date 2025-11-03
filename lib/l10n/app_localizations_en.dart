@@ -121,4 +121,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rename => 'Rename the list';
+
+  @override
+  String get product_details => 'Product Details';
+
+  @override
+  String get energy_kcal_100g => 'Energy';
+
+  @override
+  String get fat_100g => 'Fat';
+
+  @override
+  String get saturated_fat_100g => 'Saturated Fat';
+
+  @override
+  String get carbohydrates_100g => 'Carbohydrates';
+
+  @override
+  String get sugars_100g => 'Sugars';
+
+  @override
+  String get fiber_100g => 'Fiber';
+
+  @override
+  String get salt_100g => 'Salt';
 }

@@ -37,6 +37,13 @@
   "add_this_product": "Add this product",
   "disconnect": "Disconnect",
   "product_list": "See my products lists",
-  "rename": "Rename the list"
-
+  "rename": "Rename the list",
+  "product_details": "Product Details",
+  "energy_kcal_100g": "Energy",
+  "fat_100g": "Fat",
+  "saturated_fat_100g": "Saturated Fat",
+  "carbohydrates_100g": "Carbohydrates",
+  "sugars_100g": "Sugars",
+  "fiber_100g": "Fiber",
+  "salt_100g": "Salt"
 }

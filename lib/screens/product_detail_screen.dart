@@ -1,7 +1,9 @@
 // A page that displays detailed information about a product
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
+import "package:food/widgets/grade_utils.dart";
 
 class ProductDetailPage extends StatelessWidget {
     final String barcode;
@@ -186,9 +188,10 @@ class ProductDetailPage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+        final loc = AppLocalizations.of(context)!;
         return Scaffold(
             appBar: AppBar(
-                title: Text('Product Details'),
+                title: Text(loc.product_details),
             ),
             body: FutureBuilder<Product?>(
                 future: repository.fetchProductByBarcode(barcode),
@@ -224,7 +227,14 @@ class ProductDetailPage extends StatelessWidget {
                             const SizedBox(height: 6),
                             _buildIngredients(product.ingredientsText),
                             const SizedBox(height: 12),
-                            const SizedBox(height: 8),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:[
+                                    Text("Nutri-Score", style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    nutriscoreImg(product.nutriscoreGrade!, loc)
+                                ]
+                            ),
+                            const SizedBox(height: 12),
                             _buildNutriments(product.nutriments),
                             const SizedBox(height: 20),
                         ],

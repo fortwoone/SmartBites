@@ -192,7 +192,7 @@ class ProductDetailPage extends StatelessWidget {
         final loc = AppLocalizations.of(context)!;
         return Scaffold(
             appBar: AppBar(
-                title: Text('Product Details'),
+                title: Text(loc.product_details),
             ),
             body: FutureBuilder<Product?>(
                 future: repository.fetchProductByBarcode(barcode),
