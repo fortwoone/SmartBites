@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food/l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
+import '../widgets/grade_utils.dart';
 
 class ProductDetailPage extends StatelessWidget {
     final String barcode;
@@ -58,7 +59,7 @@ class ProductDetailPage extends StatelessWidget {
     }
 
     // Card displaying basic product info: name, brand, barcode
-    Widget _buildInfoCard(BuildContext context, Product product) {
+    Widget _buildInfoCard(BuildContext context, Product product, AppLocalizations loc) {
         return Card(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 2,
@@ -66,10 +67,10 @@ class ProductDetailPage extends StatelessWidget {
             child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(product.name ?? 'No name',
+                    Text(product.name ?? loc.unnamed_product,
                         style: Theme.of(context).textTheme.headlineSmall),
                     const SizedBox(height: 6),
-                    Text(product.brands ?? 'Unknown brand',
+                    Text(product.brands ?? loc.unknown_brand,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
                     const SizedBox(height: 8),
                     Row(children: [
@@ -83,30 +84,30 @@ class ProductDetailPage extends StatelessWidget {
     }
 
     // Widget to display ingredients text
-    Widget _buildIngredients(String? text) {
+    Widget _buildIngredients(String? text, AppLocalizations loc) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Ingredients', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(loc.ingredients, style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text(text ?? 'No ingredients information.', style: const TextStyle(height: 1.25)),
+            Text(text ?? loc.no_ingredient_data, style: const TextStyle(height: 1.25)),
         ]);
     }
 
     // Widget to display nutriments in a structured format
-    Widget _buildNutriments(Map<String, dynamic>? nutriments) {
+    Widget _buildNutriments(Map<String, dynamic>? nutriments, AppLocalizations loc) {
         if (nutriments == null || nutriments.isEmpty) {
-            return const Text('No nutriments data.');
+            return Text(loc.no_nutritional_data);
         }
 
         // Define which nutriments to show and their labels (order matters)
         final Map<String, String> selected = {
-            'energy-kcal_100g': 'Énergie',
-            'fat_100g': 'Matières grasses',
-            'saturated-fat_100g': 'Acides gras saturés',
-            'carbohydrates_100g': 'Glucides',
-            'sugars_100g': 'Sucres',
-            'fiber_100g': 'Fibres alimentaires',
-            'proteins_100g': 'Protéines',
-            'salt_100g': 'Sel',
+            'energy-kcal_100g': loc.energy_kcal_100g,
+            'fat_100g': loc.fat_100g,
+            'saturated-fat_100g': loc.saturated_fat_100g,
+            'carbohydrates_100g': loc.carbohydrates_100g,
+            'sugars_100g': loc.sugars_100g,
+            'fiber_100g': loc.fiber_100g,
+            'proteins_100g': loc.proteins_100g,
+            'salt_100g': loc.salt_100g,
         };
 
         // Units to append for the selected nutriments
@@ -142,13 +143,13 @@ class ProductDetailPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Row(
                 children: [
-                    const Text(
-                        'Tableau nutritionnel',
+                    Text(
+                        loc.nutritional_intake,
                         style: TextStyle(fontWeight: FontWeight.bold)
                     ),
                     const Expanded(child: SizedBox()), // Spacer
-                    const Text(
-                        'pour 100g / 100ml',
+                    Text(
+                        loc.ni_units,
                         style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                 ],
@@ -224,12 +225,19 @@ class ProductDetailPage extends StatelessWidget {
                         padding: const EdgeInsets.all(16.0),
                         children: [
                             _buildImage(product.imageURL),
-                            _buildInfoCard(context, product),
+                            _buildInfoCard(context, product, loc),
                             const SizedBox(height: 6),
-                            _buildIngredients(product.ingredientsText),
+                            _buildIngredients(product.ingredientsText, loc),
                             const SizedBox(height: 12),
-                            const SizedBox(height: 8),
-                            _buildNutriments(product.nutriments),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:[
+                                    Text("Nutri-Score", style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    nutriscoreImg(product.nutriscoreGrade!, loc)
+                                ]
+                            ),
+                            const SizedBox(height: 12),
+                            _buildNutriments(product.nutriments, loc),
                             const SizedBox(height: 20),
                             if (inAddMode) Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

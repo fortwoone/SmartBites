@@ -365,11 +365,59 @@ abstract class AppLocalizations {
   /// **'Fiber'**
   String get fiber_100g;
 
+  /// No description provided for @proteins_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Proteins'**
+  String get proteins_100g;
+
   /// No description provided for @salt_100g.
   ///
   /// In en, this message translates to:
   /// **'Salt'**
   String get salt_100g;
+
+  /// No description provided for @ingredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get ingredients;
+
+  /// No description provided for @nutritional_intake.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional Intake'**
+  String get nutritional_intake;
+
+  /// No description provided for @ni_units.
+  ///
+  /// In en, this message translates to:
+  /// **'per 100g / 100ml'**
+  String get ni_units;
+
+  /// No description provided for @unknown_brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown brand'**
+  String get unknown_brand;
+
+  /// No description provided for @no_ingredient_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No available information about ingredients.'**
+  String get no_ingredient_data;
+
+  /// No description provided for @no_nutritional_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No available information about nutritional intake.'**
+  String get no_nutritional_data;
+
+  /// No description provided for @unnamed_product.
+  ///
+  /// In en, this message translates to:
+  /// **'No Name Available'**
+  String get unnamed_product;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

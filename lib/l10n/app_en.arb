@@ -45,5 +45,13 @@
   "carbohydrates_100g": "Carbohydrates",
   "sugars_100g": "Sugars",
   "fiber_100g": "Fiber",
-  "salt_100g": "Salt"
+  "proteins_100g": "Proteins",
+  "salt_100g": "Salt",
+  "ingredients": "Ingredients",
+  "nutritional_intake": "Nutritional Intake",
+  "ni_units": "per 100g / 100ml",
+  "unknown_brand": "Unknown brand",
+  "no_ingredient_data": "No available information about ingredients.",
+  "no_nutritional_data": "No available information about nutritional intake.",
+  "unnamed_product": "No Name Available"
 }

@@ -144,5 +144,29 @@ class AppLocalizationsFr extends AppLocalizations {
   String get fiber_100g => 'Fibres alimentaires';
 
   @override
+  String get proteins_100g => 'Protéines';
+
+  @override
   String get salt_100g => 'Sel';
+
+  @override
+  String get ingredients => 'Ingrédients';
+
+  @override
+  String get nutritional_intake => 'Tableau nutritionnel';
+
+  @override
+  String get ni_units => 'pour 100g / 100ml';
+
+  @override
+  String get unknown_brand => 'Marque inconnue';
+
+  @override
+  String get no_ingredient_data => 'Pas d\'information sur les ingrédients.';
+
+  @override
+  String get no_nutritional_data => 'Pas d\'information sur l\'apport nutritionnel.';
+
+  @override
+  String get unnamed_product => 'Pas de nom';
 }

@@ -144,5 +144,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fiber_100g => 'Fiber';
 
   @override
+  String get proteins_100g => 'Proteins';
+
+  @override
   String get salt_100g => 'Salt';
+
+  @override
+  String get ingredients => 'Ingredients';
+
+  @override
+  String get nutritional_intake => 'Nutritional Intake';
+
+  @override
+  String get ni_units => 'per 100g / 100ml';
+
+  @override
+  String get unknown_brand => 'Unknown brand';
+
+  @override
+  String get no_ingredient_data => 'No available information about ingredients.';
+
+  @override
+  String get no_nutritional_data => 'No available information about nutritional intake.';
+
+  @override
+  String get unnamed_product => 'No Name Available';
 }
