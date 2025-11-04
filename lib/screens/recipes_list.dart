@@ -124,7 +124,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text(loc.myRecipes, style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(_showOnlyMine ? loc.myRecipes : loc.recipes, style: TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.deepOrangeAccent.shade100,
           elevation: 0,
           actions: [
