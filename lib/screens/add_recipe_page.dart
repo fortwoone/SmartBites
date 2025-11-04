@@ -185,15 +185,15 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 _instructionsController.clear();
                 setState(() => _ingredients = []);
             } else {
-                await supabase.from('Recettes').insert({
+                final recipeId = widget.recipeToEdit!['id'];
+                await supabase.from('Recettes').update({
                     'name': _nameController.text.trim(),
                     'description': _descriptionController.text.trim(),
                     'time_preparation': int.tryParse(_timePreparationController.text) ?? 0,
                     'time_baking': int.tryParse(_timeBakingController.text) ?? 0,
                     'instructions': _instructionsController.text.trim(),
                     'ingredients': _ingredients,
-                    'user_id_creator': user?.id,
-                });
+                }).eq('id', recipeId);
                 await _clearSavedInputs();
             }
 
