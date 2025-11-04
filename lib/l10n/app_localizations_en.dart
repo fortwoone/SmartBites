@@ -121,4 +121,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rename => 'Rename the list';
+
+  @override
+  String get recipe_page => 'Recipes';
 }

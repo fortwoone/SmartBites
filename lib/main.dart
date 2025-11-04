@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/product_detail_screen.dart';
+import 'package:food/screens/recipes_list.dart';
 import 'package:food/widgets/bottom_action_bar.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
                 '/home': (ctx) =>  HomeScreen(),
                 '/login': (ctx) => const LoginScreen(),
                 '/next': (ctx) => const RecipesSearchScreen(),
+                '/recipe': (ctx) => const RecipeListPage(),
                 '/shopping': (ctx) {
                     final session = Supabase.instance.client.auth.currentSession;
                     if (session == null) {

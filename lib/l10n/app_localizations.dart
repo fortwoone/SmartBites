@@ -322,6 +322,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rename the list'**
   String get rename;
+
+  /// No description provided for @recipe_page.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipe_page;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
