@@ -10,6 +10,8 @@ class Product {
     final String? imageURL;
     final String? imageSmallURL;
     final Map<String, dynamic>? nutriments;
+    final String? nutriscoreGrade;
+    final String novaGroup;
 
     Product({
         required this.barcode,
@@ -20,7 +22,9 @@ class Product {
         this.ingredientsText,
         this.nutriments,
         this.imageURL,
-        this.imageSmallURL
+        this.imageSmallURL,
+        this.nutriscoreGrade,
+        this.novaGroup = "unknown"
     });
 
     factory Product.fromJson(String barcode, Map<String, dynamic> json) {
@@ -34,6 +38,8 @@ class Product {
             imageSmallURL: json["image_small_url"] as String?,
             ingredientsText: json['ingredients_text'] as String?,
             nutriments: json['nutriments'] is Map ? Map<String, dynamic>.from(json['nutriments']) : null,
+            nutriscoreGrade: json["nutriscore_grade"] as String?,
+            novaGroup: json["nova_group"] is int ? json["nova_group"].toString() : "unknown"
         );
     }
 }
