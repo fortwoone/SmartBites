@@ -234,6 +234,13 @@ class ProductDetailPage extends StatelessWidget {
                                     nutriscoreImg(product.nutriscoreGrade!, loc)
                                 ]
                             ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:[
+                                  Text(loc.nova_group, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  novaImg(product.novaGroup)
+                                ]
+                            ),
                             const SizedBox(height: 12),
                             _buildNutriments(product.nutriments, loc),
                             const SizedBox(height: 20),
