@@ -15,3 +15,11 @@ Widget nutriscoreImg(String grade, AppLocalizations loc){
         scale: 2.75
     );
 }
+
+Widget novaImg(String grade){
+    return Image.asset(
+        "lib/ressources/nova/$grade.png",
+        fit: BoxFit.contain,
+        scale:2.75
+    );
+}

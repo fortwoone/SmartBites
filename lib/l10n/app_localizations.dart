@@ -383,6 +383,12 @@ abstract class AppLocalizations {
   /// **'Ingredients'**
   String get ingredients;
 
+  /// No description provided for @nova_group.
+  ///
+  /// In en, this message translates to:
+  /// **'NOVA Group'**
+  String get nova_group;
+
   /// No description provided for @nutritional_intake.
   ///
   /// In en, this message translates to:

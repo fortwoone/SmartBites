@@ -153,6 +153,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ingredients => 'Ingrédients';
 
   @override
+  String get nova_group => 'Groupe NOVA';
+
+  @override
   String get nutritional_intake => 'Tableau nutritionnel';
 
   @override

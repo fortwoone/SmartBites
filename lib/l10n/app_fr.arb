@@ -49,6 +49,7 @@
   "salt_100g": "Sel",
   "ingredients": "Ingrédients",
   "nutritional_intake": "Tableau nutritionnel",
+  "nova_group": "Groupe NOVA",
   "ni_units": "pour 100g / 100ml",
   "unknown_brand": "Marque inconnue",
   "no_ingredient_data": "Pas d'information sur les ingrédients.",
