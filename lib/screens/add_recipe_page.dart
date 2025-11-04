@@ -242,7 +242,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       children: [
                           TextFormField(controller: _nameController, decoration: _inputDecoration(loc.nameRecipe), validator: (val) => val == null || val.isEmpty ? loc.enterName : null),
                           const SizedBox(height: 12),
-                          TextFormField(controller: _descriptionController, decoration: _inputDecoration(loc.description), maxLines: 2),
+                          TextFormField(controller: _descriptionController, decoration: _inputDecoration(loc.description), maxLines: 6),
                           const SizedBox(height: 12),
                           Row(
                               children: [
