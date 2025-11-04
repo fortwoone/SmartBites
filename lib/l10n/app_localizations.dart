@@ -418,6 +418,59 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Instructions'**
   String get instructions;
+  /// No description provided for @product_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Details'**
+  String get product_details;
+
+  /// No description provided for @energy_kcal_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energy_kcal_100g;
+
+  /// No description provided for @fat_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat'**
+  String get fat_100g;
+
+  /// No description provided for @saturated_fat_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturated Fat'**
+  String get saturated_fat_100g;
+
+  /// No description provided for @carbohydrates_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbohydrates'**
+  String get carbohydrates_100g;
+
+  /// No description provided for @sugars_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Sugars'**
+  String get sugars_100g;
+
+  /// No description provided for @fiber_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Fiber'**
+  String get fiber_100g;
+
+  /// No description provided for @proteins_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Proteins'**
+  String get proteins_100g;
+
+  /// No description provided for @salt_100g.
+  ///
+  /// In en, this message translates to:
+  /// **'Salt'**
+  String get salt_100g;
 
   /// No description provided for @ingredients.
   ///
@@ -532,6 +585,47 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+  /// No description provided for @nova_group.
+  ///
+  /// In en, this message translates to:
+  /// **'NOVA Group'**
+  String get nova_group;
+
+  /// No description provided for @nutritional_intake.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional Intake'**
+  String get nutritional_intake;
+
+  /// No description provided for @ni_units.
+  ///
+  /// In en, this message translates to:
+  /// **'per 100g / 100ml'**
+  String get ni_units;
+
+  /// No description provided for @unknown_brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown brand'**
+  String get unknown_brand;
+
+  /// No description provided for @no_ingredient_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No available information about ingredients.'**
+  String get no_ingredient_data;
+
+  /// No description provided for @no_nutritional_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No available information about nutritional intake.'**
+  String get no_nutritional_data;
+
+  /// No description provided for @unnamed_product.
+  ///
+  /// In en, this message translates to:
+  /// **'No Name Available'**
+  String get unnamed_product;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

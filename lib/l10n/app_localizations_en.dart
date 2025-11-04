@@ -169,6 +169,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get instructions => 'Instructions';
+  String get product_details => 'Product Details';
+
+  @override
+  String get energy_kcal_100g => 'Energy';
+
+  @override
+  String get fat_100g => 'Fat';
+
+  @override
+  String get saturated_fat_100g => 'Saturated Fat';
+
+  @override
+  String get carbohydrates_100g => 'Carbohydrates';
+
+  @override
+  String get sugars_100g => 'Sugars';
+
+  @override
+  String get fiber_100g => 'Fiber';
+
+  @override
+  String get proteins_100g => 'Proteins';
+
+  @override
+  String get salt_100g => 'Salt';
 
   @override
   String get ingredients => 'Ingredients';
@@ -226,4 +251,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get update => 'Update';
+  String get nova_group => 'NOVA Group';
+
+  @override
+  String get nutritional_intake => 'Nutritional Intake';
+
+  @override
+  String get ni_units => 'per 100g / 100ml';
+
+  @override
+  String get unknown_brand => 'Unknown brand';
+
+  @override
+  String get no_ingredient_data => 'No available information about ingredients.';
+
+  @override
+  String get no_nutritional_data => 'No available information about nutritional intake.';
+
+  @override
+  String get unnamed_product => 'No Name Available';
 }
