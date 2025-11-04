@@ -11,6 +11,7 @@ import 'screens/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
+import 'screens/profile_screen.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        final repo = OpenFoodFactsRepository();
 
         return MaterialApp(
             title: 'SmartBites',
@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
             routes: {
                 '/home': (ctx) =>  HomeScreen(),
                 '/login': (ctx) => const LoginScreen(),
+                '/profile': (ctx) => const ProfileScreen(),
                 '/next': (ctx) => const RecipesSearchScreen(),
                 '/shopping': (ctx) {
                     final session = Supabase.instance.client.auth.currentSession;

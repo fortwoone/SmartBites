@@ -23,6 +23,11 @@ class BottomActionBar extends StatelessWidget {
                             onPressed: () => Navigator.pushNamed(context, '/shopping'),
                         ),
                         IconButton(
+                            tooltip: loc.profile,
+                            icon: const Icon(Icons.person, color: Colors.blueAccent),
+                            onPressed: () => Navigator.pushNamed(context, '/profile'),
+                        ),
+                        IconButton(
                             tooltip: loc.disconnect,
                             icon: const Icon(Icons.logout, color: Colors.redAccent),
                             onPressed: () async {

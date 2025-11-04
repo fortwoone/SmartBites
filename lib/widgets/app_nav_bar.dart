@@ -10,8 +10,8 @@ class AppNavBar extends StatefulWidget implements PreferredSizeWidget {
     final String? initialQuery;
     final Color? backgroundColor;
     final bool showSquareButtons;
-    final String? leftRoute;   // bouton vert
-    final String? rightRoute;  // bouton rouge
+    final String? leftRoute;
+    final String? rightRoute;
 
     const AppNavBar({
         super.key,
@@ -77,10 +77,9 @@ class _AppNavBarState extends State<AppNavBar> {
         );
     }
 
-    // === LOGIQUE DE NAVIGATION PROPRE ===
     void _safeNavigateTo(String routeName) {
         final current = ModalRoute.of(context)?.settings.name;
-        if (current == routeName) return; // déjà sur la page => ne rien faire
+        if (current == routeName) return;
         Navigator.of(context).pushNamed(routeName);
     }
 
@@ -88,8 +87,6 @@ class _AppNavBarState extends State<AppNavBar> {
     Widget build(BuildContext context) {
         final Color bg = widget.backgroundColor ?? Theme.of(context).colorScheme.inversePrimary;
         final actions = <Widget>[];
-
-        // Bouton de recherche
         if (widget.showSearch) {
             actions.add(
                 IconButton(
@@ -99,7 +96,6 @@ class _AppNavBarState extends State<AppNavBar> {
             );
         }
 
-        // Bouton carré à droite (rouge)
         if (widget.showSquareButtons && widget.rightRoute != null) {
             actions.add(
                 Padding(
@@ -107,7 +103,7 @@ class _AppNavBarState extends State<AppNavBar> {
                     child: _squareButton(
                         color: Colors.red,
                         child: SizedBox(
-                            width: kToolbarHeight * 0.8, // ajuste la taille si nécessaire
+                            width: kToolbarHeight * 0.8,
                             child: Image.asset(
                                 'lib/ressources/cuisine_icon.png',
                                 fit: BoxFit.contain,
@@ -136,7 +132,7 @@ class _AppNavBarState extends State<AppNavBar> {
             child: _squareButton(
               color: Colors.green,
               child: SizedBox(
-                width: kToolbarHeight * 0.8, // ajuste selon la taille du logo
+                width: kToolbarHeight * 0.8,
                 child: Image.asset(
                   'lib/ressources/ingredients_icon.png',
                   fit: BoxFit.contain,

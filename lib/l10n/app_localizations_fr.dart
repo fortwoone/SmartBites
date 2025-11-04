@@ -121,4 +121,97 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rename => 'Renommer la liste';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get change_language => 'Changer la langue';
+
+  @override
+  String get take_photo => 'Prendre une photo';
+
+  @override
+  String get choose_from_gallery => 'Choisir depuis la galerie';
+
+  @override
+  String get apply => 'Appliquer';
+
+  @override
+  String get change_password => 'Changer le mot de passe';
+
+  @override
+  String get current_password => 'Mot de passe actuel';
+
+  @override
+  String get new_password => 'Nouveau mot de passe';
+
+  @override
+  String get confirm_new_password => 'Confirmer le nouveau mot de passe';
+
+  @override
+  String get fields_required => 'Tous les champs sont requis';
+
+  @override
+  String get passwords_mismatch => 'Les mots de passe ne correspondent pas';
+
+  @override
+  String get password_updated => 'Mot de passe mis à jour. Veuillez vous reconnecter.';
+
+  @override
+  String get photo_update_success => 'Photo de profil mise à jour avec succès';
+
+  @override
+  String get change_photo_title => 'Changer la photo de profil';
+
+  @override
+  String get edit_name_title => 'Modifier votre nom';
+
+  @override
+  String get edit_name_label => 'Nom';
+
+  @override
+  String get name_updated => 'Nom mis à jour';
+
+  @override
+  String get edit_name_tile_title => 'Modifier votre nom';
+
+  @override
+  String get edit_name_tile_subtitle => 'Mettre à jour votre nom';
+
+  @override
+  String get history_subtitle => 'Consultez vos anciennes listes de courses';
+
+  @override
+  String get logout_subtitle => 'Se déconnecter de votre compte';
+
+  @override
+  String get change_password_subtitle => 'Mettre à jour votre mot de passe';
+
+  @override
+  String get load_user_error => 'Échec du chargement des données utilisateur';
+
+  @override
+  String get avatar_upload_failed => "Échec de l'envoi de la photo";
+
+  @override
+  String get avatar_pick_failed => "Échec de la sélection de l'image";
+
+  @override
+  String get name_update_failed => "Échec de la mise à jour du nom";
+
+  @override
+  String get password_update_failed => "Échec de la mise à jour du mot de passe";
+
+  @override
+  String get user_not_authenticated => 'Utilisateur non authentifié';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get generic_error => "Une erreur s'est produite";
 }

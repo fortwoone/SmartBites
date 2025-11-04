@@ -121,4 +121,97 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rename => 'Rename the list';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get change_language => 'Change language';
+
+  @override
+  String get take_photo => 'Take a photo';
+
+  @override
+  String get choose_from_gallery => 'Choose from gallery';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get change_password => 'Change password';
+
+  @override
+  String get current_password => 'Current password';
+
+  @override
+  String get new_password => 'New password';
+
+  @override
+  String get confirm_new_password => 'Confirm new password';
+
+  @override
+  String get fields_required => 'All fields are required';
+
+  @override
+  String get passwords_mismatch => 'Passwords do not match';
+
+  @override
+  String get password_updated => 'Password updated. Please log in again.';
+
+  @override
+  String get photo_update_success => 'Profile photo updated successfully';
+
+  @override
+  String get change_photo_title => 'Change profile photo';
+
+  @override
+  String get edit_name_title => 'Edit name';
+
+  @override
+  String get edit_name_label => 'Name';
+
+  @override
+  String get name_updated => 'Name updated';
+
+  @override
+  String get edit_name_tile_title => 'Edit name';
+
+  @override
+  String get edit_name_tile_subtitle => 'Update your display name';
+
+  @override
+  String get history_subtitle => 'View your previous shopping lists';
+
+  @override
+  String get logout_subtitle => 'Sign out of your account';
+
+  @override
+  String get change_password_subtitle => 'Update your password';
+
+  @override
+  String get load_user_error => 'Failed to load user data';
+
+  @override
+  String get avatar_upload_failed => 'Failed to upload avatar';
+
+  @override
+  String get avatar_pick_failed => 'Failed to pick image';
+
+  @override
+  String get name_update_failed => 'Failed to update name';
+
+  @override
+  String get password_update_failed => 'Failed to update password';
+
+  @override
+  String get user_not_authenticated => 'User not authenticated';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get generic_error => 'An error occurred';
 }

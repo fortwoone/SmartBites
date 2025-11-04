@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food/l10n/app_localizations.dart';
 import 'package:food/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'shopping_list.dart';
 
 class RegisterScreen extends StatefulWidget {
     const RegisterScreen({super.key});
@@ -15,12 +14,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final supabase = Supabase.instance.client;
     final TextEditingController emailCtrl = TextEditingController();
     final TextEditingController passwdCtrl = TextEditingController();
+    final TextEditingController nameCtrl = TextEditingController();
     bool isLoading = false;
 
     Future<void> _performRegister(BuildContext context) async {
         final loc = AppLocalizations.of(context)!;
 
-        if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty) {
+        if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty || nameCtrl.text.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(loc.fill_fields)),
             );
@@ -33,14 +33,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             final AuthResponse response = await supabase.auth.signUp(
                 email: emailCtrl.text.trim(),
                 password: passwdCtrl.text.trim(),
+                data: {
+                    'display_name': nameCtrl.text.trim(),
+                },
             );
 
             if (response.user != null && context.mounted) {
-                // Message de succès
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(loc.register_success)),
                 );
-                // Naviguer vers l'écran principal
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -100,6 +101,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
+                                        'Nom',
+                                        style: const TextStyle(fontSize: 18),
+                                    ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                    controller: nameCtrl,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        prefixIcon: const Icon(Icons.person),
+                                        filled: true,
+                                        fillColor: Colors.white.withAlpha(204),
+                                        hintText: 'Entrez votre nom',
+                                    ),
+                                ),
+                                const SizedBox(height: 20),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
                                         loc.email,
                                         style: const TextStyle(fontSize: 18),
                                     ),
@@ -113,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                         prefixIcon: const Icon(Icons.email),
                                         filled: true,
-                                        fillColor: Colors.white.withOpacity(0.8),
+                                        fillColor: Colors.white.withAlpha(204),
                                         hintText: loc.email_hint,
                                     ),
                                 ),
@@ -135,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                         prefixIcon: const Icon(Icons.lock),
                                         filled: true,
-                                        fillColor: Colors.white.withOpacity(0.8),
+                                        fillColor: Colors.white.withAlpha(204),
                                         hintText: loc.hint_passwd,
                                     ),
                                 ),

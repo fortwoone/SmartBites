@@ -322,6 +322,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rename the list'**
   String get rename;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @change_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get change_language;
+
+  /// No description provided for @take_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get take_photo;
+
+  /// No description provided for @choose_from_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get choose_from_gallery;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @change_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get change_password;
+
+  /// No description provided for @current_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get current_password;
+
+  /// No description provided for @new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get new_password;
+
+  /// No description provided for @confirm_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get confirm_new_password;
+
+  /// No description provided for @fields_required.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields are required'**
+  String get fields_required;
+
+  /// No description provided for @passwords_mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwords_mismatch;
+
+  /// No description provided for @password_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated. Please log in again.'**
+  String get password_updated;
+
+  /// No description provided for @photo_update_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo updated successfully'**
+  String get photo_update_success;
+
+  /// No description provided for @change_photo_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change profile photo'**
+  String get change_photo_title;
+
+  /// No description provided for @edit_name_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit name'**
+  String get edit_name_title;
+
+  /// No description provided for @edit_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get edit_name_label;
+
+  /// No description provided for @name_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Name updated'**
+  String get name_updated;
+
+  /// No description provided for @edit_name_tile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit name'**
+  String get edit_name_tile_title;
+
+  /// No description provided for @edit_name_tile_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your display name'**
+  String get edit_name_tile_subtitle;
+
+  /// No description provided for @history_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View your previous shopping lists'**
+  String get history_subtitle;
+
+  /// No description provided for @logout_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account'**
+  String get logout_subtitle;
+
+  /// No description provided for @change_password_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your password'**
+  String get change_password_subtitle;
+
+  /// No description provided for @load_user_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load user data'**
+  String get load_user_error;
+
+  /// No description provided for @avatar_upload_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload avatar'**
+  String get avatar_upload_failed;
+
+  /// No description provided for @avatar_pick_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pick image'**
+  String get avatar_pick_failed;
+
+  /// No description provided for @name_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update name'**
+  String get name_update_failed;
+
+  /// No description provided for @password_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update password'**
+  String get password_update_failed;
+
+  /// No description provided for @user_not_authenticated.
+  ///
+  /// In en, this message translates to:
+  /// **'User not authenticated'**
+  String get user_not_authenticated;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @generic_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred'**
+  String get generic_error;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
