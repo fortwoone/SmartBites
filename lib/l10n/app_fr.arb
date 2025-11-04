@@ -38,7 +38,44 @@
   "disconnect": "Se déconnecter",
   "product_list": "Voir mes listes de courses",
   "rename": "Renommer la liste",
-  "recipe_page": "Recettes"
+  "recipe_page": "Recettes",
+  "delete_recipe": "Supprimer la recette",
+  "deleteRecipeConfirm": "Êtes-vous sûr de vouloir supprimer cette recette ?",
+  "delete" : "Supprimer",
+  "invalidID" : "ID invalide",
+  "recipeDeleted" : "Recette supprimée !",
+  "myRecipes" : "Mes recettes ",
+  "showMyRecipes" : "Afficher mes recettes ",
+  "allRecipes" : "Afficher toutes les recettes",
+  "noRecipeFound" : "Aucune recette trouvée.",
+  "noTitle" : "Sans titre",
+  "recipe" : "Recette",
+  "description" : "Description",
+  "preparation" : "Préparation",
+  "baking" : "Cuisson",
+  "instructions" : "Instructions",
+  "ingredients" : "Ingrédients",
+  "noIngredients" : "Aucun ingrédient",
+  "barcode" : "Code-barres",
+  "addIngredient" : "Ajouter un ingrédient",
+  "noIngredientsAdded" : "Aucun ingrédients ajouté",
+  "addIngredientManual" : "Ajouter manuellement",
+  "addIngredientSearch" : "Ajouter via recherche",
+  "nameIngredient" : "Nom de l'ingrédient",
+  "hintIngredient" : "Ex : Tomate",
+  "updatedRecipe" : "Recette mise à jour !",
+  "addedRecipe" : "Recette ajoutée !",
+  "updateRecipe" : "Mettre à jour la recette",
+  "addRecipe" : "Ajouter une recette",
+  "nameRecipe" : "Nom de la recette",
+  "enterName" : "Entrez un nom",
+  "timePreparaing" : "Temps de préparation (min)",
+  "timeBaking" : "Temps de cuisson (min)",
+  "enterInstructions": "Veuillez entrer les instructions",
+  "update" : "Mettreà jour"
+
+
+
 
 
 
