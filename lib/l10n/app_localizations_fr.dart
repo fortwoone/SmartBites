@@ -264,7 +264,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noIngredients => 'Aucun ingrédient';
 
   @override
-  String get noIngredientsAdded => 'Aucun ingrédients ajouté';
+  String get noIngredientsAdded => 'Aucun ingrédient ajouté';
 
   @override
   String get barcode => 'Code-barres';
@@ -312,7 +312,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterInstructions => 'Veuillez entrer les instructions';
 
   @override
-  String get update => 'Mettreà jour';
+  String get update => 'Mettre à jour';
 
   @override
   String get product_details => 'Détails du produit';
