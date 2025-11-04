@@ -123,6 +123,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rename => 'Rename the list';
 
   @override
+  String get recipe_page => 'Recipes';
+
+  @override
+  String get delete_recipe => 'Delete the recipe';
+
+  @override
+  String get deleteRecipeConfirm => 'Are you sure you want to delete this recipe';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get invalidID => 'invalid ID';
+
+  @override
+  String get recipeDeleted => 'Recipe deleted !';
+
+  @override
+  String get myRecipes => 'My recipes';
+
+  @override
+  String get showMyRecipes => 'Show my recipes';
+
+  @override
+  String get allRecipes => 'Show all recipes';
+
+  @override
+  String get noRecipeFound => 'No recipe founded.';
+
+  @override
+  String get noTitle => 'No title';
+
+  @override
+  String get recipe => 'Recipe';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get preparation => 'Preparation';
+
+  @override
+  String get baking => 'Baking';
+
+  @override
+  String get instructions => 'Instructions';
   String get product_details => 'Product Details';
 
   @override
@@ -153,6 +199,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ingredients => 'Ingredients';
 
   @override
+  String get noIngredients => 'No ingrédient';
+
+  @override
+  String get noIngredientsAdded => 'No ingrédient added';
+
+  @override
+  String get barcode => 'Barcode';
+
+  @override
+  String get addIngredient => 'Add an ingredient';
+
+  @override
+  String get addIngredientManual => 'Add ingredient manually';
+
+  @override
+  String get addIngredientSearch => 'Add ingredient by searching';
+
+  @override
+  String get nameIngredient => 'Name of the ingredient';
+
+  @override
+  String get hintIngredient => 'Ex : Tomato';
+
+  @override
+  String get updatedRecipe => 'Recipe updated successfully';
+
+  @override
+  String get addedRecipe => 'Recipe added successfully';
+
+  @override
+  String get updateRecipe => 'Update the recipe';
+
+  @override
+  String get addRecipe => 'Add a recipe';
+
+  @override
+  String get nameRecipe => 'Name of the recipe';
+
+  @override
+  String get enterName => 'Enter a name';
+
+  @override
+  String get timePreparaing => 'Time of preparation (min)';
+
+  @override
+  String get timeBaking => 'Time of baking(min)';
+
+  @override
+  String get enterInstructions => 'Please enter some instructions';
+
+  @override
+  String get update => 'Update';
   String get nova_group => 'NOVA Group';
 
   @override

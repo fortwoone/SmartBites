@@ -123,6 +123,52 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rename => 'Renommer la liste';
 
   @override
+  String get recipe_page => 'Recettes';
+
+  @override
+  String get delete_recipe => 'Supprimer la recette';
+
+  @override
+  String get deleteRecipeConfirm => 'Êtes-vous sûr de vouloir supprimer cette recette ?';
+
+  @override
+  String get delete => 'Supprimer';
+
+  @override
+  String get invalidID => 'ID invalide';
+
+  @override
+  String get recipeDeleted => 'Recette supprimée !';
+
+  @override
+  String get myRecipes => 'Mes recettes ';
+
+  @override
+  String get showMyRecipes => 'Afficher mes recettes ';
+
+  @override
+  String get allRecipes => 'Afficher toutes les recettes';
+
+  @override
+  String get noRecipeFound => 'Aucune recette trouvée.';
+
+  @override
+  String get noTitle => 'Sans titre';
+
+  @override
+  String get recipe => 'Recette';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get preparation => 'Préparation';
+
+  @override
+  String get baking => 'Cuisson';
+
+  @override
+  String get instructions => 'Instructions';
   String get product_details => 'Détails du produit';
 
   @override
@@ -153,6 +199,58 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ingredients => 'Ingrédients';
 
   @override
+  String get noIngredients => 'Aucun ingrédient';
+
+  @override
+  String get noIngredientsAdded => 'Aucun ingrédients ajouté';
+
+  @override
+  String get barcode => 'Code-barres';
+
+  @override
+  String get addIngredient => 'Ajouter un ingrédient';
+
+  @override
+  String get addIngredientManual => 'Ajouter manuellement';
+
+  @override
+  String get addIngredientSearch => 'Ajouter via recherche';
+
+  @override
+  String get nameIngredient => 'Nom de l\'ingrédient';
+
+  @override
+  String get hintIngredient => 'Ex : Tomate';
+
+  @override
+  String get updatedRecipe => 'Recette mise à jour !';
+
+  @override
+  String get addedRecipe => 'Recette ajoutée !';
+
+  @override
+  String get updateRecipe => 'Mettre à jour la recette';
+
+  @override
+  String get addRecipe => 'Ajouter une recette';
+
+  @override
+  String get nameRecipe => 'Nom de la recette';
+
+  @override
+  String get enterName => 'Entrez un nom';
+
+  @override
+  String get timePreparaing => 'Temps de préparation (min)';
+
+  @override
+  String get timeBaking => 'Temps de cuisson (min)';
+
+  @override
+  String get enterInstructions => 'Veuillez entrer les instructions';
+
+  @override
+  String get update => 'Mettreà jour';
   String get nova_group => 'Groupe NOVA';
 
   @override

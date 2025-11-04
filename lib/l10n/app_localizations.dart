@@ -323,6 +323,101 @@ abstract class AppLocalizations {
   /// **'Rename the list'**
   String get rename;
 
+  /// No description provided for @recipe_page.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipe_page;
+
+  /// No description provided for @delete_recipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the recipe'**
+  String get delete_recipe;
+
+  /// No description provided for @deleteRecipeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this recipe'**
+  String get deleteRecipeConfirm;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @invalidID.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid ID'**
+  String get invalidID;
+
+  /// No description provided for @recipeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe deleted !'**
+  String get recipeDeleted;
+
+  /// No description provided for @myRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'My recipes'**
+  String get myRecipes;
+
+  /// No description provided for @showMyRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my recipes'**
+  String get showMyRecipes;
+
+  /// No description provided for @allRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all recipes'**
+  String get allRecipes;
+
+  /// No description provided for @noRecipeFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipe founded.'**
+  String get noRecipeFound;
+
+  /// No description provided for @noTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No title'**
+  String get noTitle;
+
+  /// No description provided for @recipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe'**
+  String get recipe;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @preparation.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparation'**
+  String get preparation;
+
+  /// No description provided for @baking.
+  ///
+  /// In en, this message translates to:
+  /// **'Baking'**
+  String get baking;
+
+  /// No description provided for @instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructions'**
+  String get instructions;
   /// No description provided for @product_details.
   ///
   /// In en, this message translates to:
@@ -383,6 +478,113 @@ abstract class AppLocalizations {
   /// **'Ingredients'**
   String get ingredients;
 
+  /// No description provided for @noIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'No ingrédient'**
+  String get noIngredients;
+
+  /// No description provided for @noIngredientsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'No ingrédient added'**
+  String get noIngredientsAdded;
+
+  /// No description provided for @barcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode'**
+  String get barcode;
+
+  /// No description provided for @addIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an ingredient'**
+  String get addIngredient;
+
+  /// No description provided for @addIngredientManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient manually'**
+  String get addIngredientManual;
+
+  /// No description provided for @addIngredientSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient by searching'**
+  String get addIngredientSearch;
+
+  /// No description provided for @nameIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the ingredient'**
+  String get nameIngredient;
+
+  /// No description provided for @hintIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex : Tomato'**
+  String get hintIngredient;
+
+  /// No description provided for @updatedRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe updated successfully'**
+  String get updatedRecipe;
+
+  /// No description provided for @addedRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe added successfully'**
+  String get addedRecipe;
+
+  /// No description provided for @updateRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Update the recipe'**
+  String get updateRecipe;
+
+  /// No description provided for @addRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a recipe'**
+  String get addRecipe;
+
+  /// No description provided for @nameRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the recipe'**
+  String get nameRecipe;
+
+  /// No description provided for @enterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get enterName;
+
+  /// No description provided for @timePreparaing.
+  ///
+  /// In en, this message translates to:
+  /// **'Time of preparation (min)'**
+  String get timePreparaing;
+
+  /// No description provided for @timeBaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Time of baking(min)'**
+  String get timeBaking;
+
+  /// No description provided for @enterInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter some instructions'**
+  String get enterInstructions;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
   /// No description provided for @nova_group.
   ///
   /// In en, this message translates to:

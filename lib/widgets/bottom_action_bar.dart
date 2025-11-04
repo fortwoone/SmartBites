@@ -32,6 +32,13 @@ class BottomActionBar extends StatelessWidget {
                                 }
                             },
                         ),
+                        IconButton(
+                            tooltip: loc.recipe_page,
+                            icon: Image.asset(
+                                'lib/ressources/cuisine_icon.png'
+                            ),
+                            onPressed: () => Navigator.pushNamed(context, '/recipe'),
+                        ),
                     ],
                 ),
             ),
