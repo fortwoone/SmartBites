@@ -41,6 +41,8 @@ flutter:
 
   assets:
     - lib/ressources/
+    - lib/ressources/nova/
+    - lib/ressources/nutriscore/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
