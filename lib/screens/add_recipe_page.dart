@@ -246,7 +246,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                           const SizedBox(height: 12),
                           Row(
                               children: [
-                                  Expanded(child: TextFormField(controller: _timePreparationController, decoration: _inputDecoration(loc.timePreparaing), keyboardType: TextInputType.number)),
+                                  Expanded(child: TextFormField(controller: _timePreparationController, decoration: _inputDecoration(loc.timePreparing), keyboardType: TextInputType.number)),
                                   const SizedBox(width: 12),
                                   Expanded(child: TextFormField(controller: _timeBakingController, decoration: _inputDecoration(loc.timeBaking), keyboardType: TextInputType.number)),
                               ],
