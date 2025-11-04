@@ -123,151 +123,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rename => 'Rename the list';
 
   @override
-  String get recipe_page => 'Recipes';
+  String get profile => 'Profile';
 
   @override
-  String get delete_recipe => 'Delete the recipe';
+  String get change_language => 'Change language';
 
   @override
-  String get deleteRecipeConfirm => 'Are you sure you want to delete this recipe';
+  String get take_photo => 'Take a photo';
 
   @override
-  String get delete => 'Delete';
+  String get choose_from_gallery => 'Choose from gallery';
 
   @override
-  String get invalidID => 'invalid ID';
+  String get apply => 'Apply';
 
   @override
-  String get recipeDeleted => 'Recipe deleted !';
+  String get change_password => 'Change password';
 
   @override
-  String get myRecipes => 'My recipes';
+  String get current_password => 'Current password';
 
   @override
-  String get showMyRecipes => 'Show my recipes';
+  String get new_password => 'New password';
 
   @override
-  String get allRecipes => 'Show all recipes';
+  String get confirm_new_password => 'Confirm new password';
 
   @override
-  String get noRecipeFound => 'No recipe founded.';
+  String get fields_required => 'All fields are required';
 
   @override
-  String get noTitle => 'No title';
+  String get passwords_mismatch => 'Passwords do not match';
 
   @override
-  String get recipe => 'Recipe';
+  String get password_updated => 'Password updated. Please log in again.';
 
   @override
-  String get description => 'Description';
+  String get photo_update_success => 'Profile photo updated successfully';
 
   @override
-  String get preparation => 'Preparation';
+  String get change_photo_title => 'Change profile photo';
 
   @override
-  String get baking => 'Baking';
+  String get edit_name_title => 'Edit name';
 
   @override
-  String get instructions => 'Instructions';
-  String get product_details => 'Product Details';
+  String get edit_name_label => 'Name';
 
   @override
-  String get energy_kcal_100g => 'Energy';
+  String get name_updated => 'Name updated';
 
   @override
-  String get fat_100g => 'Fat';
+  String get edit_name_tile_title => 'Edit name';
 
   @override
-  String get saturated_fat_100g => 'Saturated Fat';
+  String get edit_name_tile_subtitle => 'Update your display name';
 
   @override
-  String get carbohydrates_100g => 'Carbohydrates';
+  String get history_subtitle => 'View your previous shopping lists';
 
   @override
-  String get sugars_100g => 'Sugars';
+  String get logout_subtitle => 'Sign out of your account';
 
   @override
-  String get fiber_100g => 'Fiber';
+  String get change_password_subtitle => 'Update your password';
 
   @override
-  String get proteins_100g => 'Proteins';
+  String get load_user_error => 'Failed to load user data';
 
   @override
-  String get salt_100g => 'Salt';
+  String get avatar_upload_failed => 'Failed to upload avatar';
 
   @override
-  String get ingredients => 'Ingredients';
+  String get avatar_pick_failed => 'Failed to pick image';
 
   @override
-  String get noIngredients => 'No ingrédient';
+  String get name_update_failed => 'Failed to update name';
 
   @override
-  String get noIngredientsAdded => 'No ingrédient added';
+  String get password_update_failed => 'Failed to update password';
 
   @override
-  String get barcode => 'Barcode';
+  String get user_not_authenticated => 'User not authenticated';
 
   @override
-  String get addIngredient => 'Add an ingredient';
+  String get retry => 'Retry';
 
   @override
-  String get addIngredientManual => 'Add ingredient manually';
+  String get ok => 'OK';
 
   @override
-  String get addIngredientSearch => 'Add ingredient by searching';
-
-  @override
-  String get nameIngredient => 'Name of the ingredient';
-
-  @override
-  String get hintIngredient => 'Ex : Tomato';
-
-  @override
-  String get updatedRecipe => 'Recipe updated successfully';
-
-  @override
-  String get addedRecipe => 'Recipe added successfully';
-
-  @override
-  String get updateRecipe => 'Update the recipe';
-
-  @override
-  String get addRecipe => 'Add a recipe';
-
-  @override
-  String get nameRecipe => 'Name of the recipe';
-
-  @override
-  String get enterName => 'Enter a name';
-
-  @override
-  String get timePreparaing => 'Time of preparation (min)';
-
-  @override
-  String get timeBaking => 'Time of baking(min)';
-
-  @override
-  String get enterInstructions => 'Please enter some instructions';
-
-  @override
-  String get update => 'Update';
-  String get nova_group => 'NOVA Group';
-
-  @override
-  String get nutritional_intake => 'Nutritional Intake';
-
-  @override
-  String get ni_units => 'per 100g / 100ml';
-
-  @override
-  String get unknown_brand => 'Unknown brand';
-
-  @override
-  String get no_ingredient_data => 'No available information about ingredients.';
-
-  @override
-  String get no_nutritional_data => 'No available information about nutritional intake.';
-
-  @override
-  String get unnamed_product => 'No Name Available';
+  String get generic_error => 'An error occurred';
 }

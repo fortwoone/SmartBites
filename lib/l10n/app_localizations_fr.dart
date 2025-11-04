@@ -123,151 +123,95 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rename => 'Renommer la liste';
 
   @override
-  String get recipe_page => 'Recettes';
+  String get profile => 'Profil';
 
   @override
-  String get delete_recipe => 'Supprimer la recette';
+  String get change_language => 'Changer la langue';
 
   @override
-  String get deleteRecipeConfirm => 'Êtes-vous sûr de vouloir supprimer cette recette ?';
+  String get take_photo => 'Prendre une photo';
 
   @override
-  String get delete => 'Supprimer';
+  String get choose_from_gallery => 'Choisir depuis la galerie';
 
   @override
-  String get invalidID => 'ID invalide';
+  String get apply => 'Appliquer';
 
   @override
-  String get recipeDeleted => 'Recette supprimée !';
+  String get change_password => 'Changer le mot de passe';
 
   @override
-  String get myRecipes => 'Mes recettes ';
+  String get current_password => 'Mot de passe actuel';
 
   @override
-  String get showMyRecipes => 'Afficher mes recettes ';
+  String get new_password => 'Nouveau mot de passe';
 
   @override
-  String get allRecipes => 'Afficher toutes les recettes';
+  String get confirm_new_password => 'Confirmer le nouveau mot de passe';
 
   @override
-  String get noRecipeFound => 'Aucune recette trouvée.';
+  String get fields_required => 'Tous les champs sont requis';
 
   @override
-  String get noTitle => 'Sans titre';
+  String get passwords_mismatch => 'Les mots de passe ne correspondent pas';
 
   @override
-  String get recipe => 'Recette';
+  String get password_updated => 'Mot de passe mis à jour. Veuillez vous reconnecter.';
 
   @override
-  String get description => 'Description';
+  String get photo_update_success => 'Photo de profil mise à jour avec succès';
 
   @override
-  String get preparation => 'Préparation';
+  String get change_photo_title => 'Changer la photo de profil';
 
   @override
-  String get baking => 'Cuisson';
+  String get edit_name_title => 'Modifier votre nom';
 
   @override
-  String get instructions => 'Instructions';
-  String get product_details => 'Détails du produit';
+  String get edit_name_label => 'Nom';
 
   @override
-  String get energy_kcal_100g => 'Énergie';
+  String get name_updated => 'Nom mis à jour';
 
   @override
-  String get fat_100g => 'Matières grasses';
+  String get edit_name_tile_title => 'Modifier votre nom';
 
   @override
-  String get saturated_fat_100g => 'Acides gras saturés';
+  String get edit_name_tile_subtitle => 'Mettre à jour votre nom';
 
   @override
-  String get carbohydrates_100g => 'Glucides';
+  String get history_subtitle => 'Consultez vos anciennes listes de courses';
 
   @override
-  String get sugars_100g => 'Sucres';
+  String get logout_subtitle => 'Se déconnecter de votre compte';
 
   @override
-  String get fiber_100g => 'Fibres alimentaires';
+  String get change_password_subtitle => 'Mettre à jour votre mot de passe';
 
   @override
-  String get proteins_100g => 'Protéines';
+  String get load_user_error => 'Échec du chargement des données utilisateur';
 
   @override
-  String get salt_100g => 'Sel';
+  String get avatar_upload_failed => "Échec de l'envoi de la photo";
 
   @override
-  String get ingredients => 'Ingrédients';
+  String get avatar_pick_failed => "Échec de la sélection de l'image";
 
   @override
-  String get noIngredients => 'Aucun ingrédient';
+  String get name_update_failed => "Échec de la mise à jour du nom";
 
   @override
-  String get noIngredientsAdded => 'Aucun ingrédients ajouté';
+  String get password_update_failed => "Échec de la mise à jour du mot de passe";
 
   @override
-  String get barcode => 'Code-barres';
+  String get user_not_authenticated => 'Utilisateur non authentifié';
 
   @override
-  String get addIngredient => 'Ajouter un ingrédient';
+  String get retry => 'Réessayer';
 
   @override
-  String get addIngredientManual => 'Ajouter manuellement';
+  String get ok => 'OK';
 
   @override
-  String get addIngredientSearch => 'Ajouter via recherche';
-
-  @override
-  String get nameIngredient => 'Nom de l\'ingrédient';
-
-  @override
-  String get hintIngredient => 'Ex : Tomate';
-
-  @override
-  String get updatedRecipe => 'Recette mise à jour !';
-
-  @override
-  String get addedRecipe => 'Recette ajoutée !';
-
-  @override
-  String get updateRecipe => 'Mettre à jour la recette';
-
-  @override
-  String get addRecipe => 'Ajouter une recette';
-
-  @override
-  String get nameRecipe => 'Nom de la recette';
-
-  @override
-  String get enterName => 'Entrez un nom';
-
-  @override
-  String get timePreparaing => 'Temps de préparation (min)';
-
-  @override
-  String get timeBaking => 'Temps de cuisson (min)';
-
-  @override
-  String get enterInstructions => 'Veuillez entrer les instructions';
-
-  @override
-  String get update => 'Mettreà jour';
-  String get nova_group => 'Groupe NOVA';
-
-  @override
-  String get nutritional_intake => 'Tableau nutritionnel';
-
-  @override
-  String get ni_units => 'pour 100g / 100ml';
-
-  @override
-  String get unknown_brand => 'Marque inconnue';
-
-  @override
-  String get no_ingredient_data => 'Pas d\'information sur les ingrédients.';
-
-  @override
-  String get no_nutritional_data => 'Pas d\'information sur l\'apport nutritionnel.';
-
-  @override
-  String get unnamed_product => 'Pas de nom';
+  String get generic_error => "Une erreur s'est produite";
 }

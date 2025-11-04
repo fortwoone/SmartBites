@@ -323,309 +323,191 @@ abstract class AppLocalizations {
   /// **'Rename the list'**
   String get rename;
 
-  /// No description provided for @recipe_page.
+  /// No description provided for @profile.
   ///
   /// In en, this message translates to:
-  /// **'Recipes'**
-  String get recipe_page;
+  /// **'Profile'**
+  String get profile;
 
-  /// No description provided for @delete_recipe.
+  /// No description provided for @change_language.
   ///
   /// In en, this message translates to:
-  /// **'Delete the recipe'**
-  String get delete_recipe;
+  /// **'Change language'**
+  String get change_language;
 
-  /// No description provided for @deleteRecipeConfirm.
+  /// No description provided for @take_photo.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete this recipe'**
-  String get deleteRecipeConfirm;
+  /// **'Take a photo'**
+  String get take_photo;
 
-  /// No description provided for @delete.
+  /// No description provided for @choose_from_gallery.
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
+  /// **'Choose from gallery'**
+  String get choose_from_gallery;
 
-  /// No description provided for @invalidID.
+  /// No description provided for @apply.
   ///
   /// In en, this message translates to:
-  /// **'invalid ID'**
-  String get invalidID;
+  /// **'Apply'**
+  String get apply;
 
-  /// No description provided for @recipeDeleted.
+  /// No description provided for @change_password.
   ///
   /// In en, this message translates to:
-  /// **'Recipe deleted !'**
-  String get recipeDeleted;
+  /// **'Change password'**
+  String get change_password;
 
-  /// No description provided for @myRecipes.
+  /// No description provided for @current_password.
   ///
   /// In en, this message translates to:
-  /// **'My recipes'**
-  String get myRecipes;
+  /// **'Current password'**
+  String get current_password;
 
-  /// No description provided for @showMyRecipes.
+  /// No description provided for @new_password.
   ///
   /// In en, this message translates to:
-  /// **'Show my recipes'**
-  String get showMyRecipes;
+  /// **'New password'**
+  String get new_password;
 
-  /// No description provided for @allRecipes.
+  /// No description provided for @confirm_new_password.
   ///
   /// In en, this message translates to:
-  /// **'Show all recipes'**
-  String get allRecipes;
+  /// **'Confirm new password'**
+  String get confirm_new_password;
 
-  /// No description provided for @noRecipeFound.
+  /// No description provided for @fields_required.
   ///
   /// In en, this message translates to:
-  /// **'No recipe founded.'**
-  String get noRecipeFound;
+  /// **'All fields are required'**
+  String get fields_required;
 
-  /// No description provided for @noTitle.
+  /// No description provided for @passwords_mismatch.
   ///
   /// In en, this message translates to:
-  /// **'No title'**
-  String get noTitle;
+  /// **'Passwords do not match'**
+  String get passwords_mismatch;
 
-  /// No description provided for @recipe.
+  /// No description provided for @password_updated.
   ///
   /// In en, this message translates to:
-  /// **'Recipe'**
-  String get recipe;
+  /// **'Password updated. Please log in again.'**
+  String get password_updated;
 
-  /// No description provided for @description.
+  /// No description provided for @photo_update_success.
   ///
   /// In en, this message translates to:
-  /// **'Description'**
-  String get description;
+  /// **'Profile photo updated successfully'**
+  String get photo_update_success;
 
-  /// No description provided for @preparation.
+  /// No description provided for @change_photo_title.
   ///
   /// In en, this message translates to:
-  /// **'Preparation'**
-  String get preparation;
+  /// **'Change profile photo'**
+  String get change_photo_title;
 
-  /// No description provided for @baking.
+  /// No description provided for @edit_name_title.
   ///
   /// In en, this message translates to:
-  /// **'Baking'**
-  String get baking;
+  /// **'Edit name'**
+  String get edit_name_title;
 
-  /// No description provided for @instructions.
+  /// No description provided for @edit_name_label.
   ///
   /// In en, this message translates to:
-  /// **'Instructions'**
-  String get instructions;
-  /// No description provided for @product_details.
-  ///
-  /// In en, this message translates to:
-  /// **'Product Details'**
-  String get product_details;
+  /// **'Name'**
+  String get edit_name_label;
 
-  /// No description provided for @energy_kcal_100g.
+  /// No description provided for @name_updated.
   ///
   /// In en, this message translates to:
-  /// **'Energy'**
-  String get energy_kcal_100g;
+  /// **'Name updated'**
+  String get name_updated;
 
-  /// No description provided for @fat_100g.
+  /// No description provided for @edit_name_tile_title.
   ///
   /// In en, this message translates to:
-  /// **'Fat'**
-  String get fat_100g;
+  /// **'Edit name'**
+  String get edit_name_tile_title;
 
-  /// No description provided for @saturated_fat_100g.
+  /// No description provided for @edit_name_tile_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Saturated Fat'**
-  String get saturated_fat_100g;
+  /// **'Update your display name'**
+  String get edit_name_tile_subtitle;
 
-  /// No description provided for @carbohydrates_100g.
+  /// No description provided for @history_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Carbohydrates'**
-  String get carbohydrates_100g;
+  /// **'View your previous shopping lists'**
+  String get history_subtitle;
 
-  /// No description provided for @sugars_100g.
+  /// No description provided for @logout_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Sugars'**
-  String get sugars_100g;
+  /// **'Sign out of your account'**
+  String get logout_subtitle;
 
-  /// No description provided for @fiber_100g.
+  /// No description provided for @change_password_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Fiber'**
-  String get fiber_100g;
+  /// **'Update your password'**
+  String get change_password_subtitle;
 
-  /// No description provided for @proteins_100g.
+  /// No description provided for @load_user_error.
   ///
   /// In en, this message translates to:
-  /// **'Proteins'**
-  String get proteins_100g;
+  /// **'Failed to load user data'**
+  String get load_user_error;
 
-  /// No description provided for @salt_100g.
+  /// No description provided for @avatar_upload_failed.
   ///
   /// In en, this message translates to:
-  /// **'Salt'**
-  String get salt_100g;
+  /// **'Failed to upload avatar'**
+  String get avatar_upload_failed;
 
-  /// No description provided for @ingredients.
+  /// No description provided for @avatar_pick_failed.
   ///
   /// In en, this message translates to:
-  /// **'Ingredients'**
-  String get ingredients;
+  /// **'Failed to pick image'**
+  String get avatar_pick_failed;
 
-  /// No description provided for @noIngredients.
+  /// No description provided for @name_update_failed.
   ///
   /// In en, this message translates to:
-  /// **'No ingrédient'**
-  String get noIngredients;
+  /// **'Failed to update name'**
+  String get name_update_failed;
 
-  /// No description provided for @noIngredientsAdded.
+  /// No description provided for @password_update_failed.
   ///
   /// In en, this message translates to:
-  /// **'No ingrédient added'**
-  String get noIngredientsAdded;
+  /// **'Failed to update password'**
+  String get password_update_failed;
 
-  /// No description provided for @barcode.
+  /// No description provided for @user_not_authenticated.
   ///
   /// In en, this message translates to:
-  /// **'Barcode'**
-  String get barcode;
+  /// **'User not authenticated'**
+  String get user_not_authenticated;
 
-  /// No description provided for @addIngredient.
+  /// No description provided for @retry.
   ///
   /// In en, this message translates to:
-  /// **'Add an ingredient'**
-  String get addIngredient;
+  /// **'Retry'**
+  String get retry;
 
-  /// No description provided for @addIngredientManual.
+  /// No description provided for @ok.
   ///
   /// In en, this message translates to:
-  /// **'Add ingredient manually'**
-  String get addIngredientManual;
+  /// **'OK'**
+  String get ok;
 
-  /// No description provided for @addIngredientSearch.
+  /// No description provided for @generic_error.
   ///
   /// In en, this message translates to:
-  /// **'Add ingredient by searching'**
-  String get addIngredientSearch;
-
-  /// No description provided for @nameIngredient.
-  ///
-  /// In en, this message translates to:
-  /// **'Name of the ingredient'**
-  String get nameIngredient;
-
-  /// No description provided for @hintIngredient.
-  ///
-  /// In en, this message translates to:
-  /// **'Ex : Tomato'**
-  String get hintIngredient;
-
-  /// No description provided for @updatedRecipe.
-  ///
-  /// In en, this message translates to:
-  /// **'Recipe updated successfully'**
-  String get updatedRecipe;
-
-  /// No description provided for @addedRecipe.
-  ///
-  /// In en, this message translates to:
-  /// **'Recipe added successfully'**
-  String get addedRecipe;
-
-  /// No description provided for @updateRecipe.
-  ///
-  /// In en, this message translates to:
-  /// **'Update the recipe'**
-  String get updateRecipe;
-
-  /// No description provided for @addRecipe.
-  ///
-  /// In en, this message translates to:
-  /// **'Add a recipe'**
-  String get addRecipe;
-
-  /// No description provided for @nameRecipe.
-  ///
-  /// In en, this message translates to:
-  /// **'Name of the recipe'**
-  String get nameRecipe;
-
-  /// No description provided for @enterName.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a name'**
-  String get enterName;
-
-  /// No description provided for @timePreparaing.
-  ///
-  /// In en, this message translates to:
-  /// **'Time of preparation (min)'**
-  String get timePreparaing;
-
-  /// No description provided for @timeBaking.
-  ///
-  /// In en, this message translates to:
-  /// **'Time of baking(min)'**
-  String get timeBaking;
-
-  /// No description provided for @enterInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter some instructions'**
-  String get enterInstructions;
-
-  /// No description provided for @update.
-  ///
-  /// In en, this message translates to:
-  /// **'Update'**
-  String get update;
-  /// No description provided for @nova_group.
-  ///
-  /// In en, this message translates to:
-  /// **'NOVA Group'**
-  String get nova_group;
-
-  /// No description provided for @nutritional_intake.
-  ///
-  /// In en, this message translates to:
-  /// **'Nutritional Intake'**
-  String get nutritional_intake;
-
-  /// No description provided for @ni_units.
-  ///
-  /// In en, this message translates to:
-  /// **'per 100g / 100ml'**
-  String get ni_units;
-
-  /// No description provided for @unknown_brand.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown brand'**
-  String get unknown_brand;
-
-  /// No description provided for @no_ingredient_data.
-  ///
-  /// In en, this message translates to:
-  /// **'No available information about ingredients.'**
-  String get no_ingredient_data;
-
-  /// No description provided for @no_nutritional_data.
-  ///
-  /// In en, this message translates to:
-  /// **'No available information about nutritional intake.'**
-  String get no_nutritional_data;
-
-  /// No description provided for @unnamed_product.
-  ///
-  /// In en, this message translates to:
-  /// **'No Name Available'**
-  String get unnamed_product;
+  /// **'An error occurred'**
+  String get generic_error;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

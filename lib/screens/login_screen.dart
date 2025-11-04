@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:food/l10n/app_localizations.dart';
 import 'package:food/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'shopping_list.dart'; // your shopping list screen
 import 'register_screen.dart';
+
+
+// Palette pêche (définie localement dans ce fichier)
+const Color primaryPeach = Color(0xFFF6B092);
+const Color accentPeach = Color(0xFFF6CF92);
 
 class LoginScreen extends StatefulWidget {
     const LoginScreen({super.key});
@@ -63,11 +67,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                            Color(0xFFF6B092),
-                            Color(0xFFF6CF92),
-                        ],
-                    ),
-                ),
+                            primaryPeach,
+                            accentPeach,
+                         ],
+                     ),
+                 ),
                 child: Center(
                     child: SingleChildScrollView(
                         padding: const EdgeInsets.all(24.0),
@@ -106,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         prefixIcon: const Icon(Icons.email),
                                         filled: true,
-                                        fillColor: Colors.white.withOpacity(0.8),
+                                        fillColor: Colors.white.withAlpha(204), // ~0.8 * 255 = 204
                                         hintText: loc.email_hint,
                                     ),
                                 ),
@@ -128,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         prefixIcon: const Icon(Icons.lock),
                                         filled: true,
-                                        fillColor: Colors.white.withOpacity(0.8),
+                                        fillColor: Colors.white.withAlpha(204), // ~0.8 * 255 = 204
                                         hintText: loc.hint_passwd,
                                     ),
                                 ),
