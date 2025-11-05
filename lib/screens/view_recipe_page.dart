@@ -41,6 +41,10 @@ class ViewRecipePage extends StatelessWidget {
                         child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            '${loc.createdBy}: ${recipe['creator_name']}',
+                            style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Colors.black54),
+                          ),
                             Text(loc.description,
                             style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18)),
