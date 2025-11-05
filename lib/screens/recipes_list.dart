@@ -169,13 +169,25 @@ class _RecipeListPageState extends State<RecipeListPage> {
                   title: Text(recipe['name'] ?? 'Sans titre',
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                  child: Text(
-                      description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (recipe['creator_name'] != null && recipe['creator_name'].toString().isNotEmpty)
+                          Text(
+                            '${loc.createdBy}: ${recipe['creator_name']}',
+                            style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Colors.black54),
+                          ),
+                        const SizedBox(height: 4),
+                        Text(
+                          description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  ),
+
                   trailing: isMine
                   ? Row(
                       mainAxisSize: MainAxisSize.min,
@@ -190,15 +202,15 @@ class _RecipeListPageState extends State<RecipeListPage> {
                   )
                       : null,
                   onTap: () {
-                      if (isMine) {
-                         _openRecipeEditor(recipe);
-                      } else {
-                          Navigator.push(
-                         context,
-                          MaterialPageRoute(builder: (context) => ViewRecipePage(recipe: recipe)),
-                      );
-                      }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewRecipePage(recipe: recipe),
+                      ),
+                    );
                   },
+
+
                 ),
         );
         },

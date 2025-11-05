@@ -157,15 +157,29 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
     }
 
+    String _nameFromEmail(String? email) {
+        if (email == null || email.isEmpty) return 'Utilisateur';
+        final local = email.split('@').first;
+        final parts = local.replaceAll(RegExp(r'[._]+'), ' ').split(' ');
+        final titled = parts.map((p) {
+            if (p.isEmpty) return '';
+            return p[0].toUpperCase() + (p.length > 1 ? p.substring(1) : '');
+        }).where((s) => s.isNotEmpty).join(' ');
+        return titled.isNotEmpty ? titled : local;
+    }
+
     Future<void> _saveRecipe() async {
       final loc = AppLocalizations.of(context)!;
+      final client = Supabase.instance.client;
+      final user = client.auth.currentUser ?? client.auth.currentSession?.user;
+      final email = user?.email ?? '';
+      final displayName = user?.userMetadata?['display_name'] as String? ?? _nameFromEmail(email);
+
 
       if (!_formKey.currentState!.validate()) return;
         setState(() => _loading = true);
 
         final supabase = Supabase.instance.client;
-        final user = supabase.auth.currentUser;
-
         try {
             if (!_isEditing) {
                 await supabase.from('Recettes').insert({
@@ -176,6 +190,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     'instructions': _instructionsController.text.trim(),
                     'ingredients': _ingredients,
                     'user_id_creator': user?.id,
+                    'creator_name': displayName,
                 });
                 await _clearSavedInputs();
                 _nameController.clear();
