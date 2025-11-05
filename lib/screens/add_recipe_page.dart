@@ -171,7 +171,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                 await supabase.from('Recettes').insert({
                     'name': _nameController.text.trim(),
                     'description': _descriptionController.text.trim(),
-                    'time_preparation': int.tryParse(_timePreparationController.text) ?? 0,
+                    'time_preparation': int.tryParse(_timePreparationController.text) ?? 1,
                     'time_baking': int.tryParse(_timeBakingController.text) ?? 0,
                     'instructions': _instructionsController.text.trim(),
                     'ingredients': _ingredients,
