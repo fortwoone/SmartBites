@@ -70,11 +70,23 @@ class ViewRecipePage extends StatelessWidget {
         products: products,
       );
 
-      final inserted = await supabase
-          .from('shopping_list')
-          .insert(newList.toMap())
-          .select();
-      newList.id = inserted[0]['id'];
+      try {
+        final inserted = await supabase
+            .from('shopping_list')
+            .insert(newList.toMap())
+            .select();
+
+        print("Insertion réussie : $inserted");
+        newList.id = inserted[0]['id'];
+      } catch (e) {
+        print("❌ Erreur lors de l'insertion Supabase : $e");
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur lors de la création : $e")),
+        );
+        return;
+      }
+
 
       // Ajouter au cache (y compris les produits TEXT:)
       for (final ing in allIngredients) {
