@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../widgets/product_price_widget.dart';
+import '../widgets/grade_utils.dart';
 
 class ProductDetailPage extends StatelessWidget {
     final String barcode;
@@ -223,7 +224,7 @@ class ProductDetailPage extends StatelessWidget {
                         padding: const EdgeInsets.all(16.0),
                         children: [
                             _buildImage(product.imageURL),
-                            _buildInfoCard(context, product),
+                            _buildInfoCard(context, product, loc),
                             ProductPriceWidget(
                                 barcode: barcode,
                                 repository: repository,
