@@ -56,8 +56,8 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 cachedProducts[barcode] = CachedProduct.fromMap(result);
             }
             await _loadPrices();
-            setState(() => _isLoading = false);
         }
+        setState(() => _isLoading = false);
     }
 
     Future<void> _loadPrices() async {
@@ -181,8 +181,9 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     : Column(
                         children: [
                           Expanded(
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: widget.list.products.length,
+                              separatorBuilder: (context, index) => const Divider(height: 1),
                               itemBuilder: (context, index) {
                                 String barcode = widget.list.products[index];
                                 CachedProduct cached = cachedProducts[barcode]!;
