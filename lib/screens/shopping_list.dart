@@ -6,6 +6,7 @@ import "package:food/db_objects/shopping_lst.dart";
 import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_page.dart';
+import 'package:food/widgets/product_price_widget.dart';
 
 
 class ShoppingListDetail extends StatefulWidget {
@@ -184,6 +185,17 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                         : cached.en_name,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 16),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(cached.brands),
+                      const SizedBox(height: 4),
+                      ProductPriceWidget(
+                        barcode: barcode,
+                        compact: true,
+                      ),
+                    ],
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete_outline,
