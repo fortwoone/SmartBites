@@ -7,11 +7,12 @@ import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
+import 'package:food/repositories/openfoodfacts_repository.dart';
 
 
 class ShoppingListDetail extends StatefulWidget {
-  ShoppingList list;
-  User? user;
+  final ShoppingList list;
+  final User? user;
 
   ShoppingListDetail({super.key, required this.list, this.user});
 
@@ -22,6 +23,7 @@ class ShoppingListDetail extends StatefulWidget {
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
     bool _isLoading = true;
     Map<String, CachedProduct> cachedProducts = {};
+    Map<String, double> productPrices = {};
     final supabase = Supabase.instance.client;
 
     @override
@@ -53,9 +55,30 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         if (result != null) {
           cachedProducts[barcode] = CachedProduct.fromMap(result);
         }
-      }
+        await _loadPrices();
+        setState(() => _isLoading = false);
+    }
 
-      setState(() => _isLoading = false);
+    Future<void> _loadPrices() async {
+        final repository = OpenFoodFactsRepository();
+        for (String barcode in widget.list.products) {
+            try {
+                final price = await repository.getLatestPrice(barcode);
+                if (price != null && price.currency.toUpperCase() == 'EUR') {
+                    productPrices[barcode] = price.price;
+                }
+            } catch (e) {
+                // Ignore
+            }
+        }
+    }
+
+    double _calculateTotal() {
+        double total = 0.0;
+        for (var price in productPrices.values) {
+            total += price;
+        }
+        return total;
     }
 
     Future<bool?> askDeleteList(BuildContext context) async {
@@ -135,103 +158,129 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
           ),
           body: _isLoading
               ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: widget.list.products.length,
-            itemBuilder: (context, index) {
-              String barcode = widget.list.products[index];
-              CachedProduct cached = cachedProducts[barcode]!;
+              : (widget.list.products.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.shopping_cart_outlined, size: 72, color: Colors.grey[400]),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Votre panier est vide',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Ajoutez des produits en appuyant sur +',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: widget.list.products.length,
+                            itemBuilder: (context, index) {
+                              String barcode = widget.list.products[index];
+                              CachedProduct cached = cachedProducts[barcode]!;
 
-              // Déterminer si produit texte
-              bool isManual = barcode.startsWith("TEXT:");
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                elevation: 2,
-                child: ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: isManual
-                        ? cached.img_small_url.trim().isEmpty
-                        ? Container(
-                          width: 33,
-                          height: 33,
-                          child: const Icon(Icons.remove_shopping_cart,
-                              color: Color(0xFFFFCBA4)),
-                        ) : Image.network(
-                            cached.img_small_url,
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
-                          )
-                        : cached.img_small_url.trim().isEmpty
-                        ? Container(
-                          width: 33,
-                          height: 33,
-                          color: const Color(0xFFFFCBA4),
-                          child: const Icon(Icons.shopping_bag_outlined,
-                              color: Colors.white70),
-                        ) : Image.network(
-                              cached.img_small_url,
-                              width: 56,
-                              height: 56,
-                              fit: BoxFit.cover,
+                              return ListTile(
+                                leading: cached.img_small_url.trim().isEmpty
+                                    ? const SizedBox(width: 56, height: 56)
+                                    : Image.network(
+                                        cached.img_small_url,
+                                        width: 56,
+                                        height: 56,
+                                        fit: BoxFit.cover,
+                                      ),
+                                title: Text(
+                                  loc.localeName.startsWith('fr')
+                                      ? cached.fr_name
+                                      : cached.en_name,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(cached.brands),
+                                    const SizedBox(height: 4),
+                                    ProductPriceWidget(
+                                      barcode: barcode,
+                                      compact: true,
+                                    ),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    final result = await askDeleteProduct(context);
+                                    if (result == true) {
+                                      List<String> updated = List.from(widget.list.products);
+                                      updated.removeAt(index);
+                                      await supabase
+                                          .from("shopping_list")
+                                          .update({"products": updated})
+                                          .eq("id", widget.list.id!);
+                                      setState(() {
+                                        widget.list.products = updated;
+                                        cachedProducts.remove(barcode);
+                                        productPrices.remove(barcode);
+                                      });
+                                    }
+                                  },
+                                ),
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductDetailPage(
+                                      barcode: barcode,
+                                      inAddMode: false,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SafeArea(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(158, 158, 158, 0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, -3),
+                                ),
+                              ],
                             ),
-                  ),
-                  title: Text(
-                    loc.localeName.startsWith('fr')
-                        ? cached.fr_name
-                        : cached.en_name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 16),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(cached.brands),
-                      const SizedBox(height: 4),
-                      ProductPriceWidget(
-                        barcode: barcode,
-                        compact: true,
-                      ),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline,
-                        color: Color(0xFFFF9671)),
-                    onPressed: () async {
-                      final result = await askDeleteProduct(context);
-                      if (result == true) {
-                        List<String> updated =
-                        List.from(widget.list.products);
-                        updated.removeAt(index);
-                        await supabase
-                            .from("shopping_list")
-                            .update({"products": updated})
-                            .eq("id", widget.list.id!);
-                        setState(() {
-                          widget.list.products = updated;
-                          cachedProducts.remove(barcode);
-                        });
-                      }
-                    },
-                  ),
-                  onTap: isManual
-                      ? null
-                      : () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailPage(
-                        barcode: barcode,
-                        inAddMode: false,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 80.0, 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total (EUR):',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${_calculateTotal().toStringAsFixed(2)} €',
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
           floatingActionButton: FloatingActionButton(
             backgroundColor: const Color(0xFFFFB899),
             child: const Icon(Icons.add, color: Colors.white),
@@ -259,6 +308,16 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     .from("shopping_list")
                     .update({"products": widget.list.products})
                     .eq("id", widget.list.id!);
+                final repository = OpenFoodFactsRepository();
+                try {
+                  final price = await repository.getLatestPrice(result.barcode);
+                  if (price != null && price.currency.toUpperCase() == 'EUR') {
+                    productPrices[result.barcode] = price.price;
+                  }
+                } catch (e) {
+                  // Ignore
+                }
+
                 setState(() => cachedProducts[cached.barcode] = cached);
               }
             },
