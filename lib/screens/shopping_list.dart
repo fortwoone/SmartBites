@@ -7,6 +7,7 @@ import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
+import 'package:food/repositories/openfoodfacts_repository.dart';
 
 
 class ShoppingListDetail extends StatefulWidget {
@@ -22,6 +23,7 @@ class ShoppingListDetail extends StatefulWidget {
 class _ShoppingListDetailState extends State<ShoppingListDetail> {
     bool _isLoading = true;
     Map<String, CachedProduct> cachedProducts = {};
+    Map<String, double> productPrices = {};
     final supabase = Supabase.instance.client;
 
     @override
@@ -40,7 +42,30 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 cachedProducts[barcode] = CachedProduct.fromMap(result);
             }
         }
+        await _loadPrices();
         setState(() => _isLoading = false);
+    }
+
+    Future<void> _loadPrices() async {
+        final repository = OpenFoodFactsRepository();
+        for (String barcode in widget.list.products) {
+            try {
+                final price = await repository.getLatestPrice(barcode);
+                if (price != null && price.currency.toUpperCase() == 'EUR') {
+                    productPrices[barcode] = price.price;
+                }
+            } catch (e) {
+                // Ignore
+            }
+        }
+    }
+
+    double _calculateTotal() {
+        double total = 0.0;
+        for (var price in productPrices.values) {
+            total += price;
+        }
+        return total;
     }
 
     Future<bool?> askDeleteList(BuildContext context) async {
@@ -124,71 +149,112 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
               ),
             ),
           ),
-          body: Center(
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : ListView.builder(
-              itemCount: widget.list.products.length,
-              itemBuilder: (context, index) {
-                String barcode = widget.list.products[index];
-                CachedProduct cached = cachedProducts[barcode]!;
+          body: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: widget.list.products.length,
+                        itemBuilder: (context, index) {
+                          String barcode = widget.list.products[index];
+                          CachedProduct cached = cachedProducts[barcode]!;
 
-                return ListTile(
-                  leading: cached.img_small_url.trim().isEmpty
-                      ? const SizedBox(width: 56, height: 56)
-                      : Image.network(
-                    cached.img_small_url,
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(
-                    loc.localeName.startsWith('fr')
-                        ? cached.fr_name
-                        : cached.en_name,
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(cached.brands),
-                      const SizedBox(height: 4),
-                      ProductPriceWidget(
-                        barcode: barcode,
-                        compact: true,
-                      ),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () async {
-                      final result = await askDeleteProduct(context);
-                      if (result == true) {
-                        List<String> updated = List.from(widget.list.products);
-                        updated.removeAt(index);
-                        await supabase
-                            .from("shopping_list")
-                            .update({"products": updated})
-                            .eq("id", widget.list.id!);
-                        setState(() {
-                          widget.list.products = updated;
-                          cachedProducts.remove(barcode);
-                        });
-                      }
-                    },
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailPage(
-                        barcode: barcode,
-                        inAddMode: false,
+                          return ListTile(
+                            leading: cached.img_small_url.trim().isEmpty
+                                ? const SizedBox(width: 56, height: 56)
+                                : Image.network(
+                                    cached.img_small_url,
+                                    width: 56,
+                                    height: 56,
+                                    fit: BoxFit.cover,
+                                  ),
+                            title: Text(
+                              loc.localeName.startsWith('fr')
+                                  ? cached.fr_name
+                                  : cached.en_name,
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(cached.brands),
+                                const SizedBox(height: 4),
+                                ProductPriceWidget(
+                                  barcode: barcode,
+                                  compact: true,
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                final result = await askDeleteProduct(context);
+                                if (result == true) {
+                                  List<String> updated = List.from(widget.list.products);
+                                  updated.removeAt(index);
+                                  await supabase
+                                      .from("shopping_list")
+                                      .update({"products": updated})
+                                      .eq("id", widget.list.id!);
+                                  setState(() {
+                                    widget.list.products = updated;
+                                    cachedProducts.remove(barcode);
+                                    productPrices.remove(barcode);
+                                  });
+                                }
+                              },
+                            ),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailPage(
+                                  barcode: barcode,
+                                  inAddMode: false,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
+                    SafeArea(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, -3),
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 80.0, 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Total (EUR):',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '${_calculateTotal().toStringAsFixed(2)} €',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () async {
@@ -215,6 +281,16 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     .from("shopping_list")
                     .update({"products": widget.list.products})
                     .eq("id", widget.list.id!);
+                final repository = OpenFoodFactsRepository();
+                try {
+                  final price = await repository.getLatestPrice(result.barcode);
+                  if (price != null && price.currency.toUpperCase() == 'EUR') {
+                    productPrices[result.barcode] = price.price;
+                  }
+                } catch (e) {
+                  // Ignore
+                }
+
                 setState(() => cachedProducts[cached.barcode] = cached);
               }
             },
