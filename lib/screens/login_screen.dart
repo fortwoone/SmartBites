@@ -44,17 +44,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
             } else {
-                if (!context.mounted){
-                    return;
-                }
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
                 );
             }
+        } on AuthException catch (e) {
+            // Erreur spécifique renvoyée par Supabase
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                        // Message d’erreur personnalisé et clair
+                        '${AppLocalizations.of(context)!.login_failed}: ${AppLocalizations.of(context)!.unexpected_error}',
+                    ),
+                    backgroundColor: Colors.redAccent,
+                ),
+            );
+        } catch (e) {
+            // Cas d’erreur générique
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                        AppLocalizations.of(context)!.unexpected_error,
+                    ),
+                    backgroundColor: Colors.redAccent,
+                ),
+            );
         } finally {
             if (mounted) setState(() => isLoading = false);
         }
     }
+
 
     @override
     Widget build(BuildContext context) {

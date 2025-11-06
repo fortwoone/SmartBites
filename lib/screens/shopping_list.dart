@@ -31,16 +31,31 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
     }
 
     Future<void> _getCachedProductData() async {
-        for (String barcode in widget.list.products) {
-            final result = await supabase.rpc(
-                "get_cache_entry",
-                params: {"p_barcode": barcode},
-            );
-            if (result != null) {
-                cachedProducts[barcode] = CachedProduct.fromMap(result);
-            }
+      for (String barcode in widget.list.products) {
+        // Si c’est un produit texte (ajout manuel), on crée une "fausse" entrée
+        if (barcode.startsWith("TEXT:")) {
+          final name = barcode.substring(5);
+          cachedProducts[barcode] = CachedProduct(
+            barcode: barcode,
+            img_small_url: "",
+            brands: "",
+            fr_name: name,
+            en_name: name,
+          );
+          continue;
         }
-        setState(() => _isLoading = false);
+
+        // Sinon, récupération habituelle depuis Supabase
+        final result = await supabase.rpc(
+          "get_cache_entry",
+          params: {"p_barcode": barcode},
+        );
+        if (result != null) {
+          cachedProducts[barcode] = CachedProduct.fromMap(result);
+        }
+      }
+
+      setState(() => _isLoading = false);
     }
 
     Future<bool?> askDeleteList(BuildContext context) async {
@@ -99,53 +114,77 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         final loc = AppLocalizations.of(context)!;
 
         return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FA),
           appBar: AppBar(
-            title: Text(loc.list + widget.list.name),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () async {
-                  final result = await askDeleteList(context);
-                  if (result == true) {
-                    Navigator.pop(context, true);
-                  }
-                },
-              ),
-            ],
+            title: Text("${loc.list} ${widget.list.name}"),
+            elevation: 0,
+            centerTitle: true,
+            iconTheme: const IconThemeData(color: Colors.white),
             flexibleSpace: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                   colors: [
-                    Color.fromARGB(255, 0x10, 0xCA, 0x2C),
-                    Color.fromARGB(255, 0x32, 0xD2, 0x72),
+                    Color(0xFF10CA2C),
+                    Color(0xFF32D272),
                   ],
                 ),
               ),
             ),
           ),
-          body: Center(
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : ListView.builder(
-              itemCount: widget.list.products.length,
-              itemBuilder: (context, index) {
-                String barcode = widget.list.products[index];
-                CachedProduct cached = cachedProducts[barcode]!;
+          body: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: widget.list.products.length,
+            itemBuilder: (context, index) {
+              String barcode = widget.list.products[index];
+              CachedProduct cached = cachedProducts[barcode]!;
 
-                return ListTile(
-                  leading: cached.img_small_url.trim().isEmpty
-                      ? const SizedBox(width: 56, height: 56)
-                      : Image.network(
-                    cached.img_small_url,
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.cover,
+              // Déterminer si produit texte
+              bool isManual = barcode.startsWith("TEXT:");
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 6),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                elevation: 2,
+                child: ListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: isManual
+                        ? cached.img_small_url.trim().isEmpty
+                        ? Container(
+                          width: 33,
+                          height: 33,
+                          child: const Icon(Icons.remove_shopping_cart,
+                              color: Color(0xFFFFCBA4)),
+                        ) : Image.network(
+                            cached.img_small_url,
+                            width: 56,
+                            height: 56,
+                            fit: BoxFit.cover,
+                          )
+                        : cached.img_small_url.trim().isEmpty
+                        ? Container(
+                          width: 33,
+                          height: 33,
+                          color: const Color(0xFFFFCBA4),
+                          child: const Icon(Icons.shopping_bag_outlined,
+                              color: Colors.white70),
+                        ) : Image.network(
+                              cached.img_small_url,
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                            ),
                   ),
                   title: Text(
                     loc.localeName.startsWith('fr')
                         ? cached.fr_name
                         : cached.en_name,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 16),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,11 +198,13 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     ],
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete),
+                    icon: const Icon(Icons.delete_outline,
+                        color: Color(0xFFFF9671)),
                     onPressed: () async {
                       final result = await askDeleteProduct(context);
                       if (result == true) {
-                        List<String> updated = List.from(widget.list.products);
+                        List<String> updated =
+                        List.from(widget.list.products);
                         updated.removeAt(index);
                         await supabase
                             .from("shopping_list")
@@ -176,7 +217,9 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                       }
                     },
                   ),
-                  onTap: () => Navigator.push(
+                  onTap: isManual
+                      ? null
+                      : () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProductDetailPage(
@@ -185,12 +228,13 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
           floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+            backgroundColor: const Color(0xFFFFB899),
+            child: const Icon(Icons.add, color: Colors.white),
             onPressed: () async {
               final result = await askAddProduct(context);
               if (result != null) {
@@ -220,6 +264,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
             },
           ),
         );
+
     }
 }
 
@@ -370,53 +415,76 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
           },
           itemBuilder: (context, index) {
             final lst = existing_lists[index];
-            return ListTile(
+            return Container(
               key: ValueKey(lst.id),
-              title: Text(lst.name,
-                  style: const TextStyle(fontSize: 20)),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    tooltip: loc.rename,
-                    onPressed: () async {
-                      final newName =
-                      await _askRenameList(context, lst.name);
-                      if (newName != null && newName.isNotEmpty) {
-                        if (!_listNameAvailableForUser(newName)) {
-                          await showNameTaken(context);
-                          return;
-                        }
-                        await supabase
-                            .from('shopping_list')
-                            .update({'name': newName})
-                            .eq('id', lst.id!);
-                        setState(() => lst.name = newName);
-                      }
-                    },
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFCB992), // peach clair
+                    Color(0xFFFCA87E), // peach plus intense
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(2, 2),
                   ),
-                  const Icon(Icons.drag_handle),
                 ],
               ),
-              onTap: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ShoppingListDetail(list: lst, user: user),
+              child: ListTile(
+                title: Text(
+                  lst.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
-                );
-                if (result == true) {
-                  await supabase
-                      .from("shopping_list")
-                      .delete()
-                      .eq("id", lst.id!);
-                  setState(() => existing_lists.removeAt(index));
-                }
-              },
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.white),
+                      tooltip: loc.rename,
+                      onPressed: () async {
+                        final newName = await _askRenameList(context, lst.name);
+                        if (newName != null && newName.isNotEmpty) {
+                          if (!_listNameAvailableForUser(newName)) {
+                            await showNameTaken(context);
+                            return;
+                          }
+                          await supabase
+                              .from('shopping_list')
+                              .update({'name': newName})
+                              .eq('id', lst.id!);
+                          setState(() => lst.name = newName);
+                        }
+                      },
+                    ),
+                    const Icon(Icons.drag_handle, color: Colors.white),
+                  ],
+                ),
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingListDetail(list: lst, user: user),
+                    ),
+                  );
+                  if (result == true) {
+                    await supabase.from("shopping_list").delete().eq("id", lst.id!);
+                    setState(() => existing_lists.removeAt(index));
+                  }
+                },
+              ),
             );
           },
+
         ),
       ),
       floatingActionButton: FloatingActionButton(
