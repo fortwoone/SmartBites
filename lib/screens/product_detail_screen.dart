@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
+import '../widgets/product_price_widget.dart';
 
 class ProductDetailPage extends StatelessWidget {
     final String barcode;
@@ -221,6 +222,11 @@ class ProductDetailPage extends StatelessWidget {
                         children: [
                             _buildImage(product.imageURL),
                             _buildInfoCard(context, product),
+                            ProductPriceWidget(
+                                barcode: barcode,
+                                repository: repository,
+                                compact: false,
+                            ),
                             const SizedBox(height: 6),
                             _buildIngredients(product.ingredientsText),
                             const SizedBox(height: 12),
