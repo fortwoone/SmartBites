@@ -403,4 +403,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createdBy => 'Created by';
+
+  @override
+  String get unexpected_error => 'An error occured. Please retry and verify your password and email.';
 }

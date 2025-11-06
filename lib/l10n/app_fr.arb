@@ -132,5 +132,7 @@
   "nova_unknown_title": "Pas de groupe NOVA",
   "nova_unknown_explanation": "Il n'y a pas de groupe NOVA disponible pour ce produit.",
   "profile": "Profil",
-  "createdBy": "Créé par"
+  "createdBy": "Créé par",
+  "unexpected_error": "Une erreur est survenue. Veuillez réessayer et vérifiez vos identifiants."
+
 }

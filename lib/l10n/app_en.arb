@@ -131,5 +131,7 @@
   "nova_unknown_title": "Unknown group",
   "nova_unknown_explanation": "There is no provided NOVA group for this product.",
   "profile": "Profile",
-  "createdBy": "Created by"
+  "createdBy": "Created by",
+  "unexpected_error": "An error occured. Please retry and verify your password and email."
+
 }

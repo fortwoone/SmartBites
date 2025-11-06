@@ -403,4 +403,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get createdBy => 'Créé par';
+
+  @override
+  String get unexpected_error => 'Une erreur est survenue. Veuillez réessayer et vérifiez vos identifiants.';
 }

@@ -886,6 +886,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Created by'**
   String get createdBy;
+
+  /// No description provided for @unexpected_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occured. Please retry and verify your password and email.'**
+  String get unexpected_error;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
