@@ -6,6 +6,8 @@ import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:food/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:timezone/data/latest_all.dart' as tzdata;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'screens/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
@@ -15,6 +17,10 @@ import 'screens/profile_screen.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    // Initialize timezone database so we can display dates in Europe/Paris
+    tzdata.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Paris'));
 
     await Supabase.initialize(
         url: 'https://ftuijeorywnqjgmqbcfk.supabase.co',

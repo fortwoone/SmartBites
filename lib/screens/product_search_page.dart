@@ -1,7 +1,4 @@
-//dart
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:food/l10n/app_localizations.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../screens/product_detail_page.dart';
 import '../models/product.dart';

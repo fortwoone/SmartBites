@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/product_price.dart';
 import '../repositories/openfoodfacts_repository.dart';
+import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class ProductPriceWidget extends StatelessWidget {
   final String barcode;
@@ -13,6 +15,18 @@ class ProductPriceWidget extends StatelessWidget {
     OpenFoodFactsRepository? repository,
     this.compact = false,
   }) : repository = repository ?? OpenFoodFactsRepository();
+
+  String _formatDate(DateTime dt) {
+    if (dt.millisecondsSinceEpoch == 0) return '-';
+    try {
+      final location = tz.getLocation('Europe/Paris');
+      final tzDate = tz.TZDateTime.from(dt.toUtc(), location);
+      return DateFormat('dd/MM/yyyy').format(tzDate);
+    } catch (e) {
+      final local = dt.toLocal();
+      return DateFormat('dd/MM/yyyy').format(local);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +68,11 @@ class ProductPriceWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.euro,
-                        color: Colors.green,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Prix',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ],
+                  Text(
+                    'Prix',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -121,7 +125,7 @@ class ProductPriceWidget extends StatelessWidget {
                       const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                       const SizedBox(width: 6),
                       Text(
-                        price.date,
+                        _formatDate(price.date),
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black54,
@@ -148,4 +152,3 @@ class ProductPriceWidget extends StatelessWidget {
     );
   }
 }
-
