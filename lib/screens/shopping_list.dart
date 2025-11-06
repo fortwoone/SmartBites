@@ -11,8 +11,8 @@ import 'package:food/repositories/openfoodfacts_repository.dart';
 
 
 class ShoppingListDetail extends StatefulWidget {
-  ShoppingList list;
-  User? user;
+  final ShoppingList list;
+  final User? user;
 
   ShoppingListDetail({super.key, required this.list, this.user});
 
@@ -151,110 +151,129 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
           ),
           body: _isLoading
               ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: widget.list.products.length,
-                        itemBuilder: (context, index) {
-                          String barcode = widget.list.products[index];
-                          CachedProduct cached = cachedProducts[barcode]!;
+              : (widget.list.products.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.shopping_cart_outlined, size: 72, color: Colors.grey[400]),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Votre panier est vide',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Ajoutez des produits en appuyant sur +',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: widget.list.products.length,
+                            itemBuilder: (context, index) {
+                              String barcode = widget.list.products[index];
+                              CachedProduct cached = cachedProducts[barcode]!;
 
-                          return ListTile(
-                            leading: cached.img_small_url.trim().isEmpty
-                                ? const SizedBox(width: 56, height: 56)
-                                : Image.network(
-                                    cached.img_small_url,
-                                    width: 56,
-                                    height: 56,
-                                    fit: BoxFit.cover,
+                              return ListTile(
+                                leading: cached.img_small_url.trim().isEmpty
+                                    ? const SizedBox(width: 56, height: 56)
+                                    : Image.network(
+                                        cached.img_small_url,
+                                        width: 56,
+                                        height: 56,
+                                        fit: BoxFit.cover,
+                                      ),
+                                title: Text(
+                                  loc.localeName.startsWith('fr')
+                                      ? cached.fr_name
+                                      : cached.en_name,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(cached.brands),
+                                    const SizedBox(height: 4),
+                                    ProductPriceWidget(
+                                      barcode: barcode,
+                                      compact: true,
+                                    ),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    final result = await askDeleteProduct(context);
+                                    if (result == true) {
+                                      List<String> updated = List.from(widget.list.products);
+                                      updated.removeAt(index);
+                                      await supabase
+                                          .from("shopping_list")
+                                          .update({"products": updated})
+                                          .eq("id", widget.list.id!);
+                                      setState(() {
+                                        widget.list.products = updated;
+                                        cachedProducts.remove(barcode);
+                                        productPrices.remove(barcode);
+                                      });
+                                    }
+                                  },
+                                ),
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductDetailPage(
+                                      barcode: barcode,
+                                      inAddMode: false,
+                                    ),
                                   ),
-                            title: Text(
-                              loc.localeName.startsWith('fr')
-                                  ? cached.fr_name
-                                  : cached.en_name,
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(cached.brands),
-                                const SizedBox(height: 4),
-                                ProductPriceWidget(
-                                  barcode: barcode,
-                                  compact: true,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SafeArea(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(158, 158, 158, 0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, -3),
                                 ),
                               ],
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                final result = await askDeleteProduct(context);
-                                if (result == true) {
-                                  List<String> updated = List.from(widget.list.products);
-                                  updated.removeAt(index);
-                                  await supabase
-                                      .from("shopping_list")
-                                      .update({"products": updated})
-                                      .eq("id", widget.list.id!);
-                                  setState(() {
-                                    widget.list.products = updated;
-                                    cachedProducts.remove(barcode);
-                                    productPrices.remove(barcode);
-                                  });
-                                }
-                              },
-                            ),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductDetailPage(
-                                  barcode: barcode,
-                                  inAddMode: false,
+                            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 80.0, 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total (EUR):',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
+                                Text(
+                                  '${_calculateTotal().toStringAsFixed(2)} €',
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                    SafeArea(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(0, -3),
-                            ),
-                          ],
+                          ),
                         ),
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 80.0, 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Total (EUR):',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '${_calculateTotal().toStringAsFixed(2)} €',
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                      ],
+                    )),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () async {
