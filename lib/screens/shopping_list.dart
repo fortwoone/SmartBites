@@ -7,6 +7,8 @@ import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_page.dart';
 
+import '../widgets/bottom_action_bar.dart';
+
 
 class ShoppingListDetail extends StatefulWidget {
   ShoppingList list;
@@ -500,6 +502,8 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         },
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: const BottomActionBar(currentRoute: '/',),
+
     );
   }
 }

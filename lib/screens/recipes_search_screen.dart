@@ -130,7 +130,7 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                     ],
                 ),
             ),
-            bottomNavigationBar: const BottomActionBar(),
+            bottomNavigationBar: const BottomActionBar(currentRoute: '/next',),
         );
     }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food/l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
+import '../widgets/bottom_action_bar.dart';
 import '../widgets/grade_utils.dart';
 
 class ProductDetailPage extends StatelessWidget {
@@ -262,5 +263,6 @@ class ProductDetailPage extends StatelessWidget {
                 },
             ),
         );
+
     }
 }

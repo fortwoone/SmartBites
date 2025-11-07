@@ -3,11 +3,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:food/l10n/app_localizations.dart';
 
 class BottomActionBar extends StatelessWidget {
-    const BottomActionBar({super.key});
+    final String currentRoute; // 👈 route actuelle
+    const BottomActionBar({super.key, required this.currentRoute});
 
     @override
     Widget build(BuildContext context) {
         final loc = AppLocalizations.of(context)!;
+
+        // Petite fonction utilitaire pour éviter la duplication
+        void navigateIfNotCurrent(String routeName) {
+            if (routeName == currentRoute) return; // 👈 empêche la duplication
+            Navigator.pushNamed(context, routeName);
+        }
 
         return BottomAppBar(
             color: Colors.white,
@@ -18,14 +25,28 @@ class BottomActionBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                         IconButton(
+                            tooltip: loc.homePageTitle,
+                            icon: const Icon(Icons.house, color: Color(0xFFFFCBA4)),
+                            onPressed: () {
+                                if (currentRoute != '/home') {
+                                    // 👇 supprime tous les écrans précédents avant d’aller sur /home
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        '/home',
+                                            (route) => false,
+                                    );
+                                }
+                            },
+                        ),
+                        IconButton(
                             tooltip: loc.product_list,
                             icon: const Icon(Icons.shopping_cart, color: Colors.green),
-                            onPressed: () => Navigator.pushNamed(context, '/shopping'),
+                            onPressed: () => navigateIfNotCurrent('/shopping'),
                         ),
                         IconButton(
                             tooltip: loc.profile,
                             icon: const Icon(Icons.person, color: Colors.blueAccent),
-                            onPressed: () => Navigator.pushNamed(context, '/profile'),
+                            onPressed: () => navigateIfNotCurrent('/profile'),
                         ),
                         IconButton(
                             tooltip: loc.disconnect,
@@ -39,10 +60,8 @@ class BottomActionBar extends StatelessWidget {
                         ),
                         IconButton(
                             tooltip: loc.recipe_page,
-                            icon: Image.asset(
-                                'lib/ressources/cuisine_icon.png'
-                            ),
-                            onPressed: () => Navigator.pushNamed(context, '/recipe'),
+                            icon: Image.asset('lib/ressources/cuisine_icon.png'),
+                            onPressed: () => navigateIfNotCurrent('/recipe'),
                         ),
                     ],
                 ),

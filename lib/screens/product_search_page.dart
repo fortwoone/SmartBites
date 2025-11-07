@@ -5,6 +5,7 @@ import 'package:food/l10n/app_localizations.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../screens/product_detail_page.dart';
 import '../models/product.dart';
+import '../widgets/bottom_action_bar.dart';
 
 class ProductSearchPage extends StatefulWidget {
     final OpenFoodFactsRepository repository;
@@ -166,6 +167,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                     ],
                 ),
             ),
+
         );
     }
 }
