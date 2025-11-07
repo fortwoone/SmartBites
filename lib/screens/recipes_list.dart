@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food/screens/view_recipe_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/bottom_action_bar.dart';
 import 'add_recipe_page.dart';
 
 class RecipeListPage extends StatefulWidget {
@@ -280,25 +281,25 @@ class _RecipeListPageState extends State<RecipeListPage> {
                                 _deleteRecipe(
                                     recipe)),
                       ],
-                    )
-                        : null,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ViewRecipePage(
-                                  recipe: recipe),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                  )
+                      : null,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewRecipePage(recipe: recipe),
+                      ),
+                    );
+                  },
+
+
+                ),
+        );
+        },
+        ),
+        bottomNavigationBar: const BottomActionBar(currentRoute: '/recipe',),
+
+      );
+
   }
 }

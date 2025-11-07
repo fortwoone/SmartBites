@@ -9,6 +9,8 @@ import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
 import 'package:food/repositories/openfoodfacts_repository.dart';
 
+import '../widgets/bottom_action_bar.dart';
+
 
 class ShoppingListDetail extends StatefulWidget {
     final ShoppingList list;
@@ -573,6 +575,8 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         },
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: const BottomActionBar(currentRoute: '/',),
+
     );
   }
 }

@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:food/db_objects/shopping_lst.dart';
 import 'package:food/db_objects/cached_product.dart';
+import '../widgets/bottom_action_bar.dart';
 import './shopping_list.dart';
 
 class ViewRecipePage extends StatelessWidget {

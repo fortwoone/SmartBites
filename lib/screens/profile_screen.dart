@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import '../widgets/bottom_action_bar.dart';
+
 
 const Color primaryPeach = Color(0xFFF6B092);
 const Color accentPeach = Color(0xFFF6CF92);
@@ -615,6 +617,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const BottomActionBar(currentRoute: '/profile',),
+
     );
   }
 
