@@ -49,6 +49,11 @@ class BottomActionBar extends StatelessWidget {
                             onPressed: () => navigateIfNotCurrent('/profile'),
                         ),
                         IconButton(
+                            tooltip: loc.recipe_page,
+                            icon: Image.asset('lib/ressources/cuisine_icon.png'),
+                            onPressed: () => navigateIfNotCurrent('/recipe'),
+                        ),
+                        IconButton(
                             tooltip: loc.disconnect,
                             icon: const Icon(Icons.logout, color: Colors.redAccent),
                             onPressed: () async {
@@ -57,12 +62,7 @@ class BottomActionBar extends StatelessWidget {
                                     Navigator.pushReplacementNamed(context, '/login');
                                 }
                             },
-                        ),
-                        IconButton(
-                            tooltip: loc.recipe_page,
-                            icon: Image.asset('lib/ressources/cuisine_icon.png'),
-                            onPressed: () => navigateIfNotCurrent('/recipe'),
-                        ),
+                        )
                     ],
                 ),
             ),
