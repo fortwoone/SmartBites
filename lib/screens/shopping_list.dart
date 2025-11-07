@@ -143,6 +143,20 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
             backgroundColor: const Color(0xFFF8F9FA),
             appBar: AppBar(
               title: Text("${loc.list} ${widget.list.name}"),
+              actions: [
+                  IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                          final result = await askDeleteList(context);
+                          if (!context.mounted){
+                              return;
+                          }
+                          if (result == true) {
+                              Navigator.pop(context, true);
+                          }
+                      },
+                  ),
+              ],
               elevation: 0,
               centerTitle: true,
               iconTheme: const IconThemeData(color: Colors.white),
