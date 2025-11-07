@@ -1,11 +1,9 @@
-//dart
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:food/l10n/app_localizations.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../screens/product_detail_page.dart';
 import '../models/product.dart';
 import '../widgets/bottom_action_bar.dart';
+import '../widgets/product_price_widget.dart';
 
 class ProductSearchPage extends StatefulWidget {
     final OpenFoodFactsRepository repository;
@@ -135,7 +133,18 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                                                   ? Image.network(p.imageURL!, width: 56, height: 56, fit: BoxFit.cover)
                                                   : const SizedBox(width: 56, height: 56),
                                               title: Text(_titleFor(p)),
-                                              subtitle: Text(p.brands ?? ''),
+                                              subtitle: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(p.brands ?? ''),
+                                                  const SizedBox(height: 4),
+                                                  ProductPriceWidget(
+                                                    barcode: p.barcode,
+                                                    repository: widget.repository,
+                                                    compact: true,
+                                                  ),
+                                                ],
+                                              ),
                                               onTap: () async {
                                                   final code = p.barcode; // expects Product to expose a barcode field set by fromJson
                                                   if (code.isEmpty) {

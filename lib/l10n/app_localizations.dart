@@ -892,6 +892,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occured. Please retry and verify your password and email.'**
   String get unexpected_error;
+
+  /// No description provided for @filterTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by time'**
+  String get filterTime;
+
+  /// No description provided for @cookingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking time'**
+  String get cookingTime;
+
+  /// No description provided for @showingCooking.
+  ///
+  /// In en, this message translates to:
+  /// **'⏱️ Showing recipes ≤'**
+  String get showingCooking;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

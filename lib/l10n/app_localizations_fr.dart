@@ -406,4 +406,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get unexpected_error => 'Une erreur est survenue. Veuillez réessayer et vérifiez vos identifiants.';
+
+  @override
+  String get filterTime => 'Filtrer par temps';
+
+  @override
+  String get cookingTime => 'Temps de cuisson';
+
+  @override
+  String get showingCooking => '⏱️ Affichage des recettes ≤';
 }
