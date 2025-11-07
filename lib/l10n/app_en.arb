@@ -132,6 +132,8 @@
   "nova_unknown_explanation": "There is no provided NOVA group for this product.",
   "profile": "Profile",
   "createdBy": "Created by",
-  "unexpected_error": "An error occured. Please retry and verify your password and email."
-
+  "unexpected_error": "An error occured. Please retry and verify your password and email.",
+  "filterTime": "Filter by time",
+  "cookingTime": "Cooking time",
+  "showingCooking": "⏱\uFE0F Showing recipes ≤"
 }

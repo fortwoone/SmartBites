@@ -406,4 +406,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unexpected_error => 'An error occured. Please retry and verify your password and email.';
+
+  @override
+  String get filterTime => 'Filter by time';
+
+  @override
+  String get cookingTime => 'Cooking time';
+
+  @override
+  String get showingCooking => '⏱️ Showing recipes ≤';
 }
