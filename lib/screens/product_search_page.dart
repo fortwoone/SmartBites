@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../screens/product_detail_page.dart';
 import '../models/product.dart';
-import '../widgets/bottom_action_bar.dart';
 import '../widgets/product_price_widget.dart';
 
 class ProductSearchPage extends StatefulWidget {

@@ -44,12 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
             } else {
-                if (!context.mounted) return;
+                if (!context.mounted) return;   
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
                 );
             }
-        } on AuthException catch (e) {
+        } on AuthException catch (_) {
             // Erreur spécifique renvoyée par Supabase
             if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/product_detail_screen.dart';
 import 'package:food/screens/recipes_list.dart';
-import 'package:food/screens/view_recipe_page.dart';
 import 'package:food/widgets/bottom_action_bar.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';

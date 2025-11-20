@@ -15,14 +15,10 @@ class RecipesSearchScreen extends StatefulWidget {
 
 class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
     final supabase = Supabase.instance.client;
-    String _query = '';
     List<Recipe> _recipes = [];
     bool _loading = false;
     String? _error = null;
 
-    void _onSearchChanged(String q) {
-        setState(() => _query = q);
-    }
 
     Future<void> _search([String? query]) async{
         final q = (query ?? "").trim();
@@ -42,7 +38,7 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
         try{
             final results = await supabase.from("Recettes").select().ilike(
                 "name",
-                "%" + q + "%"
+                "%$q%"
             );
             setState(
                 (){
@@ -73,7 +69,6 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
             appBar: AppNavBar(
                 title: loc.recipes,
                 showSearch: true,
-                onSearchChanged: _onSearchChanged,
                 onSearchSubmitted: _onSearchSubmitted,
                 showSquareButtons: true,
                 backgroundColor: Colors.red,

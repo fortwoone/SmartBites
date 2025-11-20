@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_search_page.dart';
+import '../db_objects/shopping_lst.dart';
 import '../l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:food/db_objects/shopping_lst.dart';
 import 'package:food/db_objects/cached_product.dart';
-import '../widgets/bottom_action_bar.dart';
 import './shopping_list.dart';
 
 class ViewRecipePage extends StatelessWidget {
@@ -168,7 +166,7 @@ class ViewRecipePage extends StatelessWidget {
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
-                    color: peach.withOpacity(0.3),
+                    color: peach.withValues(alpha:0.3),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -189,7 +187,7 @@ class ViewRecipePage extends StatelessWidget {
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
-                    color: peach.withOpacity(0.3),
+                    color: peach.withValues(alpha:0.3),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
