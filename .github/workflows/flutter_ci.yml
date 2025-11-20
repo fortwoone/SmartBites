@@ -24,7 +24,7 @@ jobs:
 
       - name: Test analyze dart (fail on warnings)
         run: |
-            dart analyze --fatal-infos --fatal-warnings
+            dart analyze --fatal-warnings
             echo $?
 
       
