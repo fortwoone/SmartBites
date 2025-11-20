@@ -22,6 +22,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Test analyze dart (fail on warnings)
+        run: |
+            dart analyze --fatal-infos --fatal-warnings
+            echo $?
+
+      
       - name: Run tests
         run: flutter test
 
