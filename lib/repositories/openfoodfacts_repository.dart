@@ -31,14 +31,15 @@ class OpenFoodFactsRepository {
 
     /// Search products by name (returns an empty list if none).
     /// Uses the OpenFoodFacts search endpoint and maps results to `Product`.
-    Future<List<Product>> fetchProductsByName(String query, {int pageSize = 30}) async {
+    Future<List<Product>> fetchProductsByName(String query, {int pageSize = 20}) async {
         final encoded = Uri.encodeQueryComponent(query);
+        const fields = 'code,product_name,product_name_fr,product_name_en,brands,image_url,image_small_url,ingredients_text,nutriments';
         final uri = Uri.parse('https://world.openfoodfacts.org/cgi/search.pl'
             '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize'
-            '&tagtype_0=product_name&tag_contains_0=contains&tag_0=$encoded',
+            '&fields=$fields',
         );
 
-        final response = await client.get(uri).timeout(const Duration(seconds: 30));
+        final response = await client.get(uri).timeout(const Duration(seconds: 15));
         if (response.statusCode != 200) {
             throw Exception('Network error: ${response.statusCode}');
         }
@@ -53,3 +54,4 @@ class OpenFoodFactsRepository {
         }).toList();
     }
 }
+
