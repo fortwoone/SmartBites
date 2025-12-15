@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
 
-import '../widgets/bottom_action_bar.dart';
+import '../widgets/side_menu.dart';
 
 
 const Color primaryPeach = Color(0xFFF6B092);
@@ -457,170 +457,157 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Palette pêche (réutilise les constantes du fichier)
-    // utilisation de kPrimaryPeach, kAccentPeach, kDarkPeach
-
     return Scaffold(
       backgroundColor: const Color(0xFFF4F8FB),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [primaryPeach, accentPeach],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(40),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 8,
-                    top: 8,
-                    child: SafeArea(
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
-                        tooltip: 'Retour',
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home');
-                        },
-                      ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [primaryPeach, accentPeach],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(40),
                     ),
                   ),
-
-                  Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _showImageSourceDialog();
-                          },
-                          child: Stack(
-                            children: [
-                              _buildAvatar(),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: primaryPeach,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white, width: 2),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 8,
+                        top: 8,
+                        child: SafeArea(
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back, color: Colors.white),
+                            tooltip: 'Retour',
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/home');
+                            },
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () => _showImageSourceDialog(),
+                              child: Stack(
+                                children: [
+                                  _buildAvatar(),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: primaryPeach,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: Colors.white, width: 2),
+                                      ),
+                                      child: const Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
                                   ),
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            GestureDetector(
+                              onTap: () => _showEditNameDialog(),
+                              child: Text(
+                                _displayName.isNotEmpty ? _displayName : 'Utilisateur',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        GestureDetector(
-                          onTap: () => _showEditNameDialog(),
-                          child: Text(
-                            _displayName.isNotEmpty ? _displayName : 'Utilisateur',
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
-                          ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _email.isNotEmpty ? _email : '',
+                              style: const TextStyle(color: Colors.white70, fontSize: 14),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _email.isNotEmpty ? _email : '',
-                          style: const TextStyle(color: Colors.white70, fontSize: 14),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 30),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(13),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            _buildProfileOption(
+                              icon: Icons.history_rounded,
+                              title: AppLocalizations.of(context)!.shopping_lists,
+                              subtitle: AppLocalizations.of(context)!.history_subtitle,
+                              onTap: () {},
+                            ),
+                            const Divider(height: 20),
+                            _buildProfileOption(
+                              icon: Icons.edit,
+                              title: AppLocalizations.of(context)!.edit_name_tile_title,
+                              subtitle: AppLocalizations.of(context)!.edit_name_tile_subtitle,
+                              onTap: () async => await _showEditNameDialog(),
+                            ),
+                            const Divider(height: 20),
+                            _buildProfileOption(
+                              icon: Icons.lock_outline,
+                              title: AppLocalizations.of(context)!.change_password,
+                              subtitle: AppLocalizations.of(context)!.change_password_subtitle,
+                              onTap: () async => await _showChangePasswordDialog(),
+                            ),
+                            const Divider(height: 20),
+                            _buildProfileOption(
+                              icon: Icons.logout_rounded,
+                              title: AppLocalizations.of(context)!.disconnect,
+                              subtitle: AppLocalizations.of(context)!.logout_subtitle,
+                              color: Colors.redAccent,
+                              onTap: () async => await _signOut(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ],
             ),
-
-            const SizedBox(height: 30),
-
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(13),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        _buildProfileOption(
-                          icon: Icons.history_rounded,
-                          title: AppLocalizations.of(context)!.shopping_lists,
-                          subtitle: AppLocalizations.of(context)!.history_subtitle,
-                          onTap: () {
-                            // TODO: naviguer vers l'historique
-                          },
-                        ),
-                        const Divider(height: 20),
-                        _buildProfileOption(
-                          icon: Icons.edit,
-                          title: AppLocalizations.of(context)!.edit_name_tile_title,
-                          subtitle: AppLocalizations.of(context)!.edit_name_tile_subtitle,
-                          onTap: () async {
-                            await _showEditNameDialog();
-                          },
-                        ),
-                        const Divider(height: 20),
-                        _buildProfileOption(
-                          icon: Icons.lock_outline,
-                          title: AppLocalizations.of(context)!.change_password,
-                          subtitle: AppLocalizations.of(context)!.change_password_subtitle,
-                          onTap: () async {
-                            await _showChangePasswordDialog();
-                          },
-                        ),
-                        const Divider(height: 20),
-                        _buildProfileOption(
-                          icon: Icons.logout_rounded,
-                          title: AppLocalizations.of(context)!.disconnect,
-                          subtitle: AppLocalizations.of(context)!.logout_subtitle,
-                           color: Colors.redAccent,
-                           onTap: () async {
-                             await _signOut();
-                           },
-                         ),
-                       ],
-                     ),
-                   ),
-
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          SideMenu(currentRoute: '/profile'),
+        ],
       ),
-      bottomNavigationBar: const BottomActionBar(currentRoute: '/profile',),
-
     );
   }
+
 
   Widget _buildProfileOption({
     required IconData icon,
