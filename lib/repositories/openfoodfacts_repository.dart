@@ -63,9 +63,9 @@ class OpenFoodFactsRepository {
     /// Uses the OpenFoodFacts search endpoint and maps results to `Product`.
     Future<List<Product>> fetchProductsByName(String query, {int pageSize = 30}) async {
         final encoded = Uri.encodeQueryComponent(query);
-        final uri = Uri.parse(
-            'https://world.openfoodfacts.org/cgi/search.pl'
-            '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize',
+        final uri = Uri.parse('https://world.openfoodfacts.org/cgi/search.pl'
+            '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize'
+            '&tagtype_0=product_name&tag_contains_0=contains&tag_0=$encoded',
         );
 
         final response = await client.get(uri).timeout(const Duration(seconds: 30));
