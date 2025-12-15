@@ -19,15 +19,15 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
     bool _loading = false;
     String? _error = null;
 
+    @override
+    void initState() {
+        super.initState();
+        _search();
+    }
 
-    Future<void> _search([String? query]) async{
+
+    Future<void> _search([String? query]) async {
         final q = (query ?? "").trim();
-        if (q.isEmpty){
-            setState(
-                () => _error = "Missing recipe name."
-            );
-            return;
-        }
 
         setState(() {
             _loading = true;
@@ -35,29 +35,27 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
             _recipes = [];
         });
 
-        try{
-            final results = await supabase.from("Recettes").select().ilike(
-                "name",
-                "%$q%"
-            );
-            setState(
-                (){
-                    for (Map<String, dynamic> result in results){
-                        _recipes.add(Recipe.fromMap(result));
-                    }
-                }
-            );
-        }
-        catch(e){
+        try {
+            final request = supabase.from("Recettes").select();
+
+            final results = q.isEmpty
+                ? await request
+                : await request.ilike("name", "%$q%");
+
+            setState(() {
+                _recipes = results
+                    .map<Recipe>((r) => Recipe.fromMap(r))
+                    .toList();
+            });
+        } catch (e) {
             setState(() => _error = e.toString());
-        }
-        finally{
+        } finally {
             setState(() => _loading = false);
         }
     }
 
+
     void _onSearchSubmitted(String q) {
-        debugPrint('Search submitted: $q');
         _search(q);
     }
 
@@ -84,7 +82,7 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                         if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
                         if (!_loading && _error == null) Expanded(
                             child: _recipes.isEmpty ?
-                                const Center(child: Text("Pas de résultats"))
+                            const Center(child: Text("Pas de résultats"))
                                 : ListView.builder(
                                 itemCount: _recipes.length,
                                 itemBuilder: (context, index){
