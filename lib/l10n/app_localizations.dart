@@ -910,6 +910,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'⏱️ Showing recipes ≤'**
   String get showingCooking;
+
+  /// No description provided for @viewRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe details'**
+  String get viewRecipe;
+
+  /// No description provided for @list_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Grocery list'**
+  String get list_menu;
+
+  /// No description provided for @close_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Close menu'**
+  String get close_menu;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

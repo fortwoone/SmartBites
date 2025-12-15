@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/product_detail_screen.dart';
 import 'package:food/screens/recipes_list.dart';
-import 'package:food/widgets/bottom_action_bar.dart';
+import 'package:food/widgets/side_menu.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
 
         return MaterialApp(
             title: 'SmartBites',
-            locale: const Locale('fr'),
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: const [
                 AppLocalizations.delegate,
@@ -176,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                 ),
             ),
-            bottomNavigationBar: const BottomActionBar(currentRoute: '/home',),
+            bottomNavigationBar: const SideMenu(currentRoute: '/home',),
         );
     }
 }

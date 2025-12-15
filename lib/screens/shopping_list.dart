@@ -9,7 +9,7 @@ import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
 import 'package:food/repositories/openfoodfacts_repository.dart';
 
-import '../widgets/bottom_action_bar.dart';
+import '../widgets/side_menu.dart';
 
 
 class ShoppingListDetail extends StatefulWidget {
@@ -463,134 +463,138 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.shopping_lists),
-        automaticallyImplyLeading: true,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              colors: [
-                Color.fromARGB(255, 0x10, 0xCA, 0x2C),
-                Color.fromARGB(255, 0x32, 0xD2, 0x72),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: _isLoading
-            ? const CircularProgressIndicator()
-            : ReorderableListView.builder(
-          itemCount: existing_lists.length,
-          onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (newIndex > oldIndex) newIndex--;
-              final item = existing_lists.removeAt(oldIndex);
-              existing_lists.insert(newIndex, item);
-            });
-          },
-          itemBuilder: (context, index) {
-            final lst = existing_lists[index];
-            return Container(
-              key: ValueKey(lst.id),
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFFCB992), // peach clair
-                    Color(0xFFFCA87E), // peach plus intense
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(2, 2),
+      body: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              title: Text(loc.shopping_lists),
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    colors: [
+                      Color(0xFF10CA2C),
+                      Color(0xFF32D272),
+                    ],
                   ),
-                ],
+                ),
               ),
-              child: ListTile(
-                title: Text(
-                  lst.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.white),
-                      tooltip: loc.rename,
-                      onPressed: () async {
-                        final newName = await _askRenameList(context, lst.name);
-                        if (newName != null && newName.isNotEmpty) {
-                          if (!_listNameAvailableForUser(newName)) {
-                            await showNameTaken(context);
-                            return;
-                          }
+            ),
+            body: Center(
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : ReorderableListView.builder(
+                itemCount: existing_lists.length,
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (newIndex > oldIndex) newIndex--;
+                    final item = existing_lists.removeAt(oldIndex);
+                    existing_lists.insert(newIndex, item);
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final lst = existing_lists[index];
+
+                  return Container(
+                    key: ValueKey(lst.id),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFFCB992), // peach clair
+                          Color(0xFFFCA87E), // peach plus intense
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        lst.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.white),
+                            tooltip: loc.rename,
+                            onPressed: () async {
+                              final newName = await _askRenameList(context, lst.name);
+                              if (newName != null && newName.isNotEmpty) {
+                                if (!_listNameAvailableForUser(newName)) {
+                                  await showNameTaken(context);
+                                  return;
+                                }
+                                await supabase
+                                    .from('shopping_list')
+                                    .update({'name': newName})
+                                    .eq('id', lst.id!);
+                                setState(() => lst.name = newName);
+                              }
+                            },
+                          ),
+                          const Icon(Icons.drag_handle, color: Colors.white),
+                        ],
+                      ),
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ShoppingListDetail(list: lst, user: user),
+                          ),
+                        );
+                        if (result == true) {
                           await supabase
-                              .from('shopping_list')
-                              .update({'name': newName})
-                              .eq('id', lst.id!);
-                          setState(() => lst.name = newName);
+                              .from("shopping_list")
+                              .delete()
+                              .eq("id", lst.id!);
+                          setState(() => existing_lists.removeAt(index));
                         }
                       },
                     ),
-                    const Icon(Icons.drag_handle, color: Colors.white),
-                  ],
-                ),
-                onTap: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShoppingListDetail(list: lst, user: user),
-                    ),
                   );
-                  if (result == true) {
-                    await supabase.from("shopping_list").delete().eq("id", lst.id!);
-                    setState(() => existing_lists.removeAt(index));
-                  }
                 },
+
               ),
-            );
-          },
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                final result = await askListName(context);
+                if (result != null && result.isNotEmpty) {
+                  ShoppingList added = ShoppingList(
+                    name: result,
+                    user_id: user.id,
+                    products: [],
+                  );
+                  final inserted = await supabase
+                      .from("shopping_list")
+                      .insert(added.toMap())
+                      .select();
+                  added.id = inserted[0]["id"];
+                  setState(() => existing_lists.add(added));
+                }
+              },
+              child: const Icon(Icons.add),
+            ),
+          ),
 
-        ),
+          const SideMenu(currentRoute: '/shopping'),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await askListName(context);
-          if (result != null && result.isNotEmpty) {
-            if (!_listNameAvailableForUser(result)) {
-              if (!context.mounted) return;
-              await showNameTaken(context);
-              return;
-            }
-
-            ShoppingList added_lst = ShoppingList(
-              name: result,
-              user_id: user.id,
-              products: [],
-            );
-            final inserted = await supabase
-                .from("shopping_list")
-                .insert(added_lst.toMap())
-                .select();
-            added_lst.id = inserted[0]["id"];
-            setState(() => existing_lists.add(added_lst));
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: const BottomActionBar(currentRoute: '/',),
-
     );
+
   }
 }
