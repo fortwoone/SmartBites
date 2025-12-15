@@ -136,5 +136,8 @@
   "unexpected_error": "Une erreur est survenue. Veuillez réessayer et vérifiez vos identifiants.",
   "filterTime": "Filtrer par temps",
   "cookingTime": "Temps de cuisson",
-  "showingCooking": "⏱\uFE0F Affichage des recettes ≤"
+  "showingCooking": "⏱\uFE0F Affichage des recettes ≤",
+  "viewRecipe": "Afficher la recette",
+  "list_menu": "Listes de courses",
+  "close_menu": "Fermer le menu"
 }

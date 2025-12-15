@@ -415,4 +415,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showingCooking => '⏱️ Showing recipes ≤';
+
+  @override
+  String get viewRecipe => 'Recipe details';
+
+  @override
+  String get list_menu => 'Grocery list';
+
+  @override
+  String get close_menu => 'Close menu';
 }

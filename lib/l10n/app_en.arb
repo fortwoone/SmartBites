@@ -135,5 +135,10 @@
   "unexpected_error": "An error occured. Please retry and verify your password and email.",
   "filterTime": "Filter by time",
   "cookingTime": "Cooking time",
-  "showingCooking": "⏱\uFE0F Showing recipes ≤"
+  "showingCooking": "⏱\uFE0F Showing recipes ≤",
+  "viewRecipe": "Recipe details",
+  "list_menu": "Grocery list",
+  "close_menu": "Close menu"
+
+
 }
