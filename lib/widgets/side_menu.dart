@@ -1,228 +1,238 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart'; 
+import 'menu/menu_constants.dart';
+import 'menu/menu_header.dart';
+import 'menu/menu_content.dart';
+import 'menu/menu_service.dart';
+import 'menu/menu_item.dart';
 
 class SideMenu extends StatefulWidget {
-    final String currentRoute;
+  final String currentRoute;
+  final ValueChanged<bool>? onOpenChanged;
 
-    const SideMenu({super.key, required this.currentRoute});
+  const SideMenu({
+    super.key, 
+    required this.currentRoute,
+    this.onOpenChanged,
+  });
 
-    @override
-    State<SideMenu> createState() => _SideMenuState();
+  @override
+  State<SideMenu> createState() => SideMenuState();
 }
 
-class _SideMenuState extends State<SideMenu> with SingleTickerProviderStateMixin {
-    bool _isOpen = false;
-    late final AnimationController _controller;
-    late final Animation<Offset> _slideAnim;
+class SideMenuState extends State<SideMenu> with SingleTickerProviderStateMixin {
+  bool _isOpen = false;
+  late final AnimationController _controller;
+  late final Animation<Offset> _slideAnim;
+  late final Animation<double> _scaleAnim;
+  late final Animation<double> _fadeAnim;
 
-    @override
-    void initState() {
-        super.initState();
-        _controller = AnimationController(
-            vsync: this,
-            duration: const Duration(milliseconds: 250),
-        );
-        _slideAnim = Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero)
-            .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    }
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: MenuConstants.animationDuration,
+    );
+    _slideAnim = Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutExpo));
+    _scaleAnim = Tween<double>(begin: 0.9, end: 1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutExpo));
+    _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+  }
 
-    void _openMenu() {
-        setState(() {
-            _isOpen = true;
-            _controller.forward();
-        });
-    }
+  void open() {
+    if (_isOpen) return;
+    setState(() {
+      _isOpen = true;
+      _controller.forward();
+    });
+    widget.onOpenChanged?.call(true);
+  }
 
-    void _closeMenu() {
-        setState(() {
-            _isOpen = false;
-            _controller.reverse();
-        });
-    }
+  void close() {
+    if (!_isOpen) return;
+    setState(() {
+      _isOpen = false;
+      _controller.reverse();
+    });
+    widget.onOpenChanged?.call(false);
+  }
 
-    void _disconnect() async {
-        await Supabase.instance.client.auth.signOut();
-        if (context.mounted) {
-            Navigator.pushReplacementNamed(context, '/login');
-        }
-    }
+  void toggle() {
+    _isOpen ? close() : open();
+  }
 
-    void _navigateIfNotCurrent(String routeName) {
-        if (routeName == widget.currentRoute) {
-            _closeMenu();
-            return;
-        }
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final screenWidth = MediaQuery.of(context).size.width;
 
-        Navigator.pushNamedAndRemoveUntil(
-            context,
-            routeName,
-                (route) => false,
-        );
+    return Stack(
+      children: [
+        if (!_isOpen) _buildDragArea(),
+        _buildOverlay(screenWidth),
+        _buildMenuPanel(loc),
+      ],
+    );
+  }
 
-        _closeMenu();
-    }
+  Widget _buildDragArea() {
+    return Positioned(
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: MenuConstants.dragThreshold,
+      child: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          if (details.delta.dx > MenuConstants.dragOpenVelocity) {
+            open();
+          }
+        },
+        behavior: HitTestBehavior.translucent,
+        child: const SizedBox.expand(),
+      ),
+    );
+  }
 
-    @override
-    Widget build(BuildContext context) {
-        final loc = AppLocalizations.of(context)!;
-        final screenWidth = MediaQuery.of(context).size.width;
+  Widget _buildOverlay(double screenWidth) {
+    return IgnorePointer(
+      ignoring: !_isOpen,
+      child: FadeTransition(
+        opacity: _fadeAnim,
+        child: GestureDetector(
+          onTap: close,
+          child: Container(
+            color: Colors.black54,
+            width: screenWidth,
+            height: double.infinity,
+          ),
+        ),
+      ),
+    );
+  }
 
-        return Stack(
-            children: [
-                if (!_isOpen)
-                    Positioned(
-                        left: 0,
-                        top: MediaQuery.of(context).size.height * 0.4,
-                        child: GestureDetector(
-                            onTap: _openMenu,
-                            onHorizontalDragUpdate: (details) {
-                                if (details.delta.dx > 3) {
-                                    _openMenu();
-                                }
-                            },
-                            child: Container(
-                                width: 28,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    color: Colors.orangeAccent,
-                                    borderRadius: const BorderRadius.only(
-                                        topRight: Radius.circular(12),
-                                        bottomRight: Radius.circular(12),
-                                    ),
-                                ),
-                                child: const Icon(
-                                    Icons.menu,
-                                    color: Colors.white,
-                                    size: 20,
-                                ),
-                            ),
-                        ),
-                    ),
-                if (!_isOpen)
-                    Positioned(
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 1000,
-                        child: GestureDetector(
-                            onHorizontalDragUpdate: (details) {
-                                if (details.delta.dx > 3) {
-                                    _openMenu();
-                                }
-                            },
-                            behavior: HitTestBehavior.translucent,
-                            child: const SizedBox.expand(),
-                        ),
-                    ),
-
-                // Dark overlay when menu is open
-                if (_isOpen)
-                    GestureDetector(
-                        onTap: _closeMenu,
-                        child: Container(
-                            color: Colors.black38,
-                            width: screenWidth,
-                            height: double.infinity,
-                        ),
-                    ),
-
-                // Slide-in menu
-                SlideTransition(
-                    position: _slideAnim,
-                    child: GestureDetector(
-                        onHorizontalDragUpdate: (details) {
-                            if (details.delta.dx < -10) {
-                                _closeMenu();
-                            }
-                        },
-                        child: Container(
-                            width: 220,
-                            color: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: Column(
-                                children: [
-                                    IconButton(
-                                        icon: const Icon(Icons.close),
-                                        onPressed: _closeMenu,
-                                        tooltip: loc.close_menu,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    _buildMenuItem(
-                                        icon: Icons.house,
-                                        title: loc.homePageTitle,
-                                        routeName: '/home',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.account_circle,
-                                        title: loc.profile,
-                                        routeName: '/profile',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.fact_check,
-                                        title: loc.list_menu,
-                                        routeName: '/shopping',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.menu_book,
-                                        title: loc.recipes,
-                                        routeName: '/recipe',
-                                    ),
-                                    const Spacer(),
-                                    _buildMenuItem(
-                                        icon: Icons.logout,
-                                        title: loc.disconnect,
-                                        isDisconnect: true,
-                                    ),
-                                ],
-                            ),
-                        ),
-                    ),
-                ),
-            ],
-        );
-    }
-
-    Widget _buildMenuItem({
-        required IconData icon,
-        required String title,
-        String routeName = '',
-        bool isDisconnect = false,
-    }) {
-        final selected = routeName == widget.currentRoute;
-
-        return InkWell(
-            onTap: () {
-                if (isDisconnect) {
-                    _disconnect();
-                } else if (routeName.isNotEmpty) {
-                    _navigateIfNotCurrent(routeName);
-                }
-            },
-            child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                child: Row(
-                    children: [
-                        Icon(icon, color: selected ? Colors.orangeAccent : Colors.black54),
-                        const SizedBox(width: 10),
-                        Flexible(
-                            child: Text(
-                                title,
-                                style: TextStyle(
-                                    color: selected ? Colors.orangeAccent : Colors.black87,
-                                    fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-                                ),
-                            ),
-                        ),
-                    ],
-                ),
+  Widget _buildMenuPanel(AppLocalizations loc) {
+    return SlideTransition(
+      position: _slideAnim,
+      child: ScaleTransition(
+        scale: _scaleAnim,
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            if (details.delta.dx < MenuConstants.dragCloseVelocity) {
+              close();
+            }
+          },
+          child: Material(
+            elevation: 16,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(24),
+              bottomRight: Radius.circular(24),
             ),
-        );
-    }
+            child: Container(
+              width: MenuConstants.menuWidth,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
+                ),
+              ),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildMenuTitle(),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MenuHeader(
+                              onTap: () {
+                                close();
+                                Navigator.pushNamed(context, '/profile');
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            _buildNavigationLabel(),
+                            const SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: MenuContent(
+                                currentRoute: widget.currentRoute,
+                                onClose: close,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _buildDivider(),
+                    _buildDisconnectButton(loc),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-    @override
-    void dispose() {
-        _controller.dispose();
-        super.dispose();
-    }
+  Widget _buildMenuTitle() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+      child: Text(
+        'Menu',
+        style: GoogleFonts.recursive(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: Colors.black87,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavigationLabel() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Text(
+        'NAVIGATION',
+        style: GoogleFonts.recursive(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: Colors.black38,
+          letterSpacing: 1.2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      height: 1,
+      color: Colors.grey.shade200,
+    );
+  }
+
+  Widget _buildDisconnectButton(AppLocalizations loc) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+      child: MenuItem(
+        icon: Icons.logout_rounded,
+        title: loc.disconnect,
+        isDisconnect: true,
+        onTap: () => MenuService.disconnect(context),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

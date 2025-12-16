@@ -367,6 +367,8 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
   List<ShoppingList> existing_lists = [];
   bool _isLoading = true;
   TextEditingController lname_ctrl = TextEditingController();
+  final GlobalKey<SideMenuState> _menuKey = GlobalKey<SideMenuState>();
+  bool _isMenuOpen = false;
 
   @override
   void initState() {
@@ -392,6 +394,43 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
 
   bool _listNameAvailableForUser(String name) {
     return !existing_lists.any((lst) => lst.name == name);
+  }
+
+  void _toggleMenu() {
+    _menuKey.currentState?.toggle();
+  }
+
+  Widget _buildSquareButton({
+    required Color color,
+    required Widget child,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      width: 45,
+      height: 45,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withAlpha(26),
+            blurRadius: 20,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15),
+          onTap: onPressed,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: child,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> showNameTaken(BuildContext context) async {
@@ -466,24 +505,64 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Scaffold(
-            appBar: AppBar(
-              title: Text(loc.shopping_lists),
-              flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    colors: [
-                      Color(0xFF10CA2C),
-                      Color(0xFF32D272),
-                    ],
+      body: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight + 10),
+          child: AppBar(
+            leading: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: _buildSquareButton(
+                  color: Colors.transparent,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return RotationTransition(
+                        turns: Tween(begin: 0.5, end: 1.0).animate(animation),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      _isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
+                      key: ValueKey(_isMenuOpen),
+                      color: Colors.black87,
+                    ),
                   ),
+                  onPressed: _toggleMenu,
                 ),
               ),
             ),
-            body: Center(
+            leadingWidth: 80,
+            titleSpacing: 16,
+            centerTitle: false,
+            title: Text(
+              loc.shopping_lists,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+                color: Colors.black87,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  colors: [
+                    Color(0xFF10CA2C),
+                    Color(0xFF32D272),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: Stack(
+          children: [
+            Center(
               child: _isLoading
                   ? LoadingWidget(message: loc.loading)
                   : ReorderableListView.builder(
@@ -573,29 +652,35 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
 
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                final result = await askListName(context);
-                if (result != null && result.isNotEmpty) {
-                  ShoppingList added = ShoppingList(
-                    name: result,
-                    user_id: user.id,
-                    products: [],
-                  );
-                  final inserted = await supabase
-                      .from("shopping_list")
-                      .insert(added.toMap())
-                      .select();
-                  added.id = inserted[0]["id"];
-                  setState(() => existing_lists.add(added));
-                }
-              },
-              child: const Icon(Icons.add),
-            ),
-          ),
 
-          const SideMenu(currentRoute: '/shopping'),
-        ],
+            SideMenu(
+              key: _menuKey,
+              currentRoute: '/shopping',
+              onOpenChanged: (isOpen) {
+                setState(() => _isMenuOpen = isOpen);
+              },
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final result = await askListName(context);
+            if (result != null && result.isNotEmpty) {
+              ShoppingList added = ShoppingList(
+                name: result,
+                user_id: user.id,
+                products: [],
+              );
+              final inserted = await supabase
+                  .from("shopping_list")
+                  .insert(added.toMap())
+                  .select();
+              added.id = inserted[0]["id"];
+              setState(() => existing_lists.add(added));
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
 
