@@ -8,7 +8,7 @@ import '../l10n/app_localizations.dart';
 class AddRecipePage extends StatefulWidget {
   final Map<String, dynamic>? recipeToEdit;
 
-  const AddRecipePage({Key? key, this.recipeToEdit}) : super(key: key);
+  const AddRecipePage({super.key, this.recipeToEdit});
 
   @override
   State<AddRecipePage> createState() => _AddRecipePageState();
