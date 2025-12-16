@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_detail_screen.dart';
-import 'package:food/screens/recipes_list.dart';
-import 'package:food/widgets/side_menu.dart';
+import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/recipes_list.dart';
+import 'package:SmartBites/widgets/side_menu.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:food/l10n/app_localizations.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
-
 import 'screens/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';

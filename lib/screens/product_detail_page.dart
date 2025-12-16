@@ -1,6 +1,6 @@
 // A page that displays detailed information about a product
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../widgets/grade_utils.dart';

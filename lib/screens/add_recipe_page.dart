@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_search_page.dart';
+import 'package:SmartBites/screens/product_search_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
-import 'package:food/main.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
+import 'package:SmartBites/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'register_screen.dart';
 

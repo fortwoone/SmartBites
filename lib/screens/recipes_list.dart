@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/view_recipe_page.dart';
+import 'package:SmartBites/screens/view_recipe_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/side_menu.dart';

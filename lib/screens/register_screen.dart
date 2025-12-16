@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
-import 'package:food/screens/login_screen.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
+import 'package:SmartBites/screens/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
