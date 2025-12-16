@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:SmartBites/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../utils/page_transitions.dart';
 import 'register_screen.dart';
 import '../../widgets/auth/login_header.dart';
 import '../../widgets/auth/auth_text_field.dart';
@@ -155,9 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                            Navigator.of(context).push(
+                              SlideAndFadePageRoute(
+                                page: const RegisterScreen(),
+                                direction: AxisDirection.right,
+                              ),
                             );
                           },
                           child: Text(
