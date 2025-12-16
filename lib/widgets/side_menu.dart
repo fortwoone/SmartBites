@@ -168,6 +168,11 @@ class _SideMenuState extends State<SideMenu> with SingleTickerProviderStateMixin
                                         title: loc.recipes,
                                         routeName: '/recipe',
                                     ),
+                                    _buildMenuItem(
+                                        icon: Icons.table_restaurant_sharp,
+                                        title: loc.recipes,
+                                        routeName: '/testLeclerc',
+                                    ),
                                     const Spacer(),
                                     _buildMenuItem(
                                         icon: Icons.logout,
