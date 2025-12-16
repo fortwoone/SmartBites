@@ -178,18 +178,18 @@ class _RecipeListPageState extends State<RecipeListPage> {
       final loc = AppLocalizations.of(context)!;
 
       return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddRecipePage()),
-            );
-            _fetchRecipes();
-          },
-          backgroundColor: Colors.deepOrangeAccent.shade200,
-          icon: const Icon(Icons.add, size: 30),
-          label: Text(loc.addRecipe),
-        ),
+        // floatingActionButton: FloatingActionButton.extended(
+        //   onPressed: () async {
+        //     await Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => const AddRecipePage()),
+        //     );
+        //     _fetchRecipes();
+        //   },
+        //   backgroundColor: Colors.deepOrangeAccent.shade200,
+        //   icon: const Icon(Icons.add, size: 30),
+        //   label: Text(loc.addRecipe),
+        // ),
 
         body: Scaffold(
           appBar: PreferredSize(
@@ -241,6 +241,16 @@ class _RecipeListPageState extends State<RecipeListPage> {
                   tooltip: _showOnlyMine ? loc.allRecipes : loc.showMyRecipes,
                   onPressed: _toggleFilter,
                 ),
+                IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddRecipePage()),
+                      );
+                      _fetchRecipes();
+                    },
+                )
               ],
             ),
           ),

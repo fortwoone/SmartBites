@@ -8,7 +8,7 @@ import './shopping_list.dart';
 class ViewRecipePage extends StatelessWidget {
   final Map<String, dynamic> recipe;
 
-  const ViewRecipePage({Key? key, required this.recipe}) : super(key: key);
+  const ViewRecipePage({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -229,11 +229,28 @@ class ViewRecipePage extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Ingredients
-            Text(loc.ingredients,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: peachDark)),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                    Text(loc.ingredients,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: peachDark
+                        )
+                    ),
+                    CircleAvatar(
+                        backgroundColor: peachDark,
+                        radius: 20,
+                        child: IconButton(
+                            icon: Icon(Icons.shopping_cart),
+                            onPressed: () async {
+                              await _createShoppingListFromRecipe(context);
+                            },
+                        ),
+                    )
+                ]
+            ),
             const SizedBox(height: 8),
             if (ingredients.isEmpty)
               Text(loc.noIngredients,
@@ -255,14 +272,14 @@ class ViewRecipePage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await _createShoppingListFromRecipe(context);
-        },
-        label: const Text("Créer la liste de courses"),
-        icon: const Icon(Icons.shopping_cart),
-        backgroundColor: peachDark,
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () async {
+      //     await _createShoppingListFromRecipe(context);
+      //   },
+      //   label: const Text("Créer la liste de courses"),
+      //   icon: const Icon(Icons.shopping_cart),
+      //   backgroundColor: peachDark,
+      // ),
     );
   }
 }
