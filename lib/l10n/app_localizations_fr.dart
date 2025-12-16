@@ -426,6 +426,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get close_menu => 'Fermer le menu';
 
   @override
+  String get loading => 'Chargement en cours';
+
+  @override
+  String get empty_list => 'Votre liste est vide';
+
+  @override
+  String get name_list => 'Nom de la liste';
+
+  @override
   String get error_invalid_credentials => 'Email ou mot de passe incorrect. Veuillez vérifier vos identifiants.';
 
   @override
