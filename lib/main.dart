@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:SmartBites/screens/product_detail_screen.dart';
 import 'package:SmartBites/screens/recipes_list.dart';
 import 'package:SmartBites/widgets/side_menu.dart';
@@ -18,7 +19,11 @@ import 'screens/profile_screen.dart';
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    // Initialize timezone database so we can display dates in Europe/Paris
+    await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+    ]);
+
     tzdata.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Europe/Paris'));
 
