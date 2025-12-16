@@ -481,6 +481,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_register => 'Don\'t have an account ?';
+
+  @override
   String get loading => 'Loading in progress';
 
   @override

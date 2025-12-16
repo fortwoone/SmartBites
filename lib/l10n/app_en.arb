@@ -157,8 +157,7 @@
   "login_subtitle": "Happy to see you again !",
   "hint_conf_passwd": "Confirm your password",
   "conf_passwd": "Confirm Password",
-  "login_register": "Don't have an account ?"
-  "close_menu": "Close menu",
+  "login_register": "Don't have an account ?",
   "loading": "Loading in progress",
   "empty_list":"Your list is empty",
   "name_list": "List's name"

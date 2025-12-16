@@ -929,24 +929,6 @@ abstract class AppLocalizations {
   /// **'Close menu'**
   String get close_menu;
 
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading in progress'**
-  String get loading;
-
-  /// No description provided for @empty_list.
-  ///
-  /// In en, this message translates to:
-  /// **'Your list is empty'**
-  String get empty_list;
-
-  /// No description provided for @name_list.
-  ///
-  /// In en, this message translates to:
-  /// **'List\'s name'**
-  String get name_list;
-
   /// No description provided for @error_invalid_credentials.
   ///
   /// In en, this message translates to:
@@ -1060,6 +1042,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t have an account ?'**
   String get login_register;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading in progress'**
+  String get loading;
+
+  /// No description provided for @empty_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Your list is empty'**
+  String get empty_list;
+
+  /// No description provided for @name_list.
+  ///
+  /// In en, this message translates to:
+  /// **'List\'s name'**
+  String get name_list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
