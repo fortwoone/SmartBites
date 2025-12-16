@@ -490,4 +490,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get name_list => 'Nom de la liste';
+
+  @override
+  String get testapis => 'Tests des apis';
 }

@@ -1060,6 +1060,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'List\'s name'**
   String get name_list;
+
+  /// No description provided for @testapis.
+  ///
+  /// In en, this message translates to:
+  /// **'APIs tests'**
+  String get testapis;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

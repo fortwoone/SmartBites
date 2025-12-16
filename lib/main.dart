@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
                 '/profile': (ctx) => const ProfileScreen(),
                 '/next': (ctx) => const RecipesSearchScreen(),
                 '/recipe': (ctx) => const RecipeListPage(),
-                '/testLeclerc': (ctx) => const ProductSearchPage(),
+                '/testapis': (ctx) => const ProductSearchPage(),
                 '/shopping': (ctx) {
                     final session = Supabase.instance.client.auth.currentSession;
                     if (session == null) {

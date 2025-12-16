@@ -161,7 +161,8 @@
   "login_register": "Pas encore de compte ?",
   "loading": "Chargement en cours",
   "empty_list":"Votre liste est vide",
-  "name_list": "Nom de la liste"
+  "name_list": "Nom de la liste",
+  "testapis": "Tests des apis"
 
 
 }

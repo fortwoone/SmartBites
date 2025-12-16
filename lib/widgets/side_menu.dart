@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart'; 
+import 'package:google_fonts/google_fonts.dart';
 import 'menu/menu_constants.dart';
 import 'menu/menu_header.dart';
 import 'menu/menu_content.dart';
@@ -12,7 +12,7 @@ class SideMenu extends StatefulWidget {
   final ValueChanged<bool>? onOpenChanged;
 
   const SideMenu({
-    super.key, 
+    super.key,
     required this.currentRoute,
     this.onOpenChanged,
   });
@@ -155,89 +155,15 @@ class SideMenuState extends State<SideMenu> with SingleTickerProviderStateMixin 
                                 Navigator.pushNamed(context, '/profile');
                               },
                             ),
-                        ),
-                    ),
-                if (!_isOpen)
-                    Positioned(
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 1000,
-                        child: GestureDetector(
-                            onHorizontalDragUpdate: (details) {
-                                if (details.delta.dx > 3) {
-                                    _openMenu();
-                                }
-                            },
-                            behavior: HitTestBehavior.translucent,
-                            child: const SizedBox.expand(),
-                        ),
-                    ),
-
-                // Dark overlay when menu is open
-                if (_isOpen)
-                    GestureDetector(
-                        onTap: _closeMenu,
-                        child: Container(
-                            color: Colors.black38,
-                            width: screenWidth,
-                            height: double.infinity,
-                        ),
-                    ),
-
-                // Slide-in menu
-                SlideTransition(
-                    position: _slideAnim,
-                    child: GestureDetector(
-                        onHorizontalDragUpdate: (details) {
-                            if (details.delta.dx < -10) {
-                                _closeMenu();
-                            }
-                        },
-                        child: Container(
-                            width: 220,
-                            color: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 40),
-                            child: Column(
-                                children: [
-                                    IconButton(
-                                        icon: const Icon(Icons.close),
-                                        onPressed: _closeMenu,
-                                        tooltip: loc.close_menu,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    _buildMenuItem(
-                                        icon: Icons.house,
-                                        title: loc.homePageTitle,
-                                        routeName: '/home',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.account_circle,
-                                        title: loc.profile,
-                                        routeName: '/profile',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.fact_check,
-                                        title: loc.list_menu,
-                                        routeName: '/shopping',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.menu_book,
-                                        title: loc.recipes,
-                                        routeName: '/recipe',
-                                    ),
-                                    _buildMenuItem(
-                                        icon: Icons.table_restaurant_sharp,
-                                        title: loc.recipes,
-                                        routeName: '/testLeclerc',
-                                    ),
-                                    const Spacer(),
-                                    _buildMenuItem(
-                                        icon: Icons.logout,
-                                        title: loc.disconnect,
-                                        isDisconnect: true,
-                                    ),
-                                ],
+                            const SizedBox(height: 16),
+                            _buildNavigationLabel(),
+                            const SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: MenuContent(
+                                currentRoute: widget.currentRoute,
+                                onClose: close,
+                              ),
                             ),
                           ],
                         ),

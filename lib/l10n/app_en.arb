@@ -160,7 +160,8 @@
   "login_register": "Don't have an account ?",
   "loading": "Loading in progress",
   "empty_list":"Your list is empty",
-  "name_list": "List's name"
+  "name_list": "List's name",
+  "testapis": "APIs tests"
 
 
 }
