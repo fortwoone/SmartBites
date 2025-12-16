@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_search_page.dart';
+import 'package:SmartBites/screens/product_search_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +8,7 @@ import '../l10n/app_localizations.dart';
 class AddRecipePage extends StatefulWidget {
   final Map<String, dynamic>? recipeToEdit;
 
-  const AddRecipePage({Key? key, this.recipeToEdit}) : super(key: key);
+  const AddRecipePage({super.key, this.recipeToEdit});
 
   @override
   State<AddRecipePage> createState() => _AddRecipePageState();

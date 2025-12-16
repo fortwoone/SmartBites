@@ -426,6 +426,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close_menu => 'Close menu';
 
   @override
+  String get error_invalid_credentials => 'Invalid email or password. Please check your credentials.';
+
+  @override
+  String get error_user_not_found => 'No account found with this email. Please sign up.';
+
+  @override
+  String get error_wrong_password => 'Incorrect password. Please try again.';
+
+  @override
+  String get error_email_already_exists => 'An account already exists with this email. Please log in.';
+
+  @override
+  String get error_weak_password => 'Your password must contain at least 6 characters.';
+
+  @override
+  String get error_invalid_email => 'The email address is not valid. Please check the format.';
+
+  @override
+  String get error_network => 'Internet connection problem. Please check your network.';
+
+  @override
+  String get error_too_many_requests => 'Too many attempts. Please wait a few minutes before trying again.';
+
+  @override
+  String get error_email_not_confirmed => 'Please confirm your email before logging in. Check your mailbox.';
+
+  @override
+  String get passwords_not_match => 'Passwords do not match.';
+
+  @override
+  String get password_too_short => 'Password must contain at least 6 characters.';
+
+  @override
   String get loading => 'Loading in progress';
 
   @override

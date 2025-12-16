@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
-import 'package:food/models/product.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:food/db_objects/shopping_lst.dart";
 import "package:food/db_objects/cached_product.dart";
 import 'package:food/screens/product_search_page.dart';
@@ -9,6 +6,9 @@ import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
 import 'package:food/repositories/openfoodfacts_repository.dart';
 import 'package:food/widgets/loading_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 
 import '../widgets/side_menu.dart';
 
@@ -420,7 +420,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         title: Text(loc.rename),
         content: TextField(
           controller: ctrl,
-          decoration: InputDecoration(labelText: loc.name_list),
+          decoration: InputDecoration(labelText: "Nom liste"),
         ),
         actions: [
           TextButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
 
 Widget nutriscoreImg(String grade, AppLocalizations loc){
     if (grade == "unknown"){
