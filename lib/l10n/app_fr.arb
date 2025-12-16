@@ -159,4 +159,10 @@
   "hint_conf_passwd": "Confirmer votre mot de passe",
   "conf_passwd": "Confirmer le mot de passe",
   "login_register": "Pas encore de compte ?"
+  "close_menu": "Fermer le menu",
+  "loading": "Chargement en cours",
+  "empty_list":"Votre liste est vide",
+  "name_list": "Nom de la liste"
+
+
 }
