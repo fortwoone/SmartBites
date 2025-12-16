@@ -21,7 +21,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get increment => 'Incrémenter';
 
   @override
-  String get login => 'Connexion';
+  String get login_title => 'Connexion';
 
   @override
   String get email => 'E-mail';
@@ -45,7 +45,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hint_passwd => 'Veuillez entrer votre mot de passe';
 
   @override
-  String get register => 'S\'inscrire';
+  String get login_register_action => ' S\'inscrire';
 
   @override
   String get shopping_lists => 'Listes de courses';
@@ -457,4 +457,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get password_too_short => 'Le mot de passe doit contenir au moins 6 caractères.';
+
+  @override
+  String get register_title => 'Créer un compte';
+
+  @override
+  String get subtitle_register => 'Rejoignez SmartBite dès aujourd\'hui !';
+
+  @override
+  String get register_login => 'Vous avez déjà un compte ?';
+
+  @override
+  String get register_login_action => ' Connectez-vous';
+
+  @override
+  String get login_subtitle => 'Heureux de vous revoir !';
+
+  @override
+  String get hint_conf_passwd => 'Confirmer votre mot de passe';
+
+  @override
+  String get conf_passwd => 'Confirmer le mot de passe';
+
+  @override
+  String get login_register => 'Pas encore de compte ?';
 }

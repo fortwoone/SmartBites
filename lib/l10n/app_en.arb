@@ -4,15 +4,15 @@
   "homePageTitle": "Home Page",
   "pushButtonMessage": "You have pushed the button this many times:",
   "increment": "Increment",
-  "login": "Login",
+  "login_title": "Login",
   "email": "Email",
   "password": "Password",
   "perform_login": "Log in",
   "login_failed": "Error during logging",
   "fill_fields": "You have to fill all fields",
-  "email_hint": "Enter your mail",
+  "email_hint": "Enter your email",
   "hint_passwd": "Enter your password",
-  "register": "Register",
+  "login_register_action": " Create an account",
   "shopping_lists": "Shopping Lists",
   "new_list": "New Shopping List",
   "register_failed": "Error during register",
@@ -149,7 +149,13 @@
   "error_too_many_requests": "Too many attempts. Please wait a few minutes before trying again.",
   "error_email_not_confirmed": "Please confirm your email before logging in. Check your mailbox.",
   "passwords_not_match": "Passwords do not match.",
-  "password_too_short": "Password must contain at least 6 characters."
-
-
+  "password_too_short": "Password must contain at least 6 characters.",
+  "register_title": "Create an account",
+  "subtitle_register": "Join SmartBite today !",
+  "register_login": "Already have an account ?",
+  "register_login_action": " Log in",
+  "login_subtitle": "Happy to see you again !",
+  "hint_conf_passwd": "Confirm your password",
+  "conf_passwd": "Confirm Password",
+  "login_register": "Don't have an account ?"
 }

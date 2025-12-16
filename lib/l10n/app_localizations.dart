@@ -119,11 +119,11 @@ abstract class AppLocalizations {
   /// **'Increment'**
   String get increment;
 
-  /// No description provided for @login.
+  /// No description provided for @login_title.
   ///
   /// In en, this message translates to:
   /// **'Login'**
-  String get login;
+  String get login_title;
 
   /// No description provided for @email.
   ///
@@ -158,7 +158,7 @@ abstract class AppLocalizations {
   /// No description provided for @email_hint.
   ///
   /// In en, this message translates to:
-  /// **'Enter your mail'**
+  /// **'Enter your email'**
   String get email_hint;
 
   /// No description provided for @hint_passwd.
@@ -167,11 +167,11 @@ abstract class AppLocalizations {
   /// **'Enter your password'**
   String get hint_passwd;
 
-  /// No description provided for @register.
+  /// No description provided for @login_register_action.
   ///
   /// In en, this message translates to:
-  /// **'Register'**
-  String get register;
+  /// **' Create an account'**
+  String get login_register_action;
 
   /// No description provided for @shopping_lists.
   ///
@@ -994,6 +994,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password must contain at least 6 characters.'**
   String get password_too_short;
+
+  /// No description provided for @register_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get register_title;
+
+  /// No description provided for @subtitle_register.
+  ///
+  /// In en, this message translates to:
+  /// **'Join SmartBite today !'**
+  String get subtitle_register;
+
+  /// No description provided for @register_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account ?'**
+  String get register_login;
+
+  /// No description provided for @register_login_action.
+  ///
+  /// In en, this message translates to:
+  /// **' Log in'**
+  String get register_login_action;
+
+  /// No description provided for @login_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy to see you again !'**
+  String get login_subtitle;
+
+  /// No description provided for @hint_conf_passwd.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get hint_conf_passwd;
+
+  /// No description provided for @conf_passwd.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get conf_passwd;
+
+  /// No description provided for @login_register.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account ?'**
+  String get login_register;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
