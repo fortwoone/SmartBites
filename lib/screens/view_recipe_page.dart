@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../db_objects/shopping_lst.dart';
 import '../l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:food/db_objects/cached_product.dart';
+import 'package:SmartBites/db_objects/cached_product.dart';
 import './shopping_list.dart';
 
 class ViewRecipePage extends StatelessWidget {

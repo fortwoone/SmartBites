@@ -1,6 +1,5 @@
-//dart
 import 'dart:convert';
-import 'package:food/models/product_price.dart';
+import 'package:SmartBites/models/product_price.dart';
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
 
@@ -10,9 +9,6 @@ class OpenFoodFactsRepository {
     final http.Client client;
 
     OpenFoodFactsRepository({http.Client? client}) : client = client ?? http.Client();
-
-    /// Returns `Product` when found, `null` when product not found.
-    /// Throws an exception on network / parsing errors.
     Future<Product?> fetchProductByBarcode(String barcode) async {
         final uri = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
         final response = await client.get(uri).timeout(const Duration(seconds: 60));

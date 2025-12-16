@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food/l10n/app_localizations.dart';
-import 'package:food/models/product.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
+import 'package:SmartBites/models/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import "package:food/db_objects/shopping_lst.dart";
-import "package:food/db_objects/cached_product.dart";
-import 'package:food/screens/product_search_page.dart';
-import 'package:food/screens/product_detail_page.dart';
-import 'package:food/widgets/product_price_widget.dart';
-import 'package:food/repositories/openfoodfacts_repository.dart';
+import "package:SmartBites/db_objects/shopping_lst.dart";
+import "package:SmartBites/db_objects/cached_product.dart";
+import 'package:SmartBites/screens/product_search_page.dart';
+import 'package:SmartBites/screens/product_detail_page.dart';
+import 'package:SmartBites/widgets/product_price_widget.dart';
+import 'package:SmartBites/repositories/openfoodfacts_repository.dart';
 
 import '../widgets/side_menu.dart';
 

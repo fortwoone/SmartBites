@@ -1,4 +1,4 @@
-import "package:food/models/product.dart";
+import "package:SmartBites/models/product.dart";
 import "package:test/test.dart";
 
 void main(){

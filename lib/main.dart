@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/product_detail_screen.dart';
-import 'package:food/screens/recipes_list.dart';
-import 'package:food/widgets/side_menu.dart';
+import 'package:flutter/services.dart';
+import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/recipes_list.dart';
+import 'package:SmartBites/widgets/side_menu.dart';
 import 'models/product.dart';
 import 'repositories/openfoodfacts_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:food/l10n/app_localizations.dart';
+import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
-
-import 'screens/login_screen.dart';
+import 'screens/auth/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
@@ -19,7 +19,11 @@ import 'screens/profile_screen.dart';
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    // Initialize timezone database so we can display dates in Europe/Paris
+    await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+    ]);
+
     tzdata.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Europe/Paris'));
 
@@ -116,8 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() => _loading = false);
         }
     }
-
-    // Called by AppNavBar when the user submits a search
     void _onSearchSubmitted(String q) => _search(q);
 
     String _titleFor(Product p) => p.name ?? p.brands ?? 'Produit inconnu';
