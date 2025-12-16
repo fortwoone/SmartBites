@@ -39,7 +39,6 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
 
     Future<void> _getCachedProductData() async {
         for (String barcode in widget.list.products) {
-            // Si c’est un produit texte (ajout manuel), on crée une "fausse" entrée
             if (barcode.startsWith("TEXT:")) {
                 final name = barcode.substring(5);
                 cachedProducts[barcode] = CachedProduct(
@@ -79,10 +78,26 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         }
     }
 
+    Future<void> _updateQuantity(String barcode, int newQuantity) async {
+        if (newQuantity <= 0) return;
+
+        setState(() {
+            widget.list.quantities[barcode] = newQuantity;
+        });
+
+        await supabase
+            .from("shopping_list")
+            .update({"quantities": widget.list.quantities})
+            .eq("id", widget.list.id!);
+    }
+
     double _calculateTotal() {
         double total = 0.0;
-        for (var price in productPrices.values) {
-            total += price;
+        for (var entry in productPrices.entries) {
+            final barcode = entry.key;
+            final price = entry.value;
+            final quantity = widget.list.quantities[barcode] ?? 1;
+            total += price * quantity;
         }
         return total;
     }
@@ -206,57 +221,142 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                               itemBuilder: (context, index) {
                                 String barcode = widget.list.products[index];
                                 CachedProduct cached = cachedProducts[barcode]!;
+                                int quantity = widget.list.quantities[barcode] ?? 1;
 
-                                return ListTile(
-                                  leading: cached.img_small_url.trim().isEmpty
-                                      ? const SizedBox(width: 56, height: 56)
-                                      : Image.network(
-                                          cached.img_small_url,
-                                          width: 56,
-                                          height: 56,
-                                          fit: BoxFit.cover,
+                                return Card(
+                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  elevation: 1,
+                                  child: InkWell(
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductDetailPage(
+                                          barcode: barcode,
+                                          inAddMode: false,
                                         ),
-                                  title: Text(
-                                    loc.localeName.startsWith('fr')
-                                        ? cached.fr_name
-                                        : cached.en_name,
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(cached.brands),
-                                      const SizedBox(height: 4),
-                                      ProductPriceWidget(
-                                        barcode: barcode,
-                                        compact: true,
                                       ),
-                                    ],
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () async {
-                                      final result = await askDeleteProduct(context);
-                                      if (result == true) {
-                                        List<String> updated = List.from(widget.list.products);
-                                        updated.removeAt(index);
-                                        await supabase
-                                            .from("shopping_list")
-                                            .update({"products": updated})
-                                            .eq("id", widget.list.id!);
-                                        setState(() {
-                                          widget.list.products = updated;
-                                          cachedProducts.remove(barcode);
-                                          productPrices.remove(barcode);
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProductDetailPage(
-                                        barcode: barcode,
-                                        inAddMode: false,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          // Image du produit
+                                          cached.img_small_url.trim().isEmpty
+                                              ? Container(
+                                                  width: 56,
+                                                  height: 56,
+                                                  color: Colors.grey[200],
+                                                  child: const Icon(Icons.shopping_bag, color: Colors.grey),
+                                                )
+                                              : Image.network(
+                                                  cached.img_small_url,
+                                                  width: 56,
+                                                  height: 56,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                          const SizedBox(width: 12),
+                                          // Informations du produit
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  loc.localeName.startsWith('fr')
+                                                      ? cached.fr_name
+                                                      : cached.en_name,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                if (cached.brands.isNotEmpty) ...[
+                                                  const SizedBox(height: 2),
+                                                  Text(
+                                                    cached.brands,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  ),
+                                                ],
+                                                const SizedBox(height: 4),
+                                                ProductPriceWidget(
+                                                  barcode: barcode,
+                                                  compact: true,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // Contrôles de quantité
+                                          Column(
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  IconButton(
+                                                    icon: const Icon(Icons.remove_circle_outline),
+                                                    iconSize: 24,
+                                                    color: Colors.red[400],
+                                                    onPressed: () {
+                                                      if (quantity > 1) {
+                                                        _updateQuantity(barcode, quantity - 1);
+                                                      }
+                                                    },
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[100],
+                                                      borderRadius: BorderRadius.circular(8),
+                                                    ),
+                                                    child: Text(
+                                                      '$quantity',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.add_circle_outline),
+                                                    iconSize: 24,
+                                                    color: Colors.green[400],
+                                                    onPressed: () {
+                                                      _updateQuantity(barcode, quantity + 1);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(Icons.delete_outline),
+                                                iconSize: 20,
+                                                color: Colors.red,
+                                                onPressed: () async {
+                                                  final result = await askDeleteProduct(context);
+                                                  if (result == true) {
+                                                    List<String> updated = List.from(widget.list.products);
+                                                    updated.removeAt(index);
+                                                    widget.list.quantities.remove(barcode);
+                                                    await supabase
+                                                        .from("shopping_list")
+                                                        .update({
+                                                          "products": updated,
+                                                          "quantities": widget.list.quantities
+                                                        })
+                                                        .eq("id", widget.list.id!);
+                                                    setState(() {
+                                                      widget.list.products = updated;
+                                                      cachedProducts.remove(barcode);
+                                                      productPrices.remove(barcode);
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -325,10 +425,16 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                   });
 
                   widget.list.products.add(result.barcode);
+                  widget.list.quantities[result.barcode] = 1; // Initialiser la quantité à 1
+
                   await supabase
                       .from("shopping_list")
-                      .update({"products": widget.list.products})
+                      .update({
+                        "products": widget.list.products,
+                        "quantities": widget.list.quantities
+                      })
                       .eq("id", widget.list.id!);
+
                   final repository = OpenFoodFactsRepository();
                   try {
                     final price = await repository.getLatestPrice(result.barcode);
@@ -670,6 +776,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
                 name: result,
                 user_id: user.id,
                 products: [],
+                quantities: {}, // Initialiser avec un Map vide
               );
               final inserted = await supabase
                   .from("shopping_list")
