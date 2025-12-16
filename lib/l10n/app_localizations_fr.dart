@@ -424,4 +424,37 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get close_menu => 'Fermer le menu';
+
+  @override
+  String get error_invalid_credentials => 'Email ou mot de passe incorrect. Veuillez vérifier vos identifiants.';
+
+  @override
+  String get error_user_not_found => 'Aucun compte n\'existe avec cet email. Veuillez vous inscrire.';
+
+  @override
+  String get error_wrong_password => 'Mot de passe incorrect. Veuillez réessayer.';
+
+  @override
+  String get error_email_already_exists => 'Un compte existe déjà avec cet email. Veuillez vous connecter.';
+
+  @override
+  String get error_weak_password => 'Votre mot de passe doit contenir au moins 6 caractères.';
+
+  @override
+  String get error_invalid_email => 'L\'adresse email n\'est pas valide. Veuillez vérifier le format.';
+
+  @override
+  String get error_network => 'Problème de connexion internet. Veuillez vérifier votre réseau.';
+
+  @override
+  String get error_too_many_requests => 'Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.';
+
+  @override
+  String get error_email_not_confirmed => 'Veuillez confirmer votre email avant de vous connecter. Vérifiez votre boîte mail.';
+
+  @override
+  String get passwords_not_match => 'Les mots de passe ne correspondent pas.';
+
+  @override
+  String get password_too_short => 'Le mot de passe doit contenir au moins 6 caractères.';
 }

@@ -3,11 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:SmartBites/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../utils/page_transitions.dart';
 import 'register_screen.dart';
 import '../../widgets/auth/login_header.dart';
 import '../../widgets/auth/auth_text_field.dart';
 import '../../utils/color_constants.dart';
+import '../../utils/page_transitions.dart';
+import '../../utils/error_handler.dart';
 import '../../widgets/primary_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,9 +25,27 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   Future<void> _performLogin(BuildContext context) async {
-    if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty) {
+    final loc = AppLocalizations.of(context)!;
+
+    // Validation des champs
+    if (emailCtrl.text.trim().isEmpty || passwdCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.fill_fields)),
+        SnackBar(
+          content: Text(loc.fill_fields),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    // Validation du format email
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(loc.error_invalid_email),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -47,13 +66,21 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
+          SnackBar(
+            content: Text(loc.login_failed),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (e) {
-      if (mounted) {
+      if (mounted && context.mounted) {
+        final errorMessage = getReadableErrorMessage(e, context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: ${e.toString()}')),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
         );
       }
     } finally {
