@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../utils/color_constants.dart';
 import '../../utils/page_transitions.dart';
+import '../../utils/error_handler.dart';
 import '../../widgets/auth/login_header.dart';
 import '../../widgets/auth/auth_text_field.dart';
 import '../../widgets/primary_button.dart';
@@ -27,16 +28,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _performRegister(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
 
-    if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty || confirmPasswdCtrl.text.isEmpty) {
+    // Validation des champs vides
+    if (emailCtrl.text.trim().isEmpty ||
+        passwdCtrl.text.trim().isEmpty ||
+        confirmPasswdCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc.fill_fields)),
+        SnackBar(
+          content: Text(loc.fill_fields),
+          backgroundColor: Colors.orange,
+        ),
       );
       return;
     }
 
+    // Validation du format email
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(loc.error_invalid_email),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Validation de la longueur du mot de passe
+    if (passwdCtrl.text.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(loc.password_too_short),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Validation de la correspondance des mots de passe
     if (passwdCtrl.text != confirmPasswdCtrl.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Les mots de passe ne correspondent pas')),
+        SnackBar(
+          content: Text(loc.passwords_not_match),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -51,21 +85,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (response.user != null && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(loc.register_success)),
+          SnackBar(
+            content: Text(loc.register_success),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2),
+          ),
         );
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
+
+        // Attendre un peu pour que l'utilisateur voie le message de succès
+        await Future.delayed(const Duration(milliseconds: 800));
+
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+            SlideAndFadePageRoute(
+              page: const LoginScreen(),
+              direction: AxisDirection.left,
+            ),
+          );
+        }
       } else {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(loc.register_failed)),
+          SnackBar(
+            content: Text(loc.register_failed),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (e) {
-      if (mounted) {
+      if (mounted && context.mounted) {
+        final errorMessage = getReadableErrorMessage(e, context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${loc.register_failed}: $e')),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
         );
       }
     } finally {

@@ -928,6 +928,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close menu'**
   String get close_menu;
+
+  /// No description provided for @error_invalid_credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password. Please check your credentials.'**
+  String get error_invalid_credentials;
+
+  /// No description provided for @error_user_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found with this email. Please sign up.'**
+  String get error_user_not_found;
+
+  /// No description provided for @error_wrong_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect password. Please try again.'**
+  String get error_wrong_password;
+
+  /// No description provided for @error_email_already_exists.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email. Please log in.'**
+  String get error_email_already_exists;
+
+  /// No description provided for @error_weak_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password must contain at least 6 characters.'**
+  String get error_weak_password;
+
+  /// No description provided for @error_invalid_email.
+  ///
+  /// In en, this message translates to:
+  /// **'The email address is not valid. Please check the format.'**
+  String get error_invalid_email;
+
+  /// No description provided for @error_network.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet connection problem. Please check your network.'**
+  String get error_network;
+
+  /// No description provided for @error_too_many_requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a few minutes before trying again.'**
+  String get error_too_many_requests;
+
+  /// No description provided for @error_email_not_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your email before logging in. Check your mailbox.'**
+  String get error_email_not_confirmed;
+
+  /// No description provided for @passwords_not_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get passwords_not_match;
+
+  /// No description provided for @password_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least 6 characters.'**
+  String get password_too_short;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
