@@ -167,13 +167,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
-                      ),
-                    ),
                     const SizedBox(height: 10),
                     LoginHeader(
                       title: loc.register_title,

@@ -39,10 +39,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get fill_fields => 'Vous devez renseigner tous les champs';
 
   @override
-  String get email_hint => 'Veuillez entrer votre adresse mail';
+  String get email_hint => 'Entrez votre adresse mail';
 
   @override
-  String get hint_passwd => 'Veuillez entrer votre mot de passe';
+  String get hint_passwd => 'Entrez votre mot de passe';
 
   @override
   String get login_register_action => ' S\'inscrire';
