@@ -21,7 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get increment => 'Increment';
 
   @override
-  String get login => 'Login';
+  String get login_title => 'Login';
 
   @override
   String get email => 'Email';
@@ -39,13 +39,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fill_fields => 'You have to fill all fields';
 
   @override
-  String get email_hint => 'Enter your mail';
+  String get email_hint => 'Enter your email';
 
   @override
   String get hint_passwd => 'Enter your password';
 
   @override
-  String get register => 'Register';
+  String get login_register_action => ' Create an account';
 
   @override
   String get shopping_lists => 'Shopping Lists';
@@ -459,6 +459,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password_too_short => 'Password must contain at least 6 characters.';
 
   @override
+  String get register_title => 'Create an account';
+
+  @override
+  String get subtitle_register => 'Join SmartBite today !';
+
+  @override
+  String get register_login => 'Already have an account ?';
+
+  @override
+  String get register_login_action => ' Log in';
+
+  @override
+  String get login_subtitle => 'Happy to see you again !';
+
+  @override
+  String get hint_conf_passwd => 'Confirm your password';
+
+  @override
+  String get conf_passwd => 'Confirm Password';
+
+  @override
+  String get login_register => 'Don\'t have an account ?';
   String get loading => 'Loading in progress';
 
   @override

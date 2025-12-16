@@ -166,17 +166,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
-                      ),
-                    ),
                     const SizedBox(height: 10),
-                    const LoginHeader(
-                      title: 'Inscription',
-                      subtitle: 'Rejoignez SmartBites',
+                    LoginHeader(
+                      title: loc.register_title,
+                      subtitle: loc.subtitle_register,
                       logoSize: 80,
                     ),
 
@@ -213,9 +206,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(height: 14),
                           AuthTextField(
                             controller: confirmPasswdCtrl,
-                            hint: 'Confirmez votre mot de passe',
+                            hint: loc.hint_conf_passwd,
                             icon: Icons.lock_outline,
-                            label: 'Confirmer le mot de passe',
+                            label: loc.conf_passwd,
                             isPassword: true,
                           ),
                         ],
@@ -234,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Déjà un compte ? ",
+                          loc.register_login,
                           style: GoogleFonts.recursive(color: Colors.grey.shade600),
                         ),
                         GestureDetector(
@@ -247,7 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             );
                           },
                           child: Text(
-                            "Connectez-vous",
+                            loc.register_login_action,
                             style: GoogleFonts.recursive(
                               color: primaryPeach,
                               fontWeight: FontWeight.bold,
