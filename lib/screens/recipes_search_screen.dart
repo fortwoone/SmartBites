@@ -15,9 +15,11 @@ class RecipesSearchScreen extends StatefulWidget {
 
 class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
     final supabase = Supabase.instance.client;
+    final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
     List<Recipe> _recipes = [];
     bool _loading = false;
-    String? _error = null;
+    String? _error;
+    bool _isMenuOpen = false;
 
     @override
     void initState() {
@@ -59,6 +61,10 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
         _search(q);
     }
 
+    void _toggleMenu() {
+        _sideMenuKey.currentState?.toggle();
+    }
+
     @override
     Widget build(BuildContext context) {
         final loc = AppLocalizations.of(context)!;
@@ -72,9 +78,11 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                             showSearch: true,
                             onSearchSubmitted: _onSearchSubmitted,
                             showSquareButtons: true,
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
                             rightRoute: '/next',
                             leftRoute: '/home',
+                            onMenuPressed: _toggleMenu,
+                            isMenuOpen: _isMenuOpen,
                         ),
                         body: Center(
                             child: Column(
@@ -134,10 +142,17 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                         ),
                     ),
 
-                    const SideMenu(currentRoute: '/next'),
+                    SideMenu(
+                        key: _sideMenuKey,
+                        currentRoute: '/next',
+                        onOpenChanged: (isOpen) {
+                            setState(() => _isMenuOpen = isOpen);
+                        },
+                    ),
                 ],
             ),
         );
 
     }
 }
+
