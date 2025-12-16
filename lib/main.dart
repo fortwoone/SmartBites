@@ -1,3 +1,4 @@
+import 'package:SmartBites/screens/api_search_test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SmartBites/screens/product_detail_screen.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
                 '/profile': (ctx) => const ProfileScreen(),
                 '/next': (ctx) => const RecipesSearchScreen(),
                 '/recipe': (ctx) => const RecipeListPage(),
+                '/testLeclerc': (ctx) => const ProductSearchPage(),
                 '/shopping': (ctx) {
                     final session = Supabase.instance.client.auth.currentSession;
                     if (session == null) {
