@@ -150,5 +150,11 @@
   "error_too_many_requests": "Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.",
   "error_email_not_confirmed": "Veuillez confirmer votre email avant de vous connecter. Vérifiez votre boîte mail.",
   "passwords_not_match": "Les mots de passe ne correspondent pas.",
-  "password_too_short": "Le mot de passe doit contenir au moins 6 caractères."
+  "password_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
+  "close_menu": "Fermer le menu",
+  "loading": "Chargement en cours",
+  "empty_list":"Votre liste est vide",
+  "name_list": "Nom de la liste"
+
+
 }

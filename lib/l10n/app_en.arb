@@ -149,7 +149,11 @@
   "error_too_many_requests": "Too many attempts. Please wait a few minutes before trying again.",
   "error_email_not_confirmed": "Please confirm your email before logging in. Check your mailbox.",
   "passwords_not_match": "Passwords do not match.",
-  "password_too_short": "Password must contain at least 6 characters."
+  "password_too_short": "Password must contain at least 6 characters.",
+  "close_menu": "Close menu",
+  "loading": "Loading in progress",
+  "empty_list":"Your list is empty",
+  "name_list": "List's name"
 
 
 }

@@ -457,4 +457,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get password_too_short => 'Password must contain at least 6 characters.';
+
+  @override
+  String get loading => 'Loading in progress';
+
+  @override
+  String get empty_list => 'Your list is empty';
+
+  @override
+  String get name_list => 'List\'s name';
 }

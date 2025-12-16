@@ -73,6 +73,35 @@ class _SideMenuState extends State<SideMenu> with SingleTickerProviderStateMixin
                 if (!_isOpen)
                     Positioned(
                         left: 0,
+                        top: MediaQuery.of(context).size.height * 0.4,
+                        child: GestureDetector(
+                            onTap: _openMenu,
+                            onHorizontalDragUpdate: (details) {
+                                if (details.delta.dx > 3) {
+                                    _openMenu();
+                                }
+                            },
+                            child: Container(
+                                width: 28,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    color: Colors.orangeAccent,
+                                    borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(12),
+                                        bottomRight: Radius.circular(12),
+                                    ),
+                                ),
+                                child: const Icon(
+                                    Icons.menu,
+                                    color: Colors.white,
+                                    size: 20,
+                                ),
+                            ),
+                        ),
+                    ),
+                if (!_isOpen)
+                    Positioned(
+                        left: 0,
                         top: 0,
                         bottom: 0,
                         width: 1000,

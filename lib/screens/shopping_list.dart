@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:SmartBites/l10n/app_localizations.dart';
-import 'package:SmartBites/models/product.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import "package:SmartBites/db_objects/shopping_lst.dart";
 import "package:SmartBites/db_objects/cached_product.dart";
 import 'package:SmartBites/screens/product_search_page.dart';
 import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/widgets/product_price_widget.dart';
 import 'package:SmartBites/repositories/openfoodfacts_repository.dart';
+import 'package:SmartBites/widgets/loading_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+
+import '../l10n/app_localizations.dart';
+import '../models/product.dart';
 import '../widgets/side_menu.dart';
 
 
@@ -173,22 +176,22 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 ),
               ),
             ),
-            body: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : (widget.list.products.isEmpty
+          body: _isLoading
+              ? LoadingWidget(message: loc.loading)
+              : (widget.list.products.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.shopping_cart_outlined, size: 72, color: Colors.grey[400]),
                             const SizedBox(height: 16),
-                            const Text(
-                              'Votre panier est vide',
+                            Text(
+                              loc.empty_list,
                               style: TextStyle(fontSize: 18, color: Colors.grey),
                             ),
                             const SizedBox(height: 8),
-                            const Text(
-                              'Ajoutez des produits en appuyant sur +',
+                            Text(
+                              loc.add_product,
                               style: TextStyle(fontSize: 14, color: Colors.grey),
                             ),
                           ],
@@ -482,7 +485,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
             ),
             body: Center(
               child: _isLoading
-                  ? const CircularProgressIndicator()
+                  ? LoadingWidget(message: loc.loading)
                   : ReorderableListView.builder(
                 itemCount: existing_lists.length,
                 onReorder: (oldIndex, newIndex) {
