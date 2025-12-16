@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../utils/color_constants.dart';
+import '../../utils/page_transitions.dart';
 import '../../widgets/auth/login_header.dart';
 import '../../widgets/auth/auth_text_field.dart';
 import '../../widgets/primary_button.dart';
@@ -20,14 +21,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final supabase = Supabase.instance.client;
   final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController passwdCtrl = TextEditingController();
+  final TextEditingController confirmPasswdCtrl = TextEditingController();
   bool isLoading = false;
 
   Future<void> _performRegister(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
 
-    if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty) {
+    if (emailCtrl.text.isEmpty || passwdCtrl.text.isEmpty || confirmPasswdCtrl.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(loc.fill_fields)),
+      );
+      return;
+    }
+
+    if (passwdCtrl.text != confirmPasswdCtrl.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Les mots de passe ne correspondent pas')),
       );
       return;
     }
@@ -90,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               width: 200,
               height: 200,
               decoration: BoxDecoration(
-                color: primaryPeach.withAlpha(13), // ~0.05 * 255
+                color: primaryPeach.withAlpha(13),
                 shape: BoxShape.circle,
               ),
             ),
@@ -110,22 +119,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
+                    const LoginHeader(
+                      title: 'Inscription',
+                      subtitle: 'Rejoignez SmartBites',
+                      logoSize: 80,
+                    ),
 
-                    // Header réutilisable
-                    const LoginHeader(subtitle: 'Rejoignez SmartBites'),
-
-                    const SizedBox(height: 48),
-
-                    // Formulaire
+                    const SizedBox(height: 24),
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withAlpha(26), // ~0.1*255
+                            color: Colors.grey.withAlpha(26),
                             blurRadius: 20,
                             offset: const Offset(0, 5),
                           ),
@@ -139,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             icon: Icons.email_outlined,
                             label: loc.email,
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 14),
                           AuthTextField(
                             controller: passwdCtrl,
                             hint: loc.hint_passwd,
@@ -147,10 +156,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             label: loc.password,
                             isPassword: true,
                           ),
+                          const SizedBox(height: 14),
+                          AuthTextField(
+                            controller: confirmPasswdCtrl,
+                            hint: 'Confirmez votre mot de passe',
+                            icon: Icons.lock_outline,
+                            label: 'Confirmer le mot de passe',
+                            isPassword: true,
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 20),
                     isLoading
                         ? const Center(child: CircularProgressIndicator())
                         : PrimaryButton(
@@ -158,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             label: loc.validate,
                             isLoading: isLoading,
                           ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -168,7 +185,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            Navigator.of(context).pushReplacement(
+                              SlideAndFadePageRoute(
+                                page: const LoginScreen(),
+                                direction: AxisDirection.left,
+                              ),
+                            );
                           },
                           child: Text(
                             "Connectez-vous",

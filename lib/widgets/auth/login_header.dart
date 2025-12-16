@@ -4,10 +4,11 @@ import 'package:SmartBites/l10n/app_localizations.dart';
 import '../../utils/color_constants.dart';
 
 class LoginHeader extends StatelessWidget {
+  final String? title;
   final String? subtitle;
   final double logoSize;
 
-  const LoginHeader({super.key, this.subtitle, this.logoSize = 96});
+  const LoginHeader({super.key, this.title, this.subtitle, this.logoSize = 80});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,9 @@ class LoginHeader extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
         Text(
-          loc?.login ?? 'Connexion',
+          title ?? loc?.login ?? 'Connexion',
           style: GoogleFonts.recursive(
             fontSize: 28,
             fontWeight: FontWeight.bold,
