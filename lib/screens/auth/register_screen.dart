@@ -3,7 +3,6 @@ import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:SmartBites/screens/auth/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../utils/color_constants.dart';
 import '../../utils/page_transitions.dart';
 import '../../utils/error_handler.dart';
