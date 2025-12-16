@@ -424,4 +424,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get close_menu => 'Fermer le menu';
+
+  @override
+  String get loading => 'Chargement en cours';
+
+  @override
+  String get empty_list => 'Votre liste est vide';
+
+  @override
+  String get name_list => 'Nom de la liste';
 }

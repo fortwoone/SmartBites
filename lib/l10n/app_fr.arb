@@ -139,5 +139,10 @@
   "showingCooking": "⏱\uFE0F Affichage des recettes ≤",
   "viewRecipe": "Afficher la recette",
   "list_menu": "Listes de courses",
-  "close_menu": "Fermer le menu"
+  "close_menu": "Fermer le menu",
+  "loading": "Chargement en cours",
+  "empty_list":"Votre liste est vide",
+  "name_list": "Nom de la liste"
+
+
 }

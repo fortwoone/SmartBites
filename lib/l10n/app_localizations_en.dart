@@ -424,4 +424,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close_menu => 'Close menu';
+
+  @override
+  String get loading => 'Loading in progress';
+
+  @override
+  String get empty_list => 'Your list is empty';
+
+  @override
+  String get name_list => 'List\'s name';
 }

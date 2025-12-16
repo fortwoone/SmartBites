@@ -8,6 +8,7 @@ import 'package:food/screens/product_search_page.dart';
 import 'package:food/screens/product_detail_page.dart';
 import 'package:food/widgets/product_price_widget.dart';
 import 'package:food/repositories/openfoodfacts_repository.dart';
+import 'package:food/widgets/loading_widget.dart';
 
 import '../widgets/side_menu.dart';
 
@@ -173,22 +174,22 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                 ),
               ),
             ),
-            body: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : (widget.list.products.isEmpty
+          body: _isLoading
+              ? LoadingWidget(message: loc.loading)
+              : (widget.list.products.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.shopping_cart_outlined, size: 72, color: Colors.grey[400]),
                             const SizedBox(height: 16),
-                            const Text(
-                              'Votre panier est vide',
+                            Text(
+                              loc.empty_list,
                               style: TextStyle(fontSize: 18, color: Colors.grey),
                             ),
                             const SizedBox(height: 8),
-                            const Text(
-                              'Ajoutez des produits en appuyant sur +',
+                            Text(
+                              loc.add_product,
                               style: TextStyle(fontSize: 14, color: Colors.grey),
                             ),
                           ],
@@ -419,7 +420,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         title: Text(loc.rename),
         content: TextField(
           controller: ctrl,
-          decoration: InputDecoration(labelText: "Nom liste"),
+          decoration: InputDecoration(labelText: loc.name_list),
         ),
         actions: [
           TextButton(
@@ -482,7 +483,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
             ),
             body: Center(
               child: _isLoading
-                  ? const CircularProgressIndicator()
+                  ? LoadingWidget(message: loc.loading)
                   : ReorderableListView.builder(
                 itemCount: existing_lists.length,
                 onReorder: (oldIndex, newIndex) {

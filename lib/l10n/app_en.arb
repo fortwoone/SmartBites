@@ -138,7 +138,10 @@
   "showingCooking": "⏱\uFE0F Showing recipes ≤",
   "viewRecipe": "Recipe details",
   "list_menu": "Grocery list",
-  "close_menu": "Close menu"
+  "close_menu": "Close menu",
+  "loading": "Loading in progress",
+  "empty_list":"Your list is empty",
+  "name_list": "List's name"
 
 
 }
