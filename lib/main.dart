@@ -10,7 +10,7 @@ import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
-import 'screens/login_screen.dart';
+import 'screens/auth/login_screen.dart';
 import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
@@ -120,8 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() => _loading = false);
         }
     }
-
-    // Called by AppNavBar when the user submits a search
     void _onSearchSubmitted(String q) => _search(q);
 
     String _titleFor(Product p) => p.name ?? p.brands ?? 'Produit inconnu';

@@ -23,7 +23,7 @@ class AuthTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.recursive(
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),
@@ -57,4 +57,3 @@ class AuthTextField extends StatelessWidget {
     );
   }
 }
-

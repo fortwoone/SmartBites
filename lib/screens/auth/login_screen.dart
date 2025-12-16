@@ -4,9 +4,10 @@ import 'package:SmartBites/l10n/app_localizations.dart';
 import 'package:SmartBites/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'register_screen.dart';
-import '../widgets/auth/login_header.dart';
-import '../widgets/auth/auth_text_field.dart';
-import '../utils/color_constants.dart';
+import '../../widgets/auth/login_header.dart';
+import '../../widgets/auth/auth_text_field.dart';
+import '../../utils/color_constants.dart';
+import '../../widgets/primary_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -138,37 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 32),
                     isLoading
                         ? const Center(child: CircularProgressIndicator())
-                        : Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primaryPeach.withAlpha(102),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                        : PrimaryButton(
+                            onPressed: () => _performLogin(context),
+                            label: loc.perform_login,
+                            isLoading: isLoading,
                           ),
-                        ],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () => _performLogin(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryPeach,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          loc.perform_login,
-                          style: GoogleFonts.inter(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
 
                     const SizedBox(height: 24),
                     Row(
@@ -176,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "Pas encore de compte ? ",
-                          style: GoogleFonts.inter(color: Colors.grey.shade600),
+                          style: GoogleFonts.recursive(color: Colors.grey.shade600),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -187,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             loc.register,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.recursive(
                               color: primaryPeach,
                               fontWeight: FontWeight.bold,
                             ),
