@@ -51,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     } catch (e) {
       final loc = AppLocalizations.of(context)!;
-      // afficher une alerte avec possibilité de réessayer
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog<void>(
           context: context,
@@ -190,16 +189,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     try {
                                       final client = Supabase.instance.client;
                                       await client.auth.updateUser(UserAttributes(password: newPwd));
-                                      if (mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.password_updated)));
-                                        await client.auth.signOut();
-                                        Navigator.pop(context, true);
-                                      }
+                                      if (!mounted) return;
+                                      Navigator.of(context).pop();
+                                      await client.auth.signOut();
+                                      if (!mounted) return;
+                                      Navigator.of(this.context).pushNamedAndRemoveUntil(
+                                        '/login',
+                                        (route) => false,
+                                      );
                                     } catch (e) {
-                                      final loc = AppLocalizations.of(context)!;
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${loc.password_update_failed}: ${e.toString()}')));
-                                    } finally {
-                                      setStateDialog(() => isLoading = false);
+                                      if (context.mounted) {
+                                        setStateDialog(() => isLoading = false);
+                                        final loc = AppLocalizations.of(context)!;
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('${loc.password_update_failed}: ${e.toString()}')),
+                                        );
+                                      }
                                     }
                                   },
                             child: isLoading ? const SizedBox(width:20,height:20,child:CircularProgressIndicator(strokeWidth:2,color:Colors.white)) : Text(AppLocalizations.of(context)!.validate),
