@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Pas encore de compte ? ",
+                          loc.login_register,
                           style: GoogleFonts.recursive(color: Colors.grey.shade600),
                         ),
                         GestureDetector(
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                           child: Text(
-                            loc.register,
+                            loc.login_register_action,
                             style: GoogleFonts.recursive(
                               color: primaryPeach,
                               fontWeight: FontWeight.bold,

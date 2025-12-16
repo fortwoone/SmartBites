@@ -22,6 +22,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
     bool _showOnlyMine = false;
     bool _loading = false;
     List<Map<String, dynamic>> _recipes = [];
+    final GlobalKey<SideMenuState> _menuKey = GlobalKey<SideMenuState>();
+    bool _isMenuOpen = false;
 
     final supabase = Supabase.instance.client;
 
@@ -61,6 +63,43 @@ class _RecipeListPageState extends State<RecipeListPage> {
     void _toggleFilter() {
         setState(() => _showOnlyMine = !_showOnlyMine);
         _fetchRecipes();
+    }
+
+    void _toggleMenu() {
+        _menuKey.currentState?.toggle();
+    }
+
+    Widget _buildSquareButton({
+      required Color color,
+      required Widget child,
+      required VoidCallback onPressed,
+    }) {
+      return Container(
+        width: 45,
+        height: 45,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha(26),
+              blurRadius: 20,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(15),
+            onTap: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: child,
+            ),
+          ),
+        ),
+      );
     }
 
     void _openRecipeDetail(Map<String, dynamic> recipe) {
@@ -152,26 +191,63 @@ class _RecipeListPageState extends State<RecipeListPage> {
           label: Text(loc.addRecipe),
         ),
 
-        body: Stack(
-          children: [
-            Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  _showOnlyMine ? loc.myRecipes : loc.recipes,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.deepOrangeAccent.shade100,
-                elevation: 0,
-                actions: [
-                  IconButton(
-                    icon: Icon(_showOnlyMine ? Icons.person : Icons.people_alt_outlined),
-                    tooltip: _showOnlyMine ? loc.allRecipes : loc.showMyRecipes,
-                    onPressed: _toggleFilter,
+        body: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight + 10),
+            child: AppBar(
+              backgroundColor: Colors.deepOrangeAccent.shade100,
+              elevation: 0,
+              leading: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: _buildSquareButton(
+                    color: Colors.transparent,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      transitionBuilder: (child, animation) {
+                        return RotationTransition(
+                          turns: Tween(begin: 0.5, end: 1.0).animate(animation),
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        _isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
+                        key: ValueKey(_isMenuOpen),
+                        color: Colors.black87,
+                      ),
+                    ),
+                    onPressed: _toggleMenu,
                   ),
-                ],
+                ),
               ),
+              leadingWidth: 80,
+              titleSpacing: 16,
+              centerTitle: false,
+              title: Text(
+                _showOnlyMine ? loc.myRecipes : loc.recipes,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22,
+                  color: Colors.black87,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(_showOnlyMine ? Icons.person : Icons.people_alt_outlined),
+                  tooltip: _showOnlyMine ? loc.allRecipes : loc.showMyRecipes,
+                  onPressed: _toggleFilter,
+                ),
+              ],
+            ),
+          ),
 
-              body: _loading
+          body: Stack(
+            children: [
+              _loading
                   ? const Center(
                 child: CircularProgressIndicator(
                   color: Colors.deepOrangeAccent,
@@ -289,13 +365,17 @@ class _RecipeListPageState extends State<RecipeListPage> {
                   );
                 },
               ),
-            ),
 
-            SideMenu(currentRoute: '/recipe'),
-          ],
+              SideMenu(
+                key: _menuKey,
+                currentRoute: '/recipe',
+                onOpenChanged: (isOpen) {
+                  setState(() => _isMenuOpen = isOpen);
+                },
+              ),
+            ],
+          ),
         ),
       );
-
-
   }
 }

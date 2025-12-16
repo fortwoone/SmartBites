@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Transition de page fluide et performante avec fade et scale
 class SlideAndFadePageRoute<T> extends PageRouteBuilder<T> {
   final Widget page;
   final AxisDirection direction;
@@ -13,7 +12,6 @@ class SlideAndFadePageRoute<T> extends PageRouteBuilder<T> {
           transitionDuration: const Duration(milliseconds: 350),
           reverseTransitionDuration: const Duration(milliseconds: 300),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Courbes optimisées pour une animation fluide
             final curvedAnimation = CurvedAnimation(
               parent: animation,
               curve: Curves.easeOutQuart,
@@ -24,8 +22,6 @@ class SlideAndFadePageRoute<T> extends PageRouteBuilder<T> {
               parent: secondaryAnimation,
               curve: Curves.easeInQuart,
             );
-
-            // Offset de slide selon la direction
             Offset slideBegin;
             switch (direction) {
               case AxisDirection.right:
