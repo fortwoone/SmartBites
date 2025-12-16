@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
 
 Widget nutriscoreImg(String grade, AppLocalizations loc){
-    if (grade == "unknown"){
+    debugPrint(grade);
+    if (grade == "unknown" || grade == "not-applicable"){
         return Image.asset(
             "lib/ressources/nutriscore/unknown.png",
             fit: BoxFit.contain,
