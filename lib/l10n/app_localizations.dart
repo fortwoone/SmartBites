@@ -1108,6 +1108,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recipes available.'**
   String get no_recipes;
+
+  /// No description provided for @no_barcode_available.
+  ///
+  /// In en, this message translates to:
+  /// **'No barcode available for this product.'**
+  String get no_barcode_available;
+
+  /// No description provided for @no_shopping_lists_found.
+  ///
+  /// In en, this message translates to:
+  /// **'no_shopping_lists_found'**
+  String get no_shopping_lists_found;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

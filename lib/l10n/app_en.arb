@@ -168,7 +168,9 @@
   "last_recipes": "Last recipes",
   "see_all": "See all",
   "charge_recipe_error": "Error loading recipes.",
-  "no_recipes": "No recipes available."
+  "no_recipes": "No recipes available.",
+  "no_barcode_available": "No barcode available for this product.",
+  "no_shopping_lists_found": "no_shopping_lists_found"
 
 
 }

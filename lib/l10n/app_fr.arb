@@ -169,7 +169,9 @@
   "last_recipes": "Dernières recettes",
   "see_all": "Voir tout",
   "charge_recipe_error": "Erreur lors du chargement des recettes",
-  "no_recipes": "Aucune recette disponible."
+  "no_recipes": "Aucune recette disponible.",
+  "no_barcode_available": "Aucun code-barres disponible pour ce produit.",
+  "no_shopping_lists_found": "Aucune liste de courses trouvée."
 
 
 }

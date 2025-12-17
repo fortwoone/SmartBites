@@ -514,4 +514,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_recipes => 'No recipes available.';
+
+  @override
+  String get no_barcode_available => 'No barcode available for this product.';
+
+  @override
+  String get no_shopping_lists_found => 'no_shopping_lists_found';
 }
