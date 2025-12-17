@@ -165,7 +165,11 @@
   "testapis": "Tests des apis",
   "add": "Ajouter la liste",
   "products_recently_viewed": "Produits récemment consultés",
-  "empty_cash": "Aucun produit consulté"
+  "empty_cash": "Aucun produit consulté",
+  "last_recipes": "Dernières recettes",
+  "see_all": "Voir tout",
+  "charge_recipe_error": "Erreur lors du chargement des recettes",
+  "no_recipes": "Aucune recette disponible."
 
 
 }

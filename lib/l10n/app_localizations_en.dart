@@ -502,4 +502,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get empty_cash => 'No products viewed yet.';
+
+  @override
+  String get last_recipes => 'Last recipes';
+
+  @override
+  String get see_all => 'See all';
+
+  @override
+  String get charge_recipe_error => 'Error loading recipes.';
+
+  @override
+  String get no_recipes => 'No recipes available.';
 }

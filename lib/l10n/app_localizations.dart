@@ -1084,6 +1084,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No products viewed yet.'**
   String get empty_cash;
+
+  /// No description provided for @last_recipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Last recipes'**
+  String get last_recipes;
+
+  /// No description provided for @see_all.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get see_all;
+
+  /// No description provided for @charge_recipe_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading recipes.'**
+  String get charge_recipe_error;
+
+  /// No description provided for @no_recipes.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes available.'**
+  String get no_recipes;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

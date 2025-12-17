@@ -164,7 +164,11 @@
   "testapis": "APIs tests",
   "add": "Add list",
   "products_recently_viewed": "Recently viewed products",
-  "empty_cash": "No products viewed yet."
+  "empty_cash": "No products viewed yet.",
+  "last_recipes": "Last recipes",
+  "see_all": "See all",
+  "charge_recipe_error": "Error loading recipes.",
+  "no_recipes": "No recipes available."
 
 
 }
