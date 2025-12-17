@@ -116,7 +116,8 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                       const SizedBox(height: 24),
                       Text(loc.instructions, style: GoogleFonts.recursive(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)),
                       const SizedBox(height: 12),
-                       Container(
+                       if (instructions.isEmpty)
+                         Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
@@ -131,10 +132,49 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                                 ],
                             ),
                             child: Text(
-                                instructions.isNotEmpty ? instructions : "Aucune instruction",
+                                "Aucune instruction",
                                 style: GoogleFonts.recursive(fontSize: 16, height: 1.6, color: Colors.black87),
                             ),
-                       ),
+                       )
+                       else
+                        ...instructions.split('\n').asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final step = entry.value;
+                            if (step.trim().isEmpty) return const SizedBox.shrink();
+                            return Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(bottom: 16),
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(24),
+                                    boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.withAlpha(20),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 4),
+                                        ),
+                                    ],
+                                ),
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                        CircleAvatar(
+                                            radius: 14,
+                                            backgroundColor: primaryPeach.withOpacity(0.2),
+                                            child: Text("${index + 1}", style: GoogleFonts.recursive(fontSize: 14, fontWeight: FontWeight.bold, color: primaryPeach)),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                            child: Text(
+                                                step,
+                                                style: GoogleFonts.recursive(fontSize: 16, height: 1.6, color: Colors.black87),
+                                            ),
+                                        ),
+                                    ],
+                                ),
+                            );
+                        }),
 
 
                       const SizedBox(height: 40),
