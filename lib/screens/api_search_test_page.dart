@@ -173,7 +173,6 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                                 ? '${item['Price']} ${item['product_currency'] ?? ''}'
                                 : 'Price not available';
                             final description = item['ingredients'] ?? '';
-                            final productUrl = item['product_link'] ?? '';
 
                             return Card(
                               shape: RoundedRectangleBorder(

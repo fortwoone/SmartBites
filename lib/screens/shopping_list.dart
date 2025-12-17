@@ -6,7 +6,6 @@ import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/widgets/product_price_widget.dart';
 import 'package:SmartBites/repositories/openfoodfacts_repository.dart';
 import 'package:SmartBites/widgets/loading_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 
