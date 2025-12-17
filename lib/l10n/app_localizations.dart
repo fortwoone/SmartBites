@@ -1072,6 +1072,8 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add list'**
   String get add;
+
+  get unknown => null;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

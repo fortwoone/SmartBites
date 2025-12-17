@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:SmartBites/screens/product_search_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import '../l10n/app_localizations.dart';
+import '../widgets/styled_text_field.dart';
+import '../widgets/primary_button.dart';
+import '../utils/color_constants.dart';
+import '../widgets/recipe/recipe_background.dart';
+import '../widgets/recipe/recipe_image_picker.dart';
+import '../widgets/recipe/ingredient_list_editor.dart';
 
 class AddRecipePage extends StatefulWidget {
   final Map<String, dynamic>? recipeToEdit;
@@ -25,8 +34,11 @@ class _AddRecipePageState extends State<AddRecipePage> {
     bool _loading = false;
     List<Map<String, dynamic>> _ingredients = [];
     bool get _isEditing => widget.recipeToEdit != null;
+    
+    File? _imageFile;
+    String? _existingImageUrl;
+    final ImagePicker _picker = ImagePicker();
 
-    final Color peach = const Color(0xFFFFCBA4); // couleur principale
 
     @override
     void initState() {
@@ -50,6 +62,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
         _timePreparationController.text = recipe['time_preparation']?.toString() ?? '';
         _timeBakingController.text = recipe['time_baking']?.toString() ?? '';
         _instructionsController.text = recipe['instructions'] ?? '';
+        _existingImageUrl = recipe['image_url'];
         final ingr = recipe['ingredients'];
         if (ingr is List) _ingredients = ingr.map((e) => Map<String, dynamic>.from(e)).toList();
     }
@@ -95,25 +108,62 @@ class _AddRecipePageState extends State<AddRecipePage> {
         await prefs.remove('recipe_instructions');
     }
 
+    Future<void> _pickImage() async {
+        final XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
+        if (image != null) {
+            setState(() {
+                _imageFile = File(image.path);
+            });
+        }
+    }
+
+    Future<String?> _uploadImage(String userId) async {
+        if (_imageFile == null) return _existingImageUrl;
+
+        final supabase = Supabase.instance.client;
+        final fileExt = _imageFile!.path.split('.').last;
+        final fileName = '${userId}_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
+        
+        try {
+             await supabase.storage.from('recipes').upload(
+                fileName,
+                _imageFile!,
+                fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+            );
+            
+            final imageUrl = supabase.storage.from('recipes').getPublicUrl(fileName);
+            return imageUrl;
+        } catch (e) {
+            print("Erreur upload image: $e");
+             ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Erreur upload image: $e")),
+            );
+            return null;
+        }
+    }
+
+
     Future<void> _addIngredientDialog() async {
       final loc = AppLocalizations.of(context)!;
 
       final choice = await showDialog<String>(
             context: context,
             builder: (context) => SimpleDialog(
-              title:  Text(loc.addIngredient),
+              title:  Text(loc.addIngredient, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              backgroundColor: Colors.white,
               children: [
                   SimpleDialogOption(
                       onPressed: () => Navigator.pop(context, 'manual'),
-                      child:  Text(loc.addIngredientManual),
+                      child:  Text(loc.addIngredientManual, style: GoogleFonts.recursive()),
                   ),
                   SimpleDialogOption(
                       onPressed: () => Navigator.pop(context, 'search'),
-                      child:  Text(loc.addIngredientSearch),
+                      child:  Text(loc.addIngredientSearch, style: GoogleFonts.recursive()),
                   ),
                   SimpleDialogOption(
                       onPressed: () => Navigator.pop(context, null),
-                      child:  Text(loc.cancel),
+                      child:  Text(loc.cancel, style: GoogleFonts.recursive(color: Colors.red)),
                   ),
               ],
             ),
@@ -125,20 +175,22 @@ class _AddRecipePageState extends State<AddRecipePage> {
             final name = await showDialog<String>(
             context: context,
             builder: (context) => AlertDialog(
-                title:  Text(loc.nameIngredient),
-                content: TextField(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                title:  Text(loc.nameIngredient, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
+                content: StyledTextField(
                     controller: nameController,
-                    decoration:  InputDecoration(
-                    labelText: loc.nameIngredient,
-                    hintText: loc.hintIngredient
-                    ),
+                    hint: loc.hintIngredient,
+                    label: loc.nameIngredient,
                 ),
                 actions: [
-                    TextButton(onPressed: () => Navigator.pop(context), child:  Text(loc.cancel)),
+                    TextButton(onPressed: () => Navigator.pop(context), child:  Text(loc.cancel, style: GoogleFonts.recursive())),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: peach),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryPeach,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                        ),
                         onPressed: () => Navigator.pop(context, nameController.text.trim()),
-                        child:  Text(loc.add_product),
+                        child:  Text(loc.add_product, style: GoogleFonts.recursive(color: Colors.white)),
                     ),
                 ],
                 ),
@@ -178,6 +230,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
       if (!_formKey.currentState!.validate()) return;
         setState(() => _loading = true);
+        String? imageUrl;
+        if (user != null) {
+            imageUrl = await _uploadImage(user.id);
+        }
 
         final supabase = Supabase.instance.client;
         try {
@@ -191,24 +247,26 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     'ingredients': _ingredients,
                     'user_id_creator': user?.id,
                     'creator_name': displayName,
+                    'image_url': imageUrl
                 });
                 await _clearSavedInputs();
-                _nameController.clear();
-                _descriptionController.clear();
-                _timePreparationController.clear();
-                _timeBakingController.clear();
-                _instructionsController.clear();
-                setState(() => _ingredients = []);
             } else {
                 final recipeId = widget.recipeToEdit!['id'];
-                await supabase.from('Recettes').update({
+                
+                final updates = {
                     'name': _nameController.text.trim(),
                     'description': _descriptionController.text.trim(),
                     'time_preparation': int.tryParse(_timePreparationController.text) ?? 0,
                     'time_baking': int.tryParse(_timeBakingController.text) ?? 0,
                     'instructions': _instructionsController.text.trim(),
                     'ingredients': _ingredients,
-                }).eq('id', recipeId);
+                };
+                
+                if (imageUrl != null) {
+                    updates['image_url'] = imageUrl;
+                }
+
+                await supabase.from('Recettes').update(updates).eq('id', recipeId);
                 await _clearSavedInputs();
             }
 
@@ -227,83 +285,104 @@ class _AddRecipePageState extends State<AddRecipePage> {
         }
     }
 
-    InputDecoration _inputDecoration(String label) {
-        return InputDecoration(
-            labelText: label,
-            filled: true,
-            fillColor: peach.withOpacity(0.15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: BorderSide(color: peach, width: 2),
-            ),
-        );
-    }
 
     @override
     Widget build(BuildContext context) {
       final loc = AppLocalizations.of(context)!;
 
       return Scaffold(
+          extendBodyBehindAppBar: true, 
           appBar: AppBar(
-              title: Text(_isEditing ? loc.updateRecipe : loc.addRecipe),
-              backgroundColor: peach,
-          ),
-          body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                  key: _formKey,
-                  child: ListView(
-                      children: [
-                          TextFormField(controller: _nameController, decoration: _inputDecoration(loc.nameRecipe), validator: (val) => val == null || val.isEmpty ? loc.enterName : null),
-                          const SizedBox(height: 12),
-                          TextFormField(controller: _descriptionController, decoration: _inputDecoration(loc.description), maxLines: 6),
-                          const SizedBox(height: 12),
-                          Row(
-                              children: [
-                                  Expanded(child: TextFormField(controller: _timePreparationController, decoration: _inputDecoration(loc.timePreparing), keyboardType: TextInputType.number)),
-                                  const SizedBox(width: 12),
-                                  Expanded(child: TextFormField(controller: _timeBakingController, decoration: _inputDecoration(loc.timeBaking), keyboardType: TextInputType.number)),
-                              ],
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                   Text(loc.ingredients, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                                  IconButton(icon: const Icon(Icons.add_circle_outline), color: peach, onPressed: _addIngredientDialog),
-                              ],
-                          ),
-                          const SizedBox(height: 8),
-                          _ingredients.isEmpty
-                              ?  Text(loc.noIngredientsAdded, style: TextStyle(color: Colors.grey))
-                              : Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  children: _ingredients
-                                      .map((ing) => Chip(
-                                        label: Text(ing['name'] ?? loc.ingredients),
-                                        backgroundColor: peach.withOpacity(0.3),
-                                        deleteIconColor: Colors.red,
-                                        onDeleted: () => setState(() => _ingredients.remove(ing)),
-                                  ))
-                                      .toList(),
-                          )
-                        ,
-                        const SizedBox(height: 12),
-                        TextFormField(controller: _instructionsController, decoration: _inputDecoration(loc.instructions), maxLines: 15, validator: (val) => val == null || val.isEmpty ? loc.enterInstructions : null),
-                        const SizedBox(height: 20),
-                          SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: peach, padding: const EdgeInsets.symmetric(vertical: 14)),
-                                  onPressed: _loading ? null : _saveRecipe,
-                                  child: _loading ? const CircularProgressIndicator(color: Colors.white) : Text(_isEditing ? loc.update : loc.addRecipe, style: const TextStyle(fontSize: 16)),
-                              ),
-                          ),
-                      ],
-                  ),
+              title: Text(
+                  _isEditing ? loc.updateRecipe : loc.addRecipe,
+                  style: GoogleFonts.recursive(fontWeight: FontWeight.bold, color: Colors.black87),
               ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              iconTheme: const IconThemeData(color: Colors.black87),
+          ),
+          body: Stack(
+              children: [
+                const RecipeBackground(),
+
+                SafeArea(
+                    child: Form(
+                        key: _formKey,
+                        child: ListView(
+                            padding: const EdgeInsets.all(24.0),
+                            children: [
+                                RecipeImagePicker(
+                                    imageFile: _imageFile,
+                                    existingImageUrl: _existingImageUrl,
+                                    onTap: _pickImage,
+                                ),
+                                const SizedBox(height: 24),
+
+                                StyledTextField(
+                                    controller: _nameController, 
+                                    hint: loc.nameRecipe, 
+                                    label: loc.nameRecipe,
+                                    icon: Icons.restaurant_menu,
+                                    validator: (val) => val == null || val.isEmpty ? loc.enterName : null
+                                ),
+                                const SizedBox(height: 16),
+                                StyledTextField(
+                                    controller: _descriptionController,
+                                    hint: loc.description,
+                                    label: loc.description,
+                                    maxLines: 4,
+                                    icon: Icons.description_outlined,
+                                ),
+                                const SizedBox(height: 16),
+                                Row(
+                                    children: [
+                                        Expanded(child: StyledTextField(
+                                            controller: _timePreparationController, 
+                                            hint: "min", 
+                                            label: loc.timePreparing,
+                                            keyboardType: TextInputType.number,
+                                            icon: Icons.timer_outlined,
+                                        )),
+                                        const SizedBox(width: 16),
+                                        Expanded(child: StyledTextField(
+                                            controller: _timeBakingController, 
+                                            hint: "min", 
+                                            label: loc.timeBaking,
+                                            keyboardType: TextInputType.number,
+                                            icon: Icons.local_fire_department_outlined,
+                                        )),
+                                    ],
+                                ),
+                                const SizedBox(height: 24),
+                                
+                                IngredientListEditor(
+                                    ingredients: _ingredients,
+                                    onAddIngredient: _addIngredientDialog,
+                                    onRemoveIngredient: (ing) => setState(() => _ingredients.remove(ing)),
+                                ),
+                              
+                              const SizedBox(height: 24),
+                              StyledTextField(
+                                  controller: _instructionsController, 
+                                  hint: loc.instructions, 
+                                  label: loc.instructions,
+                                  maxLines: 8,
+                                  icon: Icons.list_alt,
+                                  validator: (val) => val == null || val.isEmpty ? loc.enterInstructions : null
+                              ),
+                              const SizedBox(height: 32),
+                              
+                              PrimaryButton(
+                                  onPressed: _saveRecipe, 
+                                  label: _isEditing ? loc.update : loc.addRecipe,
+                                  isLoading: _loading,
+                              ),
+                              const SizedBox(height: 32),
+                            ],
+                        ),
+                    ),
+                ),
+              ],
           ),
       );
     }
