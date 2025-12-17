@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:SmartBites/screens/view_recipe_page.dart';
+import '../utils/color_constants.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -44,7 +45,7 @@ class _RecentRecipesWidgetState extends State<RecentRecipesWidget> {
               ),
               TextButton(
                 onPressed: () => Navigator.pushNamed(context, '/recipe'),
-                child: Text(loc.see_all, style: GoogleFonts.recursive(color: Colors.orange)),
+                child: Text(loc.see_all, style: GoogleFonts.recursive(color: primaryPeach)),
               ),
             ],
           ),
