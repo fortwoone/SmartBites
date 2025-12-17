@@ -163,7 +163,9 @@
   "empty_list":"Votre liste est vide",
   "name_list": "Nom de la liste",
   "testapis": "Tests des apis",
-  "add": "Ajouter la liste"
+  "add": "Ajouter la liste",
+  "products_recently_viewed": "Produits récemment consultés",
+  "empty_cash": "Aucun produit consulté"
 
 
 }

@@ -496,4 +496,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add => 'Add list';
+
+  @override
+  String get products_recently_viewed => 'Recently viewed products';
+
+  @override
+  String get empty_cash => 'No products viewed yet.';
 }

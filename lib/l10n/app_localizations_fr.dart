@@ -496,4 +496,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get add => 'Ajouter la liste';
+
+  @override
+  String get products_recently_viewed => 'Produits récemment consultés';
+
+  @override
+  String get empty_cash => 'Aucun produit consulté';
 }
