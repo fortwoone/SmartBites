@@ -7,6 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final String label;
   final bool isLoading;
   final double? height;
+  final IconData? icon;
 
   const PrimaryButton({
     super.key,
@@ -14,6 +15,7 @@ class PrimaryButton extends StatelessWidget {
     required this.label,
     this.isLoading = false,
     this.height = 56,
+    this.icon,
   });
 
   @override
@@ -43,13 +45,22 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? const Center(child: CircularProgressIndicator(color: Colors.white))
-            : Text(
-                label,
-                style: GoogleFonts.recursive(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    if (icon != null) ...[
+                        Icon(icon, color: Colors.white),
+                        const SizedBox(width: 8),
+                    ],
+                    Text(
+                        label,
+                        style: GoogleFonts.recursive(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                ],
+            ),
       ),
     );
   }
