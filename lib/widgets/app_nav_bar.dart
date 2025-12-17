@@ -16,6 +16,7 @@ class AppNavBar extends StatefulWidget implements PreferredSizeWidget {
   final String? rightRoute;
   final VoidCallback? onMenuPressed;
   final bool isMenuOpen;
+  final VoidCallback? onSearchClosed;
 
   const AppNavBar({
     super.key,
@@ -30,6 +31,7 @@ class AppNavBar extends StatefulWidget implements PreferredSizeWidget {
     this.rightRoute,
     this.onMenuPressed,
     this.isMenuOpen = false,
+    this.onSearchClosed,
   });
 
   @override
@@ -60,6 +62,7 @@ class _AppNavBarState extends State<AppNavBar> {
     setState(() => _isSearching = false);
     _controller.clear();
     widget.onSearchChanged?.call('');
+    widget.onSearchClosed?.call();
   }
 
   Widget _squareButton({

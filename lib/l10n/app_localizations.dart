@@ -1073,7 +1073,17 @@ abstract class AppLocalizations {
   /// **'Add list'**
   String get add;
 
-  get unknown => null;
+  /// No description provided for @products_recently_viewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently viewed products'**
+  String get products_recently_viewed;
+
+  /// No description provided for @empty_cash.
+  ///
+  /// In en, this message translates to:
+  /// **'No products viewed yet.'**
+  String get empty_cash;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -16,7 +16,8 @@ import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
 import 'screens/profile_screen.dart';
-import 'widgets/shopping_list/product_search_item.dart';
+import 'utils/color_constants.dart';
+import 'package:SmartBites/widgets/recent_products_widget.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -101,8 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
     bool _loading = false;
     String? _error;
     bool _isMenuOpen = false;
-
-    // Accept an optional query (used by AppNavBar.onSearchSubmitted)
     Future<void> _search([String? query]) async {
         final q = (query ?? '').trim();
         if (q.isEmpty) {
@@ -145,60 +144,98 @@ class _HomeScreenState extends State<HomeScreen> {
                 showSearch: true,
                 onSearchSubmitted: _onSearchSubmitted,
                 showSquareButtons: true,
-                backgroundColor: Colors.green,
+                backgroundColor: primaryPeach,
                 rightRoute: '/next',
                 onMenuPressed: _toggleMenu,
                 isMenuOpen: _isMenuOpen,
+                onSearchClosed: () {
+                    setState(() {
+                         _results = [];
+                    });
+                },
             ),
-            body: Stack(
-              children: [
-                Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            const SizedBox(height: 12),
-                            if (_loading) const Center(child: CircularProgressIndicator()),
-                            if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
-                            Expanded(
-                                child: _results.isEmpty
-                                    ? const Center(child: Text('Pas de résultats'))
-                                    : ListView.builder(
-                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                                    itemCount: _results.length,
-                                    itemBuilder: (context, index) {
-                                        final p = _results[index];
-                                        return ProductSearchItem(
-                                            product: p,
-                                            repository: widget.repository,
-                                            onTap: () {
-                                                final code = p.barcode;
-                                                if (code.isEmpty) {
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(content: Text('Pas de code-barres disponible')));
-                                                    return;
-                                                }
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (_) => ProductDetailPage(barcode: code, repository: widget.repository),
-                                                    ),
-                                                );
-                                            },
-                                        );
-                                    },
-                                ),
-                            ),
-                        ],
+          body: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 12),
+
+                  if (!_loading && _results.isEmpty)
+                    const RecentProductsWidget(),
+
+                  if (_loading)
+                    const Center(child: CircularProgressIndicator()),
+
+                  if (_error != null)
+                    Text(
+                      _error!,
+                      style: const TextStyle(color: Colors.red),
                     ),
-                ),
-                SideMenu(
-                  key: _sideMenuKey,
-                  currentRoute: '/home',
-                  onOpenChanged: (isOpen) {
-                      setState(() => _isMenuOpen = isOpen);
-                  },
-                ),
-              ],
-            ),
+
+                  Expanded(
+                    child: _results.isEmpty
+                        ? const Center(
+                      child: Text('Recherchez un produit pour commencer'),
+                    )
+                        : ListView.separated(
+                      itemCount: _results.length,
+                      separatorBuilder: (_, __) =>
+                      const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final p = _results[index];
+                        return ListTile(
+                          leading: p.imageURL != null
+                              ? Image.network(
+                            p.imageURL!,
+                            width: 56,
+                            height: 56,
+                            fit: BoxFit.cover,
+                          )
+                              : const SizedBox(
+                            width: 56,
+                            height: 56,
+                          ),
+                          title: Text(_titleFor(p)),
+                          subtitle: Text(p.brands ?? ''),
+                          onTap: () {
+                            final code = p.barcode;
+                            if (code.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Pas de code-barres disponible',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailPage(
+                                  barcode: code,
+                                  repository: widget.repository,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SideMenu(
+                key: _sideMenuKey,
+                currentRoute: '/home',
+                onOpenChanged: (isOpen) {
+                  setState(() => _isMenuOpen = isOpen);
+                },
+              ),
+            ],
+          ),
+
         );
     }
 }

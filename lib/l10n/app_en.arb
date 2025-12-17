@@ -162,7 +162,9 @@
   "empty_list":"Your list is empty",
   "name_list": "List's name",
   "testapis": "APIs tests",
-  "add": "Add list"
+  "add": "Add list",
+  "products_recently_viewed": "Recently viewed products",
+  "empty_cash": "No products viewed yet."
 
 
 }
