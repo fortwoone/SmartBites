@@ -144,80 +144,84 @@ class _RecipeListPageState extends State<RecipeListPage> {
       final userId = supabase.auth.currentUser?.id;
       final loc = AppLocalizations.of(context)!;
 
+      final topPadding = MediaQuery.of(context).padding.top + 80;
+
       return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: RecipeListHeader(
+          isMenuOpen: _isMenuOpen,
+          onToggleMenu: _toggleMenu,
+          showOnlyMine: _showOnlyMine,
+          onToggleFilter: _toggleFilter,
+          onAddRecipe: () async {
+            await Navigator.push(
+              context,
+              SlideAndFadePageRoute(page: const AddRecipePage(), direction: AxisDirection.up),
+            );
+            _fetchRecipes();
+          },
+        ),
         body: Stack(
           children: [
             const RecipeBackground(),
 
-            SafeArea(
-              child: Column(
-                children: [
-                    RecipeListHeader(
-                        isMenuOpen: _isMenuOpen,
-                        onToggleMenu: _toggleMenu,
-                        showOnlyMine: _showOnlyMine,
-                        onToggleFilter: _toggleFilter,
-                        onAddRecipe: () async {
-                            await Navigator.push(
-                                context,
-                                SlideAndFadePageRoute(page: const AddRecipePage(), direction: AxisDirection.up),
-                            );
-                            _fetchRecipes();
-                        },
-                    ),
-
-                    Expanded(
-                        child: _loading
-                        ? const Center(child: CircularProgressIndicator(color: primaryPeach))
-                        : _recipes.isEmpty
-                            ? Center(
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Icon(Icons.menu_book, size: 80, color: Colors.grey.shade300),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                            loc.noRecipeFound,
-                                            style: GoogleFonts.recursive(
-                                                fontSize: 18,
-                                                color: Colors.grey.shade500,
-                                            ),
-                                        ),
-                                    ],
+            Padding(
+              padding: EdgeInsets.only(top: topPadding),
+              child: _loading
+                  ? const Center(child: CircularProgressIndicator(color: primaryPeach))
+                  : _recipes.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.menu_book, size: 80, color: Colors.grey.shade300),
+                              const SizedBox(height: 16),
+                              Text(
+                                loc.noRecipeFound,
+                                style: GoogleFonts.recursive(
+                                  fontSize: 18,
+                                  color: Colors.grey.shade500,
                                 ),
-                            )
-                            : ListView.builder(
-                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                                itemCount: _recipes.length,
-                                itemBuilder: (context, index) {
-                                    final recipe = _recipes[index];
-                                    final isMine = recipe['user_id_creator'] == userId;
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                          itemCount: _recipes.length,
+                          itemBuilder: (context, index) {
+                            final recipe = _recipes[index];
+                            final isMine = recipe['user_id_creator'] == userId;
 
-                                    return RecipeCard(
-                                        recipe: recipe,
-                                        isMine: isMine,
-                                        onTap: () => _openRecipeDetail(recipe),
-                                        onMenuAction: (action) {
-                                            if (action == RecipeMenuAction.edit) {
-                                                _openRecipeEditor(recipe);
-                                            } else {
-                                                _deleteRecipe(recipe);
-                                            }
-                                        },
-                                    );
-                                },
-                            ),
-                    ),
-                ],
-              ),
+                            return RecipeCard(
+                              recipe: recipe,
+                              isMine: isMine,
+                              onTap: () => _openRecipeDetail(recipe),
+                              onMenuAction: (action) {
+                                if (action == RecipeMenuAction.edit) {
+                                  _openRecipeEditor(recipe);
+                                } else {
+                                  _deleteRecipe(recipe);
+                                }
+                              },
+                            );
+                          },
+                        ),
             ),
-             SideMenu(
-                key: _menuKey,
-                currentRoute: '/recipe',
-                onOpenChanged: (isOpen) {
-                  setState(() => _isMenuOpen = isOpen);
-                },
-              ),
+             Padding(
+               padding: EdgeInsets.only(top: topPadding),
+               child: MediaQuery.removePadding(
+                 context: context,
+                 removeTop: true,
+                 child: SideMenu(
+                    key: _menuKey,
+                    currentRoute: '/recipe',
+                    onOpenChanged: (isOpen) {
+                      setState(() => _isMenuOpen = isOpen);
+                    },
+                  ),
+               ),
+             ),
           ],
         ),
       );

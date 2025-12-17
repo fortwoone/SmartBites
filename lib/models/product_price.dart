@@ -26,7 +26,7 @@ class ProductPrice {
         try {
           return DateTime.parse(d).toUtc();
         } catch (e) {
-          // ignnorer
+          // ignnore
         }
         final intVal = int.tryParse(d);
         if (intVal != null) {
@@ -48,7 +48,5 @@ class ProductPrice {
     );
   }
 
-  /// Returns the date converted to Europe/Paris timezone and formatted.
-  /// Requires the caller to use `intl` and optionally `timezone` packages for locale-aware formatting.
   DateTime getDateUtc() => date.toUtc();
 }

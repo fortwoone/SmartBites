@@ -1,4 +1,3 @@
-// A page that displays detailed information about a product
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/product.dart';
@@ -9,15 +8,11 @@ import '../widgets/grade_utils.dart';
 class ProductDetailPage extends StatelessWidget {
     final String barcode;
     final OpenFoodFactsRepository repository;
-
-    // Constructor with required barcode and optional repository
     ProductDetailPage({
       super.key,
       required this.barcode,
       OpenFoodFactsRepository? repository,
     }) : repository = repository ?? OpenFoodFactsRepository();
-
-    // Widget to display product image and error handling
     Widget _buildImage(String? url) {
       final borderRadius = BorderRadius.circular(12);
       if (url == null || url.isEmpty) {
@@ -37,12 +32,12 @@ class ProductDetailPage extends StatelessWidget {
         borderRadius: borderRadius,
         child: Container(
           color: Colors.grey.shade100,
-          padding: const EdgeInsets.all(8), // keep space from rounded edges
+          padding: const EdgeInsets.all(8),
           child: AspectRatio(
-            aspectRatio: 16 / 9, // fixed display ratio to avoid heavy cropping
+            aspectRatio: 16 / 9,
             child: Image.network(
               url,
-              fit: BoxFit.contain, // avoid cropping, respect whole image
+              fit: BoxFit.contain,
               alignment: Alignment.center,
               loadingBuilder: (context, child, progress) {
                 if (progress == null) return child;
@@ -57,7 +52,6 @@ class ProductDetailPage extends StatelessWidget {
       );
     }
 
-    // Card displaying basic product info: name, brand, barcode
     Widget _buildInfoCard(BuildContext context, Product product, AppLocalizations loc) {
       return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -82,7 +76,6 @@ class ProductDetailPage extends StatelessWidget {
       );
     }
 
-    // Widget to display ingredients text
     Widget _buildIngredients(String? text, AppLocalizations loc) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(loc.ingredients, style: TextStyle(fontWeight: FontWeight.bold)),
@@ -91,13 +84,10 @@ class ProductDetailPage extends StatelessWidget {
       ]);
     }
 
-    // Widget to display nutriments in a structured format
     Widget _buildNutriments(Map<String, dynamic>? nutriments, AppLocalizations loc) {
         if (nutriments == null || nutriments.isEmpty) {
             return Text(loc.no_nutritional_data);
         }
-
-        // Define which nutriments to show and their labels (order matters)
         final Map<String, String> selected = {
             'energy-kcal_100g': loc.energy_kcal_100g,
             'fat_100g': loc.fat_100g,
@@ -109,7 +99,6 @@ class ProductDetailPage extends StatelessWidget {
             'salt_100g': loc.salt_100g,
         };
 
-        // Units to append for the selected nutriments
         final Map<String, String> units = {
             'energy-kcal_100g': 'kcal',
             'fat_100g': 'g',
@@ -124,7 +113,6 @@ class ProductDetailPage extends StatelessWidget {
         String formatValue(dynamic v) {
             if (v == null) return '-';
             if (v is num) {
-              // show integer if whole number, otherwise show as double with max 2 decimals
               if (v % 1 == 0) return v.toInt().toString();
               return v.toStringAsFixed(2);
             }
@@ -137,7 +125,6 @@ class ProductDetailPage extends StatelessWidget {
             return s;
         }
 
-        // Header row: shows that values are "per 100g / 100ml"
         final header = Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Row(
@@ -146,7 +133,7 @@ class ProductDetailPage extends StatelessWidget {
                         loc.nutritional_intake,
                         style: TextStyle(fontWeight: FontWeight.bold)
                     ),
-                    const Expanded(child: SizedBox()), // Spacer
+                    const Expanded(child: SizedBox()),
                     Text(
                         loc.ni_units,
                         style: TextStyle(fontWeight: FontWeight.bold),

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/color_constants.dart';
 import '../../l10n/app_localizations.dart';
 
-class RecipeListHeader extends StatelessWidget {
+class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool isMenuOpen;
   final VoidCallback onToggleMenu;
   final bool showOnlyMine;
@@ -18,6 +18,9 @@ class RecipeListHeader extends StatelessWidget {
     required this.onToggleFilter,
     required this.onAddRecipe,
   });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(80);
 
   Widget _buildSquareButton({
     required Widget child,
@@ -55,53 +58,65 @@ class RecipeListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildSquareButton(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return RotationTransition(
-                  turns: Tween(begin: 0.5, end: 1.0).animate(animation),
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
-                );
-              },
-              child: Icon(
-                isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
-                key: ValueKey(isMenuOpen),
-                color: Colors.black87,
-              ),
-            ),
-            onPressed: onToggleMenu,
-          ),
-          Text(
-            showOnlyMine ? loc.myRecipes : loc.recipes,
-            style: GoogleFonts.recursive(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          Row(
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      toolbarHeight: 80,
+      automaticallyImplyLeading: false,
+      flexibleSpace: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildSquareButton(
-                child: Icon(showOnlyMine ? Icons.person : Icons.people_alt_outlined, color: Colors.black87),
-                onPressed: onToggleFilter,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    return RotationTransition(
+                      turns: Tween(begin: 0.5, end: 1.0).animate(animation),
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
+                    key: ValueKey(isMenuOpen),
+                    color: Colors.black87,
+                  ),
+                ),
+                onPressed: onToggleMenu,
               ),
-              const SizedBox(width: 12),
-              _buildSquareButton(
-                child: const Icon(Icons.add, color: primaryPeach),
-                onPressed: onAddRecipe,
+              Expanded(
+                child: Text(
+                  showOnlyMine ? loc.myRecipes : loc.recipes,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.recursive(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              Row(
+                children: [
+                  _buildSquareButton(
+                    child: Icon(showOnlyMine ? Icons.person : Icons.people_alt_outlined, color: Colors.black87),
+                    onPressed: onToggleFilter,
+                  ),
+                  const SizedBox(width: 12),
+                  _buildSquareButton(
+                    child: const Icon(Icons.add, color: primaryPeach),
+                    onPressed: onAddRecipe,
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

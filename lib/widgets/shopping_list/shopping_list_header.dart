@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/color_constants.dart';
 import '../../l10n/app_localizations.dart';
 
-class ShoppingListHeader extends StatelessWidget {
+class ShoppingListHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool isMenuOpen;
   final VoidCallback onToggleMenu;
   final VoidCallback onAddList;
@@ -14,6 +14,9 @@ class ShoppingListHeader extends StatelessWidget {
     required this.onToggleMenu,
     required this.onAddList,
   });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(80);
 
   Widget _buildSquareButton({
     required Widget child,
@@ -51,41 +54,53 @@ class ShoppingListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildSquareButton(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return RotationTransition(
-                  turns: Tween(begin: 0.5, end: 1.0).animate(animation),
-                  child: FadeTransition(opacity: animation, child: child),
-                );
-              },
-              child: Icon(
-                isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
-                key: ValueKey(isMenuOpen),
-                color: Colors.black87,
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      toolbarHeight: 80,
+      automaticallyImplyLeading: false,
+      flexibleSpace: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildSquareButton(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    return RotationTransition(
+                      turns: Tween(begin: 0.5, end: 1.0).animate(animation),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  child: Icon(
+                    isMenuOpen ? Icons.close_rounded : Icons.menu_rounded,
+                    key: ValueKey(isMenuOpen),
+                    color: Colors.black87,
+                  ),
+                ),
+                onPressed: onToggleMenu,
               ),
-            ),
-            onPressed: onToggleMenu,
+              Expanded(
+                child: Text(
+                  loc.shopping_lists,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.recursive(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              _buildSquareButton(
+                child: const Icon(Icons.add, color: primaryPeach),
+                onPressed: onAddList,
+              ),
+            ],
           ),
-          Text(
-            loc.shopping_lists,
-            style: GoogleFonts.recursive(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          _buildSquareButton(
-            child: const Icon(Icons.add, color: primaryPeach),
-            onPressed: onAddList,
-          ),
-        ],
+        ),
       ),
     );
   }
