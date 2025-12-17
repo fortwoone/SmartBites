@@ -18,7 +18,6 @@ class _RecentRecipesWidgetState extends State<RecentRecipesWidget> {
 
   Future<List<Map<String, dynamic>>> fetchRecentRecipes() async {
     // Récupère les 3 dernières recettes ajoutées
-    // Note : On suppose que vos colonnes sont 'nom', 'image_url' et 'created_at'
     final response = await supabase
         .from('Recettes')
         .select()
@@ -92,7 +91,7 @@ class _RecentRecipesWidgetState extends State<RecentRecipesWidget> {
                         );
                       },
                     child: Container(
-                      width: 200, // Plus large pour un aspect "fiche recette"
+                      width: 200,
                       margin: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
