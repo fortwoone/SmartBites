@@ -6,14 +6,14 @@ import '../APIServices/LeclercApiService.dart';
 import '../widgets/side_menu.dart';
 
 class ProductSearchPage extends StatefulWidget {
-  const ProductSearchPage({Key? key}) : super(key: key);
+  const ProductSearchPage({super.key});
 
   @override
   State<ProductSearchPage> createState() => _ProductSearchPageState();
 }
 
 class _ProductSearchPageState extends State<ProductSearchPage> {
-  ApiService _api = LeclercApiService(); // default API
+  ApiService _api = LeclercApiService();
   final _controller = TextEditingController(text: '');
   bool _loading = false;
   List<dynamic> _results = [];
@@ -62,10 +62,8 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
       ),
       body: Stack(
         children: [
-          // Main content
           Column(
             children: [
-              // Custom AppBar without extra white space
               Container(
                 height: kToolbarHeight + MediaQuery.of(context).padding.top,
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -99,8 +97,6 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                   ],
                 ),
               ),
-
-              // API selector and search input
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -149,8 +145,6 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                         onSubmitted: (_) => _search(),
                       ),
                       const SizedBox(height: 16),
-
-                      // Results
                       Expanded(
                         child: _loading
                             ? const Center(
@@ -252,13 +246,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
               ),
             ],
           ),
-
-          // Side menu overlay
-          SideMenu(
-            key: _menuKey,
-            currentRoute: '/product-search',
-            onOpenChanged: (isOpen) => setState(() => _isMenuOpen = isOpen),
-          ),
+          SideMenu(key: _menuKey, currentRoute: '/product-search', onOpenChanged: (isOpen) => setState(() => _isMenuOpen = isOpen),),
         ],
       ),
     );

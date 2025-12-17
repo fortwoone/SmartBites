@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/side_menu.dart'; // Adjust path to your project
+import '../widgets/side_menu.dart';
 
 class ProductDetailPagetest extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -31,7 +31,6 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
     return Scaffold(
       body: Stack(
         children: [
-          // Main page content
           Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -64,9 +63,6 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: GestureDetector(
-                        onTap: () {
-                          // TODO: Use url_launcher to open URL
-                        },
                         child: Text(
                           'View product online',
                           style: TextStyle(
@@ -93,11 +89,9 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
               child: const Icon(Icons.add),
             ),
           ),
-
-          // Side menu overlay
           SideMenu(
             key: _menuKey,
-            currentRoute: '/product_detail', // adjust as needed
+            currentRoute: '/product_detail',
             onOpenChanged: (isOpen) {
               setState(() => _isMenuOpen = isOpen);
             },

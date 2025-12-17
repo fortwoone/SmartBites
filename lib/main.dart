@@ -1,7 +1,7 @@
 import 'package:SmartBites/screens/api_search_test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/screens/recipes_list.dart';
 import 'package:SmartBites/widgets/side_menu.dart';
 import 'models/product.dart';
@@ -117,6 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         try {
             final results = await widget.repository.fetchProductsByName(q);
+            
+            final barcodes = results.map((p) => p.barcode).toList();
+            await widget.repository.preloadPrices(barcodes);
+
             setState(() => _results = results);
         } catch (e) {
             setState(() => _error = e.toString());

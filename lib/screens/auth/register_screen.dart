@@ -27,7 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _performRegister(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
 
-    // Validation des champs vides
     if (emailCtrl.text.trim().isEmpty ||
         passwdCtrl.text.trim().isEmpty ||
         confirmPasswdCtrl.text.trim().isEmpty) {
@@ -39,8 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       return;
     }
-
-    // Validation du format email
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -52,7 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Validation de la longueur du mot de passe
     if (passwdCtrl.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -63,7 +59,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Validation de la correspondance des mots de passe
     if (passwdCtrl.text != confirmPasswdCtrl.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -90,8 +85,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             duration: const Duration(seconds: 2),
           ),
         );
-
-        // Attendre un peu pour que l'utilisateur voie le message de succès
         await Future.delayed(const Duration(milliseconds: 800));
 
         if (context.mounted) {
