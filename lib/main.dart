@@ -17,7 +17,8 @@ import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
 import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
-import 'package:SmartBites/widgets/recent_products_widget.dart';
+import 'widgets/recent_products_widget.dart';
+import 'widgets/recent_recipes_widget.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -159,6 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (!_loading && _results.isEmpty)
                     const RecentProductsWidget(),
+
+                  if (!_loading && _results.isEmpty)
+                    const RecentRecipesWidget(),
 
                   if (_loading)
                     const Center(child: CircularProgressIndicator()),
