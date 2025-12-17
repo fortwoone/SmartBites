@@ -102,8 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
     bool _loading = false;
     String? _error;
     bool _isMenuOpen = false;
-
-    // Accept an optional query (used by AppNavBar.onSearchSubmitted)
     Future<void> _search([String? query]) async {
         final q = (query ?? '').trim();
         if (q.isEmpty) {
@@ -146,6 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 rightRoute: '/next',
                 onMenuPressed: _toggleMenu,
                 isMenuOpen: _isMenuOpen,
+                onSearchClosed: () {
+                    setState(() {
+                         _results = [];
+                    });
+                },
             ),
           body: Stack(
             children: [
