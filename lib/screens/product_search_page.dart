@@ -40,6 +40,9 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
 
     try {
       final results = await widget.repository.fetchProductsByName(query);
+      final barcodes = results.map((p) => p.barcode).toList();
+      await widget.repository.preloadPrices(barcodes);
+
       setState(() => _results = results);
     } catch (e) {
       setState(() => _error = "Erreur lors de la recherche. Vérifiez votre connexion.");

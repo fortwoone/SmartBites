@@ -1,7 +1,7 @@
 import 'package:SmartBites/screens/api_search_test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/screens/recipes_list.dart';
 import 'package:SmartBites/widgets/side_menu.dart';
 import 'models/product.dart';
@@ -16,6 +16,7 @@ import 'widgets/app_nav_bar.dart';
 import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
 import 'screens/profile_screen.dart';
+import 'widgets/shopping_list/product_search_item.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -117,6 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         try {
             final results = await widget.repository.fetchProductsByName(q);
+            
+            final barcodes = results.map((p) => p.barcode).toList();
+            await widget.repository.preloadPrices(barcodes);
+
             setState(() => _results = results);
         } catch (e) {
             setState(() => _error = e.toString());
@@ -157,17 +162,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             Expanded(
                                 child: _results.isEmpty
                                     ? const Center(child: Text('Pas de résultats'))
-                                    : ListView.separated(
+                                    : ListView.builder(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                                     itemCount: _results.length,
-                                    separatorBuilder: (_, __) => const Divider(height: 1),
                                     itemBuilder: (context, index) {
                                         final p = _results[index];
-                                        return ListTile(
-                                            leading: p.imageURL != null
-                                                ? Image.network(p.imageURL!, width: 56, height: 56, fit: BoxFit.cover)
-                                                : const SizedBox(width: 56, height: 56),
-                                            title: Text(_titleFor(p)),
-                                            subtitle: Text(p.brands ?? ''),
+                                        return ProductSearchItem(
+                                            product: p,
+                                            repository: widget.repository,
                                             onTap: () {
                                                 final code = p.barcode;
                                                 if (code.isEmpty) {
