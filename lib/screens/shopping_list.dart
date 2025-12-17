@@ -493,114 +493,115 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
+    final topPadding = MediaQuery.of(context).padding.top + 80;
+
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: ShoppingListHeader(
+            isMenuOpen: _isMenuOpen,
+            onToggleMenu: _toggleMenu,
+            onAddList: () async {
+                final result = await askListName(context);
+                if (result != null && result.isNotEmpty) {
+                    ShoppingList added = ShoppingList(
+                        name: result,
+                        user_id: user.id,
+                        products: [],
+                        quantities: {},
+                    );
+                    final inserted = await supabase
+                        .from("shopping_list")
+                        .insert(added.toMap())
+                        .select();
+                    added.id = inserted[0]["id"];
+                    setState(() => existing_lists.add(added));
+                }
+            },
+        ),
         body: Stack(
           children: [
             const RecipeBackground(),
 
-            SafeArea(
-              child: Column(
-                children: [
-                    ShoppingListHeader(
-                        isMenuOpen: _isMenuOpen,
-                        onToggleMenu: _toggleMenu,
-                        onAddList: () async {
-                            final result = await askListName(context);
-                            if (result != null && result.isNotEmpty) {
-                                ShoppingList added = ShoppingList(
-                                    name: result,
-                                    user_id: user.id,
-                                    products: [],
-                                    quantities: {},
-                                );
-                                final inserted = await supabase
-                                    .from("shopping_list")
-                                    .insert(added.toMap())
-                                    .select();
-                                added.id = inserted[0]["id"];
-                                setState(() => existing_lists.add(added));
-                            }
-                        },
-                    ),
-
-                    Expanded(
-                        child: _isLoading
-                            ? const Center(child: CircularProgressIndicator(color: primaryPeach))
-                            : existing_lists.isEmpty
-                                ? Center(child: Text("Aucune liste. Créez-en une !", style: GoogleFonts.recursive(color: Colors.grey)))
-                                : ListView.builder(
-                                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                                    itemCount: existing_lists.length,
-                                    itemBuilder: (context, index) {
-                                        final lst = existing_lists[index];
-                                        return ShoppingListCard(
-                                            list: lst,
-                                            onTap: () async {
-                                                final result = await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (_) => ShoppingListDetail(list: lst, user: user),
-                                                    ),
-                                                );
-                                                if (result == true) {
-                                                    await supabase
-                                                        .from("shopping_list")
-                                                        .delete()
-                                                        .eq("id", lst.id!);
-                                                    setState(() => existing_lists.removeAt(index));
-                                                }
-                                            },
-                                            onEdit: () async {
-                                                final newName = await _askRenameList(context, lst.name);
-                                                    if (newName != null && newName.isNotEmpty) {
-                                                        if (!_listNameAvailableForUser(newName)) {
-                                                            await showNameTaken(context);
-                                                            return;
-                                                        }
-                                                        await supabase
-                                                            .from('shopping_list')
-                                                            .update({'name': newName})
-                                                            .eq('id', lst.id!);
-                                                        setState(() => lst.name = newName);
-                                                    }
-                                            },
-                                            onDelete: () async {
-                                                // Assuming we want a quick delete or using the detail page logic.
-                                                // For now, let's just trigger the callback which might need a dialog in the future
-                                                // Added a quick dialog here for safety
-                                                 final confirm = await showDialog<bool>(
-                                                    context: context,
-                                                    builder: (context) => AlertDialog(
-                                                        title: Text(loc.confirm, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
-                                                        content: Text(loc.delete_list, style: GoogleFonts.recursive()),
-                                                        actions: [
-                                                            TextButton(onPressed: ()=>Navigator.pop(context, false), child: Text(loc.cancel)),
-                                                            ElevatedButton(onPressed: ()=>Navigator.pop(context, true), style: ElevatedButton.styleFrom(backgroundColor: Colors.red), child: Text(loc.delete, style: const TextStyle(color: Colors.white))),
-                                                        ],
-                                                    )
-                                                 );
-                                                 if(confirm == true) {
-                                                      await supabase
-                                                        .from("shopping_list")
-                                                        .delete()
-                                                        .eq("id", lst.id!);
-                                                    setState(() => existing_lists.removeAt(index));
-                                                 }
-                                            },
-                                        );
-                                    },
-                                ),
-                    ),
-                ],
-              ),
+            Padding(
+              padding: EdgeInsets.only(top: topPadding),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator(color: primaryPeach))
+                  : existing_lists.isEmpty
+                      ? Center(child: Text("Aucune liste. Créez-en une !", style: GoogleFonts.recursive(color: Colors.grey)))
+                      : ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          itemCount: existing_lists.length,
+                          itemBuilder: (context, index) {
+                              final lst = existing_lists[index];
+                              return ShoppingListCard(
+                                  list: lst,
+                                  onTap: () async {
+                                      final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ShoppingListDetail(list: lst, user: user),
+                                          ),
+                                      );
+                                      if (result == true) {
+                                          await supabase
+                                              .from("shopping_list")
+                                              .delete()
+                                              .eq("id", lst.id!);
+                                          setState(() => existing_lists.removeAt(index));
+                                      }
+                                  },
+                                  onEdit: () async {
+                                      final newName = await _askRenameList(context, lst.name);
+                                          if (newName != null && newName.isNotEmpty) {
+                                              if (!_listNameAvailableForUser(newName)) {
+                                                  await showNameTaken(context);
+                                                  return;
+                                              }
+                                              await supabase
+                                                  .from('shopping_list')
+                                                  .update({'name': newName})
+                                                  .eq('id', lst.id!);
+                                              setState(() => lst.name = newName);
+                                          }
+                                  },
+                                  onDelete: () async {
+                                       final confirm = await showDialog<bool>(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                              title: Text(loc.confirm, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
+                                              content: Text(loc.delete_list, style: GoogleFonts.recursive()),
+                                              actions: [
+                                                  TextButton(onPressed: ()=>Navigator.pop(context, false), child: Text(loc.cancel)),
+                                                  ElevatedButton(onPressed: ()=>Navigator.pop(context, true), style: ElevatedButton.styleFrom(backgroundColor: Colors.red), child: Text(loc.delete, style: const TextStyle(color: Colors.white))),
+                                              ],
+                                          )
+                                       );
+                                       if(confirm == true) {
+                                            await supabase
+                                              .from("shopping_list")
+                                              .delete()
+                                              .eq("id", lst.id!);
+                                          setState(() => existing_lists.removeAt(index));
+                                       }
+                                  },
+                              );
+                          },
+                      ),
             ),
 
-            SideMenu(
-              key: _menuKey,
-              currentRoute: '/shopping',
-              onOpenChanged: (isOpen) {
-                setState(() => _isMenuOpen = isOpen);
-              },
+            Padding(
+               padding: EdgeInsets.only(top: topPadding),
+               child: MediaQuery.removePadding(
+                 context: context,
+                 removeTop: true,
+                 child: SideMenu(
+                    key: _menuKey,
+                    currentRoute: '/shopping',
+                    onOpenChanged: (isOpen) {
+                      setState(() => _isMenuOpen = isOpen);
+                    },
+                  ),
+               ),
             ),
           ],
         ),
