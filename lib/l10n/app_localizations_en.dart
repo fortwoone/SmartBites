@@ -493,4 +493,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get testapis => 'APIs tests';
+
+  @override
+  String get add => 'Add list';
 }

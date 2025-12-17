@@ -162,7 +162,8 @@
   "loading": "Chargement en cours",
   "empty_list":"Votre liste est vide",
   "name_list": "Nom de la liste",
-  "testapis": "Tests des apis"
+  "testapis": "Tests des apis",
+  "add": "Ajouter la liste"
 
 
 }

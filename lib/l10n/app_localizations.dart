@@ -1066,6 +1066,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'APIs tests'**
   String get testapis;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add list'**
+  String get add;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

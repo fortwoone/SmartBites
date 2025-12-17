@@ -161,7 +161,8 @@
   "loading": "Loading in progress",
   "empty_list":"Your list is empty",
   "name_list": "List's name",
-  "testapis": "APIs tests"
+  "testapis": "APIs tests",
+  "add": "Add list"
 
 
 }

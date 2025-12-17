@@ -239,16 +239,30 @@ class ViewRecipePage extends StatelessWidget {
                             color: peachDark
                         )
                     ),
-                    CircleAvatar(
-                        backgroundColor: peachDark,
-                        radius: 20,
-                        child: IconButton(
-                            icon: Icon(Icons.shopping_cart),
-                            onPressed: () async {
-                              await _createShoppingListFromRecipe(context);
-                            },
-                        ),
-                    )
+                  CircleAvatar(
+                    backgroundColor: peachDark,
+                    radius: 30, // bump this up to fit text
+                    child: InkWell(
+                      onTap: () async {
+                        await _createShoppingListFromRecipe(context);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.shopping_cart, size: 18, color: Colors.white),
+                          SizedBox(height: 2),
+                          Text(
+                            loc.add,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+
                 ]
             ),
             const SizedBox(height: 8),

@@ -65,7 +65,7 @@ class OpenFoodFactsRepository {
             '&fields=$fields',
         );
 
-        final response = await client.get(uri).timeout(const Duration(seconds: 15));
+        final response = await client.get(uri).timeout(const Duration(seconds: 360));
         if (response.statusCode != 200) {
             throw Exception('Network error: ${response.statusCode}');
         }
