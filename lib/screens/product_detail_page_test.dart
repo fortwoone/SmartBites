@@ -22,8 +22,8 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
   Widget build(BuildContext context) {
     final name = widget.product['product_name'] ?? 'Unnamed product';
     final brand = widget.product['brand_name'] ?? '';
-    final price = widget.product['product_price'] != null
-        ? '${widget.product['product_price']} ${widget.product['product_currency'] ?? ''}'
+    final price = widget.product['Price'] != null
+        ? '${widget.product['Price']} ${widget.product['product_currency'] ?? ''}'
         : 'Price not available';
     final description = widget.product['product_ingredients'] ?? '';
     final productUrl = widget.product['product_link'] ?? '';

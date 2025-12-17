@@ -13,7 +13,7 @@ class ProductSearchPage extends StatefulWidget {
 }
 
 class _ProductSearchPageState extends State<ProductSearchPage> {
-  ApiService _api = AuchanApiService(); // default API
+  ApiService _api = LeclercApiService(); // default API
   final _controller = TextEditingController(text: '');
   bool _loading = false;
   List<dynamic> _results = [];
