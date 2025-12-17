@@ -18,6 +18,7 @@ import 'screens/shopping_list.dart';
 import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
 import 'package:SmartBites/widgets/recent_products_widget.dart';
+import 'package:SmartBites/widgets/shopping_list/product_search_item.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -136,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     String _titleFor(Product p) => p.name ?? p.brands ?? 'Produit inconnu';
 
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -178,26 +180,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? const Center(
                       child: Text('Recherchez un produit pour commencer'),
                     )
-                        : ListView.separated(
+                        : ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                       itemCount: _results.length,
-                      separatorBuilder: (_, __) =>
-                      const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final p = _results[index];
-                        return ListTile(
-                          leading: p.imageURL != null
-                              ? Image.network(
-                            p.imageURL!,
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
-                          )
-                              : const SizedBox(
-                            width: 56,
-                            height: 56,
-                          ),
-                          title: Text(_titleFor(p)),
-                          subtitle: Text(p.brands ?? ''),
+                        return ProductSearchItem(
+                          product: p,
+                          repository: widget.repository,
                           onTap: () {
                             final code = p.barcode;
                             if (code.isEmpty) {
