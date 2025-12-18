@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:SmartBites/screens/product_detail_screen.dart';
 import 'package:SmartBites/repositories/openfoodfacts_repository.dart';
@@ -36,7 +37,7 @@ class _RecentProductsWidgetState extends State<RecentProductsWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(
             loc.products_recently_viewed,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: GoogleFonts.recursive(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         FutureBuilder<List<Map<String, dynamic>>>(
@@ -108,10 +109,7 @@ class _RecentProductsWidgetState extends State<RecentProductsWidget> {
                                   : (item['en_name'] ?? item['fr_name'] ?? 'Unknown'),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              ),
+                              style: GoogleFonts.recursive(color: Colors.grey.shade600, fontSize: 12),
                             ),
                           ),
                         ],

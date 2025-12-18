@@ -1,4 +1,5 @@
 import 'package:SmartBites/screens/api_search_test_page.dart';
+import 'package:SmartBites/widgets/recent_shopping_lists_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SmartBites/screens/product_detail_page.dart';
@@ -17,6 +18,8 @@ import 'screens/recipes_search_screen.dart';
 import 'screens/shopping_list.dart';
 import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
+import 'widgets/recent_products_widget.dart';
+import 'widgets/recent_recipes_widget.dart';
 import 'package:SmartBites/widgets/recent_products_widget.dart';
 import 'package:SmartBites/widgets/shopping_list/product_search_item.dart';
 
@@ -137,93 +140,114 @@ class _HomeScreenState extends State<HomeScreen> {
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppNavBar(
-                title: AppLocalizations.of(context)!.products,
-                showSearch: true,
-                onSearchSubmitted: _onSearchSubmitted,
-                showSquareButtons: true,
-                backgroundColor: primaryPeach,
-                rightRoute: '/next',
-                onMenuPressed: _toggleMenu,
-                isMenuOpen: _isMenuOpen,
-                onSearchClosed: () {
-                    setState(() {
-                         _results = [];
-                    });
-                },
-            ),
-          body: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 12),
+      // On définit si on est en "mode recherche"
+      // On considère qu'on cherche si on charge ou si on a des résultats
+      bool isSearching = _loading || _results.isNotEmpty;
 
-                  if (!_loading && _results.isEmpty)
-                    const RecentProductsWidget(),
-
-                  if (_loading)
-                    const Center(child: CircularProgressIndicator()),
-
-                  if (_error != null)
-                    Text(
-                      _error!,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-
-                  Expanded(
-                    child: _results.isEmpty
-                        ? const Center(
-                      child: Text('Recherchez un produit pour commencer'),
-                    )
-                        : ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                      itemCount: _results.length,
-                      itemBuilder: (context, index) {
-                        final p = _results[index];
-                        return ProductSearchItem(
-                          product: p,
-                          repository: widget.repository,
-                          onTap: () {
-                            final code = p.barcode;
-                            if (code.isEmpty) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Pas de code-barres disponible',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetailPage(
-                                  barcode: code,
-                                  repository: widget.repository,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+      return Scaffold(
+        appBar: AppNavBar(
+          title: AppLocalizations.of(context)!.products,
+          showSearch: true,
+          onSearchSubmitted: _onSearchSubmitted,
+          showSquareButtons: true,
+          backgroundColor: primaryPeach,
+          rightRoute: '/next',
+          onMenuPressed: _toggleMenu,
+          isMenuOpen: _isMenuOpen,
+          onSearchClosed: () {
+            setState(() {
+              _results = [];
+              _error = null;
+            });
+          },
+        ),
+        body: Stack(
+          children: [
+            // Contenu principal
+            Column(
+              children: [
+                if (_error != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(_error!, style: const TextStyle(color: Colors.red)),
                   ),
-                ],
-              ),
-              SideMenu(
-                key: _sideMenuKey,
-                currentRoute: '/home',
-                onOpenChanged: (isOpen) {
-                  setState(() => _isMenuOpen = isOpen);
-                },
-              ),
-            ],
-          ),
 
-        );
+                Expanded(
+                  child: isSearching
+                      ? _buildSearchResultsView() // Vue Recherche
+                      : _buildDashboardView(),    // Vue Dashboard
+                ),
+              ],
+            ),
+
+            // Menu latéral (toujours au-dessus)
+            SideMenu(
+              key: _sideMenuKey,
+              currentRoute: '/home',
+              onOpenChanged: (isOpen) => setState(() => _isMenuOpen = isOpen),
+            ),
+          ],
+        ),
+      );
     }
+
+// --- VUE 1 : LE DASHBOARD (Widgets récents) ---
+  Widget _buildDashboardView() {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          SizedBox(height: 12),
+          RecentProductsWidget(),
+          SizedBox(height: 16),
+          RecentRecipesWidget(),
+          SizedBox(height: 16),
+          RecentShoppingListsWidget(),
+          SizedBox(height: 30), // Espace en bas pour respirer
+        ],
+      ),
+    );
+  }
+
+// --- VUE 2 : LES RÉSULTATS DE RECHERCHE ---
+  Widget _buildSearchResultsView() {
+    final loc = AppLocalizations.of(context)!;
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView.separated(
+      padding: const EdgeInsets.only(top: 10),
+      itemCount: _results.length,
+      separatorBuilder: (_, __) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final p = _results[index];
+        return ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: p.imageURL != null
+                ? Image.network(p.imageURL!, width: 56, height: 56, fit: BoxFit.cover)
+                : Container(width: 56, height: 56, color: Colors.grey[200], child: const Icon(Icons.fastfood)),
+          ),
+          title: Text(_titleFor(p), style: const TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text(p.brands ?? ''),
+          onTap: () {
+            if (p.barcode.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(loc.no_barcode_available)),
+              );
+              return;
+            }
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ProductDetailPage(barcode: p.barcode, repository: widget.repository),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
 

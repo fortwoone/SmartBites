@@ -502,4 +502,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get empty_cash => 'Aucun produit consulté';
+
+  @override
+  String get last_recipes => 'Dernières recettes';
+
+  @override
+  String get see_all => 'Voir tout';
+
+  @override
+  String get charge_recipe_error => 'Erreur lors du chargement des recettes';
+
+  @override
+  String get no_recipes => 'Aucune recette disponible.';
+
+  @override
+  String get no_barcode_available => 'Aucun code-barres disponible pour ce produit.';
+
+  @override
+  String get no_shopping_lists_found => 'Aucune liste de courses trouvée.';
 }
