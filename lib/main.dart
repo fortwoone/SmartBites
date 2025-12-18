@@ -137,8 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _sideMenuKey.currentState?.toggle();
     }
 
-    String _titleFor(Product p) => p.name ?? p.brands ?? "product_uknown";
-
     @override
     Widget build(BuildContext context) {
       // On définit si on est en "mode recherche"
