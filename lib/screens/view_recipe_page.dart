@@ -20,7 +20,6 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
     bool _isLoading = false;
 
     Future<void> _addToShoppingList() async {
-        final loc = AppLocalizations.of(context)!;
         final client = Supabase.instance.client;
         final user = client.auth.currentUser;
 
