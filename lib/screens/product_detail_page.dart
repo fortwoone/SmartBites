@@ -4,9 +4,9 @@ import 'package:SmartBites/l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../widgets/grade_utils.dart';
+import '../widgets/product/product_detail_header.dart';
 import '../widgets/product_price_widget.dart';
 import '../utils/color_constants.dart';
-import '../widgets/product/product_detail_header.dart';
 import '../widgets/primary_button.dart';
 
 class ProductDetailPage extends StatelessWidget {
