@@ -135,9 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _sideMenuKey.currentState?.toggle();
     }
 
-    String _titleFor(Product p) => p.name ?? p.brands ?? 'Produit inconnu';
-
-
     @override
     Widget build(BuildContext context) {
         return Scaffold(
