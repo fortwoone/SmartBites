@@ -20,6 +20,7 @@ import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
 import 'widgets/recent_products_widget.dart';
 import 'widgets/recent_recipes_widget.dart';
+import 'widgets/shopping_list/product_search_item.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -217,21 +218,14 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.only(top: 10),
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
       itemCount: _results.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
       itemBuilder: (context, index) {
         final p = _results[index];
-        return ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: p.imageURL != null
-                ? Image.network(p.imageURL!, width: 56, height: 56, fit: BoxFit.cover)
-                : Container(width: 56, height: 56, color: Colors.grey[200], child: const Icon(Icons.fastfood)),
-          ),
-          title: Text(_titleFor(p), style: const TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: Text(p.brands ?? ''),
+        return ProductSearchItem(
+          product: p,
+          repository: widget.repository,
           onTap: () {
             if (p.barcode.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -250,4 +244,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 

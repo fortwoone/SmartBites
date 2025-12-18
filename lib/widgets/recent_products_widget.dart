@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/repositories/openfoodfacts_repository.dart';
 
 import '../l10n/app_localizations.dart';
@@ -18,7 +18,6 @@ class _RecentProductsWidgetState extends State<RecentProductsWidget> {
   final SupabaseClient supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> fetchRecentProducts() async {
-    // Récupère 3 produits ajoutés à la table cached_products
     final response = await supabase
         .from('cached_products')
         .select()
