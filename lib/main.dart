@@ -20,8 +20,6 @@ import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
 import 'widgets/recent_products_widget.dart';
 import 'widgets/recent_recipes_widget.dart';
-import 'package:SmartBites/widgets/recent_products_widget.dart';
-import 'package:SmartBites/widgets/shopping_list/product_search_item.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -137,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
     void _toggleMenu() {
         _sideMenuKey.currentState?.toggle();
     }
+
+    String _titleFor(Product p) => p.name ?? p.brands ?? "product_uknown";
 
     @override
     Widget build(BuildContext context) {
