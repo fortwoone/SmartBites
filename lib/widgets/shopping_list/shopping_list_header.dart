@@ -3,20 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/color_constants.dart';
 import '../../l10n/app_localizations.dart';
 
-class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
+class ShoppingListHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool isMenuOpen;
   final VoidCallback onToggleMenu;
-  final bool showOnlyMine;
-  final VoidCallback onToggleFilter;
-  final VoidCallback onAddRecipe;
+  final VoidCallback onAddList;
 
-  const RecipeListHeader({
+  const ShoppingListHeader({
     super.key,
     required this.isMenuOpen,
     required this.onToggleMenu,
-    required this.showOnlyMine,
-    required this.onToggleFilter,
-    required this.onAddRecipe,
+    required this.onAddList,
   });
 
   @override
@@ -57,7 +53,7 @@ class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    
+
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -75,10 +71,7 @@ class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
                   transitionBuilder: (child, animation) {
                     return RotationTransition(
                       turns: Tween(begin: 0.5, end: 1.0).animate(animation),
-                      child: FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
+                      child: FadeTransition(opacity: animation, child: child),
                     );
                   },
                   child: Icon(
@@ -91,7 +84,7 @@ class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
               ),
               Expanded(
                 child: Text(
-                  showOnlyMine ? loc.myRecipes : loc.recipes,
+                  loc.shopping_lists,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.recursive(
                     fontSize: 24,
@@ -101,19 +94,10 @@ class RecipeListHeader extends StatelessWidget implements PreferredSizeWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Row(
-                children: [
-                  _buildSquareButton(
-                    child: Icon(showOnlyMine ? Icons.person : Icons.people_alt_outlined, color: Colors.black87),
-                    onPressed: onToggleFilter,
-                  ),
-                  const SizedBox(width: 12),
-                  _buildSquareButton(
-                    child: const Icon(Icons.add, color: primaryPeach),
-                    onPressed: onAddRecipe,
-                  ),
-                ],
-              )
+              _buildSquareButton(
+                child: const Icon(Icons.add, color: primaryPeach),
+                onPressed: onAddList,
+              ),
             ],
           ),
         ),

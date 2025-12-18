@@ -13,6 +13,7 @@ import '../utils/color_constants.dart';
 import '../widgets/recipe/recipe_background.dart';
 import '../widgets/recipe/recipe_image_picker.dart';
 import '../widgets/recipe/ingredient_list_editor.dart';
+import '../widgets/recipe/recipe_steps_editor.dart';
 
 class AddRecipePage extends StatefulWidget {
   final Map<String, dynamic>? recipeToEdit;
@@ -29,10 +30,10 @@ class _AddRecipePageState extends State<AddRecipePage> {
     final _descriptionController = TextEditingController();
     final _timePreparationController = TextEditingController();
     final _timeBakingController = TextEditingController();
-    final _instructionsController = TextEditingController();
 
     bool _loading = false;
     List<Map<String, dynamic>> _ingredients = [];
+    List<String> _steps = [];
     bool get _isEditing => widget.recipeToEdit != null;
     
     File? _imageFile;
@@ -53,7 +54,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
         _descriptionController.addListener(_saveInputs);
         _timePreparationController.addListener(_saveInputs);
         _timeBakingController.addListener(_saveInputs);
-        _instructionsController.addListener(_saveInputs);
+        _timeBakingController.addListener(_saveInputs);
+        // _instructionsController.addListener(_saveInputs);
     }
 
     void _loadRecipeData(Map<String, dynamic> recipe) {
@@ -61,7 +63,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
         _descriptionController.text = recipe['description'] ?? '';
         _timePreparationController.text = recipe['time_preparation']?.toString() ?? '';
         _timeBakingController.text = recipe['time_baking']?.toString() ?? '';
-        _instructionsController.text = recipe['instructions'] ?? '';
+        _timeBakingController.text = recipe['time_baking']?.toString() ?? '';
+        final rawInstructions = recipe['instructions'] as String? ?? '';
+        if (rawInstructions.isNotEmpty) {
+            _steps = rawInstructions.split('\n');
+        } else {
+            _steps = [];
+        }
         _existingImageUrl = recipe['image_url'];
         final ingr = recipe['ingredients'];
         if (ingr is List) _ingredients = ingr.map((e) => Map<String, dynamic>.from(e)).toList();
@@ -74,7 +82,9 @@ class _AddRecipePageState extends State<AddRecipePage> {
         _descriptionController.dispose();
         _timePreparationController.dispose();
         _timeBakingController.dispose();
-        _instructionsController.dispose();
+        _timePreparationController.dispose();
+        _timeBakingController.dispose();
+        // _instructionsController.dispose();
         super.dispose();
     }
 
@@ -85,7 +95,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
           _descriptionController.text = prefs.getString('recipe_description') ?? '';
           _timePreparationController.text = prefs.getString('recipe_time_prep') ?? '';
           _timeBakingController.text = prefs.getString('recipe_time_bake') ?? '';
-          _instructionsController.text = prefs.getString('recipe_instructions') ?? '';
+          _timePreparationController.text = prefs.getString('recipe_time_prep') ?? '';
+          _timeBakingController.text = prefs.getString('recipe_time_bake') ?? '';
+          // _instructionsController.text = prefs.getString('recipe_instructions') ?? '';
+          final savedInstr = prefs.getString('recipe_instructions');
+          if (savedInstr != null && savedInstr.isNotEmpty) {
+             _steps = savedInstr.split('\n');
+          }
       });
     }
 
@@ -96,7 +112,9 @@ class _AddRecipePageState extends State<AddRecipePage> {
         await prefs.setString('recipe_description', _descriptionController.text);
         await prefs.setString('recipe_time_prep', _timePreparationController.text);
         await prefs.setString('recipe_time_bake', _timeBakingController.text);
-        await prefs.setString('recipe_instructions', _instructionsController.text);
+        await prefs.setString('recipe_time_prep', _timePreparationController.text);
+        await prefs.setString('recipe_time_bake', _timeBakingController.text);
+        await prefs.setString('recipe_instructions', _steps.join('\n'));
     }
 
     Future<void> _clearSavedInputs() async {
@@ -243,7 +261,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     'description': _descriptionController.text.trim(),
                     'time_preparation': int.tryParse(_timePreparationController.text) ?? 1,
                     'time_baking': int.tryParse(_timeBakingController.text) ?? 0,
-                    'instructions': _instructionsController.text.trim(),
+                    'instructions': _steps.join('\n'),
                     'ingredients': _ingredients,
                     'user_id_creator': user?.id,
                     'creator_name': displayName,
@@ -258,7 +276,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                     'description': _descriptionController.text.trim(),
                     'time_preparation': int.tryParse(_timePreparationController.text) ?? 0,
                     'time_baking': int.tryParse(_timeBakingController.text) ?? 0,
-                    'instructions': _instructionsController.text.trim(),
+                    'instructions': _steps.join('\n'),
                     'ingredients': _ingredients,
                 };
                 
@@ -362,14 +380,16 @@ class _AddRecipePageState extends State<AddRecipePage> {
                                 ),
                               
                               const SizedBox(height: 24),
-                              StyledTextField(
-                                  controller: _instructionsController, 
-                                  hint: loc.instructions, 
-                                  label: loc.instructions,
-                                  maxLines: 8,
-                                  icon: Icons.list_alt,
-                                  validator: (val) => val == null || val.isEmpty ? loc.enterInstructions : null
-                              ),
+                               RecipeStepsEditor(
+                                 steps: _steps,
+                                 onStepsChanged: (newSteps) {
+                                     // Just update reference, don't setState here to avoid rebuild loop if input focus
+                                     // But editor widget logic might need setState in parent if we pass steps back?
+                                     // The editor manages controllers. We just need to keep _steps in sync for save.
+                                     _steps = newSteps;
+                                     _saveInputs(); 
+                                 },
+                               ),
                               const SizedBox(height: 32),
                               
                               PrimaryButton(

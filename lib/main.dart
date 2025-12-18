@@ -2,7 +2,7 @@ import 'package:SmartBites/screens/api_search_test_page.dart';
 import 'package:SmartBites/widgets/recent_shopping_lists_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:SmartBites/screens/product_detail_screen.dart';
+import 'package:SmartBites/screens/product_detail_page.dart';
 import 'package:SmartBites/screens/recipes_list.dart';
 import 'package:SmartBites/widgets/side_menu.dart';
 import 'models/product.dart';
@@ -20,6 +20,8 @@ import 'screens/profile_screen.dart';
 import 'utils/color_constants.dart';
 import 'widgets/recent_products_widget.dart';
 import 'widgets/recent_recipes_widget.dart';
+import 'package:SmartBites/widgets/recent_products_widget.dart';
+import 'package:SmartBites/widgets/shopping_list/product_search_item.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -119,6 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         try {
             final results = await widget.repository.fetchProductsByName(q);
+            
+            final barcodes = results.map((p) => p.barcode).toList();
+            await widget.repository.preloadPrices(barcodes);
+
             setState(() => _results = results);
         } catch (e) {
             setState(() => _error = e.toString());
@@ -131,8 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
     void _toggleMenu() {
         _sideMenuKey.currentState?.toggle();
     }
-
-    String _titleFor(Product p) => p.name ?? p.brands ?? 'Produit inconnu';
 
     @override
     Widget build(BuildContext context) {

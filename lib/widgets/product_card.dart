@@ -22,7 +22,6 @@ class ProductCard extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            // Image Section
             Container(
               width: 100,
               height: 100,
@@ -38,7 +37,6 @@ class ProductCard extends StatelessWidget {
                   : const Icon(Icons.fastfood, size: 40, color: Colors.grey),
             ),
             
-            // Text Section
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -85,8 +83,6 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-            
-            // Arrow
             const Padding(
               padding: EdgeInsets.only(right: 16),
               child: Icon(Icons.chevron_right, color: Colors.grey),

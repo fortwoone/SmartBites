@@ -27,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _performLogin(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
 
-    // Validation des champs
     if (emailCtrl.text.trim().isEmpty || passwdCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -38,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // Validation du format email
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
       ScaffoldMessenger.of(context).showSnackBar(
