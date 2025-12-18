@@ -25,7 +25,7 @@ class _RecentShoppingListsWidgetState extends State<RecentShoppingListsWidget> {
         .select()
         .eq('user_id', user.id)
         .order('id', ascending: false)
-        .limit(3);
+        .limit(1);
 
     return (response as List).map((lst) => ShoppingList.fromMap(lst)).toList();
   }

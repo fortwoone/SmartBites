@@ -13,7 +13,7 @@
   "email_hint": "Enter your email",
   "hint_passwd": "Enter your password",
   "login_register_action": " Create an account",
-  "shopping_lists": "Shopping Lists",
+  "shopping_lists": "Last Shopping List",
   "new_list": "New Shopping List",
   "register_failed": "Error during register",
   "validate": "Validate",

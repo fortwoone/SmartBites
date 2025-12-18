@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login_register_action => ' Create an account';
 
   @override
-  String get shopping_lists => 'Shopping Lists';
+  String get shopping_lists => 'Last Shopping List';
 
   @override
   String get new_list => 'New Shopping List';
