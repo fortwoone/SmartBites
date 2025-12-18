@@ -40,41 +40,107 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
     }
 
     Future<void> _getCachedProductData() async {
-        for (String barcode in widget.list.products) {
-            if (barcode.startsWith("TEXT:")) {
-                final name = barcode.substring(5);
-                cachedProducts[barcode] = CachedProduct(
+        try {
+            final repository = OpenFoodFactsRepository();
+            final futures = widget.list.products.map((barcode) async {
+                    if (barcode.startsWith("TEXT:")) {
+                        final name = barcode.substring(5);
+                        return MapEntry(barcode, CachedProduct(
+                            barcode: barcode,
+                            img_small_url: "",
+                            brands: "",
+                            fr_name: name,
+                            en_name: name,
+                        ));
+                    }
+
+                    try {
+                        final product = await repository.fetchProductByBarcode(barcode);
+                        if (product != null) {
+                             final String safeName = product.name ?? "Produit sans nom";
+                             final String frName = (product.frName != null && product.frName!.isNotEmpty) ? product.frName! : safeName;
+                             final String enName = (product.enName != null && product.enName!.isNotEmpty) ? product.enName! : safeName;
+                             final String imgUrl = product.imageSmallURL ?? product.imageURL ?? "";
+
+                             final newCacheProps = CachedProduct(
+                                barcode: product.barcode,
+                                img_small_url: imgUrl,
+                                brands: product.brands ?? "",
+                                fr_name: frName,
+                                en_name: enName,
+                            );
+                             supabase.rpc("add_entry_to_cache", params: {
+                                "product_barcode": newCacheProps.barcode,
+                                "p_img_small_url": newCacheProps.img_small_url,
+                                "p_brands": newCacheProps.brands,
+                                "p_fr_name": newCacheProps.fr_name,
+                                "p_en_name": newCacheProps.en_name,
+                            }).then((_) {}, onError: (e) {
+                                 debugPrint("Failed to update cache background: $e");
+                            });
+
+                            return MapEntry(barcode, newCacheProps);
+                        }
+                    } catch (e) {
+                        debugPrint("Network fetch failed for $barcode: $e");
+                    }
+
+                    try {
+                        final result = await supabase.rpc(
+                            "get_cache_entry",
+                            params: {"p_barcode": barcode},
+                        );
+                        
+                        if (result != null) {
+                            return MapEntry(barcode, CachedProduct.fromMap(result));
+                        }
+                    } catch (e) {
+                        debugPrint("Cache fallback failed for $barcode: $e");
+                    }
+                
+                return MapEntry(barcode, CachedProduct(
                     barcode: barcode,
                     img_small_url: "",
                     brands: "",
-                    fr_name: name,
-                    en_name: name,
-                );
-              continue;
-            }
+                    fr_name: "Produit inconnu ($barcode)",
+                    en_name: "Unknown product ($barcode)",
+                ));
+            });
 
-            final result = await supabase.rpc(
-                "get_cache_entry",
-                params: {"p_barcode": barcode},
-            );
-            if (result != null) {
-                cachedProducts[barcode] = CachedProduct.fromMap(result);
+            final results = await Future.wait(futures);
+            
+            for (var entry in results) {
+                cachedProducts[entry.key] = entry.value;
             }
             await _loadPrices();
+        } catch (e) {
+            debugPrint("Global error in _getCachedProductData: $e");
+        } finally {
+            if (mounted) {
+                setState(() => _isLoading = false);
+            }
         }
-        setState(() => _isLoading = false);
     }
 
     Future<void> _loadPrices() async {
         final repository = OpenFoodFactsRepository();
-        for (String barcode in widget.list.products) {
+        final futures = widget.list.products.map((barcode) async {
             try {
                 final price = await repository.getLatestPrice(barcode);
                 if (price != null && price.currency.toUpperCase() == 'EUR') {
-                    productPrices[barcode] = price.price;
+                    return MapEntry(barcode, price.price);
                 }
             } catch (e) {
                 // Ignore
+            }
+            return null;
+        });
+
+        final results = await Future.wait(futures);
+        
+        for (var entry in results) {
+            if (entry != null) {
+                productPrices[entry.key] = entry.value;
             }
         }
     }

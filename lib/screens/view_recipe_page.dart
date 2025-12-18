@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/color_constants.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/recipe/recipe_detail_header.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class ViewRecipePage extends StatefulWidget {
@@ -16,6 +17,60 @@ class ViewRecipePage extends StatefulWidget {
 }
 
 class _ViewRecipePageState extends State<ViewRecipePage> {
+    bool _isLoading = false;
+
+    Future<void> _addToShoppingList() async {
+        final loc = AppLocalizations.of(context)!;
+        final client = Supabase.instance.client;
+        final user = client.auth.currentUser;
+
+        if (user == null) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Vous devez être connecté pour créer une liste.")));
+            return;
+        }
+
+        setState(() => _isLoading = true);
+
+        try {
+            final ingredients = List<Map<String, dynamic>>.from(widget.recipe['ingredients'] ?? []);
+            final List<String> products = [];
+            final Map<String, int> quantities = {};
+
+            for (var ing in ingredients) {
+                String? barcode = ing['barcode'];
+                String name = ing['name'] ?? 'Ingrédient';
+
+                String key;
+                if (barcode != null && barcode.isNotEmpty) {
+                    key = barcode;
+                } else {
+                    key = "TEXT:$name";
+                }
+                
+                products.add(key);
+                quantities[key] = 1; 
+            }
+
+            final listName = "Recette: ${widget.recipe['name']}";
+            
+            await client.from('shopping_list').insert({
+                'name': listName,
+                'user_id': user.id,
+                'products': products,
+                'quantities': quantities
+            });
+
+            if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Liste ajoutée !")));
+            }
+        } catch (e) {
+            if (mounted) {
+                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erreur: $e")));
+            }
+        } finally {
+            if (mounted) setState(() => _isLoading = false);
+        }
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -180,11 +235,10 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                       const SizedBox(height: 40),
                       Center(
                           child: PrimaryButton(
-                              onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Ajouté à la liste de courses !")));
-                              },
+                              onPressed: _addToShoppingList,
                               label: "Ajouter à la liste de courses",
                               icon: Icons.shopping_basket_outlined,
+                              isLoading: _isLoading,
                           ),
                       ),
                        const SizedBox(height: 40),

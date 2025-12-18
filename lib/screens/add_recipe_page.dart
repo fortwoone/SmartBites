@@ -55,7 +55,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
         _timePreparationController.addListener(_saveInputs);
         _timeBakingController.addListener(_saveInputs);
         _timeBakingController.addListener(_saveInputs);
-        // _instructionsController.addListener(_saveInputs);
     }
 
     void _loadRecipeData(Map<String, dynamic> recipe) {
@@ -77,27 +76,22 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
     @override
     void dispose() {
-        _saveInputs();
         _nameController.dispose();
         _descriptionController.dispose();
         _timePreparationController.dispose();
         _timeBakingController.dispose();
-        _timePreparationController.dispose();
-        _timeBakingController.dispose();
-        // _instructionsController.dispose();
         super.dispose();
     }
 
     Future<void> _loadSavedInputs() async {
       final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
+      
       setState(() {
           _nameController.text = prefs.getString('recipe_name') ?? '';
           _descriptionController.text = prefs.getString('recipe_description') ?? '';
           _timePreparationController.text = prefs.getString('recipe_time_prep') ?? '';
           _timeBakingController.text = prefs.getString('recipe_time_bake') ?? '';
-          _timePreparationController.text = prefs.getString('recipe_time_prep') ?? '';
-          _timeBakingController.text = prefs.getString('recipe_time_bake') ?? '';
-          // _instructionsController.text = prefs.getString('recipe_instructions') ?? '';
           final savedInstr = prefs.getString('recipe_instructions');
           if (savedInstr != null && savedInstr.isNotEmpty) {
              _steps = savedInstr.split('\n');
@@ -107,14 +101,20 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
     Future<void> _saveInputs() async {
         if (_isEditing) return;
+        final name = _nameController.text;
+        final desc = _descriptionController.text;
+        final prep = _timePreparationController.text;
+        final bake = _timeBakingController.text;
+        final steps = _steps.join('\n');
+
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('recipe_name', _nameController.text);
-        await prefs.setString('recipe_description', _descriptionController.text);
-        await prefs.setString('recipe_time_prep', _timePreparationController.text);
-        await prefs.setString('recipe_time_bake', _timeBakingController.text);
-        await prefs.setString('recipe_time_prep', _timePreparationController.text);
-        await prefs.setString('recipe_time_bake', _timeBakingController.text);
-        await prefs.setString('recipe_instructions', _steps.join('\n'));
+        
+        // Use captured values
+        await prefs.setString('recipe_name', name);
+        await prefs.setString('recipe_description', desc);
+        await prefs.setString('recipe_time_prep', prep);
+        await prefs.setString('recipe_time_bake', bake);
+        await prefs.setString('recipe_instructions', steps);
     }
 
     Future<void> _clearSavedInputs() async {
@@ -383,9 +383,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
                                RecipeStepsEditor(
                                  steps: _steps,
                                  onStepsChanged: (newSteps) {
-                                     // Just update reference, don't setState here to avoid rebuild loop if input focus
-                                     // But editor widget logic might need setState in parent if we pass steps back?
-                                     // The editor manages controllers. We just need to keep _steps in sync for save.
                                      _steps = newSteps;
                                      _saveInputs(); 
                                  },

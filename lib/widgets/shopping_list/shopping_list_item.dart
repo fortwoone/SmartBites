@@ -26,6 +26,18 @@ class ShoppingListItem extends StatelessWidget {
     required this.isFrench,
   });
 
+  String get _displayName {
+    if (isFrench) {
+      if (cached.fr_name.isNotEmpty) return cached.fr_name;
+      if (cached.en_name.isNotEmpty) return cached.en_name;
+      return "Produit sans nom";
+    } else {
+      if (cached.en_name.isNotEmpty) return cached.en_name;
+      if (cached.fr_name.isNotEmpty) return cached.fr_name;
+      return "Unnamed product";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,7 +87,7 @@ class ShoppingListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isFrench ? cached.fr_name : cached.en_name,
+                        _displayName,
                         style: GoogleFonts.recursive(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
