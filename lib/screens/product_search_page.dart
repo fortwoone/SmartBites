@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import '../screens/product_detail_page.dart';
 import '../models/product.dart';
@@ -21,6 +22,8 @@ class ProductSearchPage extends StatefulWidget {
 
 class _ProductSearchPageState extends State<ProductSearchPage> {
   final TextEditingController _controller = TextEditingController();
+  late final loc = AppLocalizations.of(context)!;
+
   List<Product> _results = [];
   bool _loading = false;
   String? _error;
@@ -28,7 +31,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
   Future<void> _search() async {
     final query = _controller.text.trim();
     if (query.isEmpty) {
-      setState(() => _error = 'Veuillez entrer un nom de produit.');
+      setState(() => _error = loc.enter_product_error);
       return;
     }
 
@@ -45,7 +48,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
 
       setState(() => _results = results);
     } catch (e) {
-      setState(() => _error = "Erreur lors de la recherche. Vérifiez votre connexion.");
+      setState(() => _error = loc.error_search);
     } finally {
       setState(() => _loading = false);
     }
@@ -90,7 +93,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                       ),
                       const SizedBox(width: 16),
                       Text(
-                        "Chercher un produit",
+                        loc.search_product,
                         style: GoogleFonts.recursive(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -122,7 +125,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                             textInputAction: TextInputAction.search,
                             style: GoogleFonts.recursive(fontSize: 16),
                             decoration: InputDecoration(
-                              hintText: 'Pomme, Lait, Chocolat...',
+                              hintText: loc.hint_product_example,
                               hintStyle: GoogleFonts.recursive(
                                 color: Colors.grey[400],
                               ),
@@ -169,7 +172,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                             Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.withOpacity(0.3)),
                             const SizedBox(height: 16),
                              Text(
-                              "Aucun résultat pour le moment",
+                              loc.no_results_now,
                               style: GoogleFonts.recursive(
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -193,7 +196,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                             final code = p.barcode;
                             if (code.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Pas de code-barres disponible')),
+                                SnackBar(content: Text(loc.no_barcode_available)),
                               );
                               return;
                             }

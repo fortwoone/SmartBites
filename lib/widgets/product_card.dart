@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:SmartBites/models/product.dart';
 
+import '../l10n/app_localizations.dart';
+
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
@@ -13,6 +15,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 2,
@@ -45,7 +49,7 @@ class ProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      product.name ?? product.brands ?? 'Produit inconnu',
+                      product.name ?? product.brands ?? loc.unknown_product,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
@@ -55,7 +59,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      product.brands ?? 'Marque inconnue',
+                      product.brands ?? loc.unknown_brand,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Colors.grey.shade600,
                           ),

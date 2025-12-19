@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import '../../l10n/app_localizations.dart';
+
 class ProfileService {
   static String nameFromEmail(String? email) {
     if (email == null || email.isEmpty) return 'Utilisateur';
@@ -53,9 +55,11 @@ class ProfileService {
 
     final client = Supabase.instance.client;
     final userId = client.auth.currentUser?.id;
+    final loc = AppLocalizations.of(context)!;
+
 
     if (userId == null) {
-      throw Exception('Utilisateur non connecté');
+      throw Exception(loc.user_not_connected_exception);
     }
 
     final file = File(image.path);

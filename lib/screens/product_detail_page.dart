@@ -156,7 +156,7 @@ class ProductDetailPage extends StatelessWidget {
                         ),
                         child: Column(
                             children: [
-                                Text("Nutri-Score", style: GoogleFonts.recursive(fontWeight: FontWeight.bold, fontSize: 14)),
+                                Text(loc.nutri_score, style: GoogleFonts.recursive(fontWeight: FontWeight.bold, fontSize: 14)),
                                 const SizedBox(height: 8),
                                 nutriscoreImg(product.nutriscoreGrade!, loc),
                             ],
@@ -305,14 +305,14 @@ class ProductDetailPage extends StatelessWidget {
                                     children: [
                                         const Icon(Icons.error_outline, size: 48, color: Colors.redAccent),
                                         const SizedBox(height: 16),
-                                        Text('Erreur lors du chargement.\n${snapshot.error}', 
+                                        Text('${loc.loading_error}\n${snapshot.error}',
                                             textAlign: TextAlign.center, 
                                             style: GoogleFonts.recursive(color: Colors.redAccent)
                                         ),
                                         const SizedBox(height: 16),
                                         ElevatedButton(
                                             onPressed: () => Navigator.pop(context),
-                                            child: Text("Retour", style: GoogleFonts.recursive()),
+                                            child: Text(loc.back, style: GoogleFonts.recursive()),
                                         )
                                     ],
                                 ),
@@ -325,7 +325,7 @@ class ProductDetailPage extends StatelessWidget {
                         return Center(
                             child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Text('Produit non trouvé.', style: GoogleFonts.recursive(fontSize: 18, color: Colors.grey)),
+                                child: Text(loc.product_not_found, style: GoogleFonts.recursive(fontSize: 18, color: Colors.grey)),
                             ),
                         );
                     }
@@ -356,13 +356,13 @@ class ProductDetailPage extends StatelessWidget {
                                                                     compact: false,
                                                                 ),
                                                                 const SizedBox(height: 20),
-                                                                _buildSectionTitle("Composition"),
+                                                                _buildSectionTitle(loc.composition),
                                                                 _buildIngredients(product.ingredientsText, loc),
                                                                 const SizedBox(height: 20),
-                                                                _buildSectionTitle("Scores"),
+                                                                _buildSectionTitle(loc.scores),
                                                                 _buildScores(product, loc),
                                                                 const SizedBox(height: 20),
-                                                                _buildSectionTitle("Nutrition"),
+                                                                _buildSectionTitle(loc.nutrition),
                                                                 _buildNutriments(product.nutriments, loc),
                                                                 const SizedBox(height: 100),
                                                             ],

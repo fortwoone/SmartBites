@@ -105,6 +105,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hint_search => 'Search...';
 
   @override
+  String get search => 'Search';
+
+  @override
+  String get product_search => 'Search product';
+
+  @override
   String get slists => 'Shopping Lists';
 
   @override
@@ -495,6 +501,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testapis => 'APIs tests';
 
   @override
+  String get api => 'API';
+
+  @override
   String get add => 'Add list';
 
   @override
@@ -513,6 +522,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get charge_recipe_error => 'Error loading recipes.';
 
   @override
+  String get loading_error => 'Loading error';
+
+  @override
   String get no_recipes => 'No recipes available.';
 
   @override
@@ -520,4 +532,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_shopping_lists_found => 'no_shopping_lists_found';
+
+  @override
+  String get list_added => 'List added !';
+
+  @override
+  String get error_upload_image => 'Error when uploading this image';
+
+  @override
+  String get no_results => 'No results';
+
+  @override
+  String get no_results_now => 'No results now';
+
+  @override
+  String get nutri_score => 'Nutri-Score';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get product_not_found => 'Product not found';
+
+  @override
+  String get composition => 'Composition';
+
+  @override
+  String get scores => 'Scores';
+
+  @override
+  String get nutrition => 'Nutrition';
+
+  @override
+  String get brand => 'Brand: ';
+
+  @override
+  String get price => 'Price: ';
+
+  @override
+  String get view_product_online => 'View product online';
+
+  @override
+  String get enter_product_error => 'Please enter a product name';
+
+  @override
+  String get error_search => 'Error during search. Please check your connection';
+
+  @override
+  String get search_product => 'Search a product';
+
+  @override
+  String get hint_product_example => 'Apple, Milk, Chocolate ...';
+
+  @override
+  String get no_image_selected => 'No image selected';
+
+  @override
+  String get product_without_name => 'Product without name';
+
+  @override
+  String get fail_update_cache_background => 'Failed to update cache background: ';
+
+  @override
+  String get no_list_create_one => 'No list. Create one !';
+
+  @override
+  String get have_to_be_connected_to_create_list => 'You have to be connected to create a list';
+
+  @override
+  String get no_description => 'No description';
+
+  @override
+  String get no_instructions => 'No instructions';
+
+  @override
+  String get add_to_grocery_list => 'Add to the grocery list';
+
+  @override
+  String get user_not_connected_exception => 'User not connected';
+
+  @override
+  String get no_title => 'No title';
+
+  @override
+  String get add_photo => 'Add a photo';
+
+  @override
+  String get step => 'Step';
+
+  @override
+  String get add_step => 'Add a step';
+
+  @override
+  String get no_step_add_one => 'No step. Add one !';
+
+  @override
+  String get unknown_product => 'Unknown product';
+
+  @override
+  String get unknown => 'Unknown';
 }

@@ -60,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   Future<void> _pickAndUploadAvatar(ImageSource source) async {
+    final loc = AppLocalizations.of(context)!;
     setState(() => _isLoadingAvatar = true);
     try {
       final avatarUrl = await ProfileService.pickAndUploadAvatar(context, source);
@@ -78,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {
       setState(() => _isLoadingAvatar = false);
-      if (e.toString().contains('No image selected')) return;
+      if (e.toString().contains(loc.no_image_selected)) return;
 
       if (mounted) {
         final loc = AppLocalizations.of(context)!;

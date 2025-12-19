@@ -94,7 +94,7 @@ class _RecipeStepsEditorState extends State<RecipeStepsEditor> {
                  IconButton(
                      onPressed: _addStep,
                      icon: const Icon(Icons.add_circle, color: primaryPeach, size: 28),
-                     tooltip: "Ajouter une étape",
+                     tooltip: loc.add_step,
                  )
             ],
         ),
@@ -102,7 +102,7 @@ class _RecipeStepsEditorState extends State<RecipeStepsEditor> {
         if (_controllers.isEmpty)
             Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Aucune étape. Ajoutez-en une !", style: GoogleFonts.recursive(color: Colors.grey, fontStyle: FontStyle.italic)),
+                child: Text(loc.no_step_add_one, style: GoogleFonts.recursive(color: Colors.grey, fontStyle: FontStyle.italic)),
             ),
         
         ...List.generate(_controllers.length, (index) {
@@ -122,8 +122,8 @@ class _RecipeStepsEditorState extends State<RecipeStepsEditor> {
                     Expanded(
                         child: StyledTextField(
                             controller: _controllers[index],
-                            hint: "Etape ${index + 1}...",
-                            label: "Etape ${index + 1}",
+                            hint: "${loc.step} ${index + 1}...",
+                            label: "${loc.step} ${index + 1}",
                             maxLines: 3,
                         ),
                     ),

@@ -18,13 +18,15 @@ class ViewRecipePage extends StatefulWidget {
 
 class _ViewRecipePageState extends State<ViewRecipePage> {
     bool _isLoading = false;
+    late final loc = AppLocalizations.of(context)!;
+
 
     Future<void> _addToShoppingList() async {
         final client = Supabase.instance.client;
         final user = client.auth.currentUser;
 
         if (user == null) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Vous devez être connecté pour créer une liste.")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.have_to_be_connected_to_create_list)));
             return;
         }
 
@@ -50,7 +52,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                 quantities[key] = 1; 
             }
 
-            final listName = "Recette: ${widget.recipe['name']}";
+            final listName = "${loc.recipe} ${widget.recipe['name']}";
             
             await client.from('shopping_list').insert({
                 'name': listName,
@@ -60,11 +62,11 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
             });
 
             if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Liste ajoutée !")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.list_added)));
             }
         } catch (e) {
             if (mounted) {
-                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erreur: $e")));
+                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${loc.error}: $e")));
             }
         } finally {
             if (mounted) setState(() => _isLoading = false);
@@ -116,7 +118,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                     Text(
-                                        description.isNotEmpty ? description : "Aucune description",
+                                        description.isNotEmpty ? description : loc.description,
                                         style: GoogleFonts.recursive(fontSize: 16, color: Colors.grey.shade700, height: 1.5),
                                     ),
                                     const SizedBox(height: 16),
@@ -130,7 +132,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                                     const SizedBox(height: 8),
                                     Divider(color: Colors.grey.shade100),
                                     const SizedBox(height: 8),
-                                     Text('Créé par: $creatorName', style: GoogleFonts.recursive(color: Colors.grey.shade400, fontStyle: FontStyle.italic)),
+                                     Text('${loc.createdBy}: $creatorName', style: GoogleFonts.recursive(color: Colors.grey.shade400, fontStyle: FontStyle.italic)),
                                 ],
                             ),
                         ),
@@ -186,7 +188,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                                 ],
                             ),
                             child: Text(
-                                "Aucune instruction",
+                                loc.no_instructions,
                                 style: GoogleFonts.recursive(fontSize: 16, height: 1.6, color: Colors.black87),
                             ),
                        )
@@ -235,7 +237,7 @@ class _ViewRecipePageState extends State<ViewRecipePage> {
                       Center(
                           child: PrimaryButton(
                               onPressed: _addToShoppingList,
-                              label: "Ajouter à la liste de courses",
+                              label: loc.add_to_grocery_list,
                               icon: Icons.shopping_basket_outlined,
                               isLoading: _isLoading,
                           ),

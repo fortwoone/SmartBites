@@ -40,7 +40,7 @@ class LoginHeader extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          title ?? loc?.login_title ?? 'Connexion',
+          title ?? loc!.login_title,
           style: GoogleFonts.recursive(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class LoginHeader extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          subtitle ?? loc?.login_subtitle ?? 'Heureux de vous revoir !',
+          subtitle ?? loc!.login_subtitle,
           style: GoogleFonts.recursive(
             fontSize: 16,
             color: Colors.grey.shade600,

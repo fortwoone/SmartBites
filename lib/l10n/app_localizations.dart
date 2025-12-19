@@ -287,6 +287,18 @@ abstract class AppLocalizations {
   /// **'Search...'**
   String get hint_search;
 
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @product_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search product'**
+  String get product_search;
+
   /// No description provided for @slists.
   ///
   /// In en, this message translates to:
@@ -1067,6 +1079,12 @@ abstract class AppLocalizations {
   /// **'APIs tests'**
   String get testapis;
 
+  /// No description provided for @api.
+  ///
+  /// In en, this message translates to:
+  /// **'API'**
+  String get api;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -1103,6 +1121,12 @@ abstract class AppLocalizations {
   /// **'Error loading recipes.'**
   String get charge_recipe_error;
 
+  /// No description provided for @loading_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading error'**
+  String get loading_error;
+
   /// No description provided for @no_recipes.
   ///
   /// In en, this message translates to:
@@ -1120,6 +1144,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no_shopping_lists_found'**
   String get no_shopping_lists_found;
+
+  /// No description provided for @list_added.
+  ///
+  /// In en, this message translates to:
+  /// **'List added !'**
+  String get list_added;
+
+  /// No description provided for @error_upload_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when uploading this image'**
+  String get error_upload_image;
+
+  /// No description provided for @no_results.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get no_results;
+
+  /// No description provided for @no_results_now.
+  ///
+  /// In en, this message translates to:
+  /// **'No results now'**
+  String get no_results_now;
+
+  /// No description provided for @nutri_score.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutri-Score'**
+  String get nutri_score;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @product_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Product not found'**
+  String get product_not_found;
+
+  /// No description provided for @composition.
+  ///
+  /// In en, this message translates to:
+  /// **'Composition'**
+  String get composition;
+
+  /// No description provided for @scores.
+  ///
+  /// In en, this message translates to:
+  /// **'Scores'**
+  String get scores;
+
+  /// No description provided for @nutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get nutrition;
+
+  /// No description provided for @brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand: '**
+  String get brand;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: '**
+  String get price;
+
+  /// No description provided for @view_product_online.
+  ///
+  /// In en, this message translates to:
+  /// **'View product online'**
+  String get view_product_online;
+
+  /// No description provided for @enter_product_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a product name'**
+  String get enter_product_error;
+
+  /// No description provided for @error_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during search. Please check your connection'**
+  String get error_search;
+
+  /// No description provided for @search_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a product'**
+  String get search_product;
+
+  /// No description provided for @hint_product_example.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple, Milk, Chocolate ...'**
+  String get hint_product_example;
+
+  /// No description provided for @no_image_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'No image selected'**
+  String get no_image_selected;
+
+  /// No description provided for @product_without_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Product without name'**
+  String get product_without_name;
+
+  /// No description provided for @fail_update_cache_background.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update cache background: '**
+  String get fail_update_cache_background;
+
+  /// No description provided for @no_list_create_one.
+  ///
+  /// In en, this message translates to:
+  /// **'No list. Create one !'**
+  String get no_list_create_one;
+
+  /// No description provided for @have_to_be_connected_to_create_list.
+  ///
+  /// In en, this message translates to:
+  /// **'You have to be connected to create a list'**
+  String get have_to_be_connected_to_create_list;
+
+  /// No description provided for @no_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description'**
+  String get no_description;
+
+  /// No description provided for @no_instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'No instructions'**
+  String get no_instructions;
+
+  /// No description provided for @add_to_grocery_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to the grocery list'**
+  String get add_to_grocery_list;
+
+  /// No description provided for @user_not_connected_exception.
+  ///
+  /// In en, this message translates to:
+  /// **'User not connected'**
+  String get user_not_connected_exception;
+
+  /// No description provided for @no_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No title'**
+  String get no_title;
+
+  /// No description provided for @add_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo'**
+  String get add_photo;
+
+  /// No description provided for @step.
+  ///
+  /// In en, this message translates to:
+  /// **'Step'**
+  String get step;
+
+  /// No description provided for @add_step.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a step'**
+  String get add_step;
+
+  /// No description provided for @no_step_add_one.
+  ///
+  /// In en, this message translates to:
+  /// **'No step. Add one !'**
+  String get no_step_add_one;
+
+  /// No description provided for @unknown_product.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown product'**
+  String get unknown_product;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
