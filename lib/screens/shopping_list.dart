@@ -15,6 +15,8 @@ import '../widgets/shopping_list/shopping_list_header.dart';
 import '../widgets/shopping_list/shopping_list_card.dart';
 import '../widgets/shopping_list/shopping_list_item.dart';
 import '../widgets/primary_button.dart';
+import 'package:marquee/marquee.dart';
+
 
 
 class ShoppingListDetail extends StatefulWidget {
@@ -240,35 +242,64 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                       Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(12),
-                                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: const Offset(0, 4))],
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black12,
+                                              blurRadius: 8,
+                                              offset: Offset(0, 4),
                                             ),
-                                            child: IconButton(
-                                                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87, size: 20),
-                                                onPressed: () => Navigator.pop(context),
-                                            ),
+                                          ],
                                         ),
-                                        Text(widget.list.name, style: GoogleFonts.recursive(fontSize: 22, fontWeight: FontWeight.bold)),
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(12),
-                                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: const Offset(0, 4))],
-                                            ),
-                                            child: IconButton(
-                                                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-                                                onPressed: () async {
-                                                    final result = await askDeleteList(context);
-                                                    if (!context.mounted) return;
-                                                    if (result == true) Navigator.pop(context, true);
-                                                },
-                                            ),
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+                                          onPressed: () => Navigator.pop(context),
                                         ),
+                                      ),
+
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 28,
+                                          child: Marquee(
+                                            text: widget.list.name,
+                                            style: GoogleFonts.recursive(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            blankSpace: 40,
+                                            velocity: 30,
+                                            pauseAfterRound: const Duration(seconds: 1),
+                                            startPadding: 10,
+                                          ),
+                                        ),
+                                      ),
+
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black12,
+                                              blurRadius: 8,
+                                              offset: Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: IconButton(
+                                          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                                          onPressed: () async {
+                                            final result = await askDeleteList(context);
+                                            if (result == true) Navigator.pop(context, true);
+                                          },
+                                        ),
+                                      ),
                                     ],
                                   ),
+
                                 ),
                                 
                                 Expanded(
