@@ -81,17 +81,20 @@ class ShoppingListHeader extends StatelessWidget implements PreferredSizeWidget 
                   ),
                 ),
                 onPressed: onToggleMenu,
-              ),
-              Expanded(
-                child: Text(
-                  loc.shopping_lists,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.recursive(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+              ),Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      loc.shopping_lists,
+                      style: GoogleFonts.recursive(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold
+                      ),
+                      maxLines: 1,
+                    ),
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               _buildSquareButton(
