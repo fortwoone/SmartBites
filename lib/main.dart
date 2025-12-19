@@ -42,6 +42,7 @@ Future<void> main() async {
     final session = Supabase.instance.client.auth.currentSession;
 
     runApp(MyApp(
+
         initialRoute: session != null ? '/home' : '/login',
     ));
 }

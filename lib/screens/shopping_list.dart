@@ -42,7 +42,6 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
     Future<void> _getCachedProductData() async {
         try {
             final repository = OpenFoodFactsRepository();
-            final loc = AppLocalizations.of(context)!;
             final futures = widget.list.products.map((barcode) async {
                     if (barcode.startsWith("TEXT:")) {
                         final name = barcode.substring(5);
@@ -58,7 +57,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                     try {
                         final product = await repository.fetchProductByBarcode(barcode);
                         if (product != null) {
-                             final String safeName = product.name ?? loc.product_without_name;
+                             final String safeName = product.name ?? "Produit sans nom";
                              final String frName = (product.frName != null && product.frName!.isNotEmpty) ? product.frName! : safeName;
                              final String enName = (product.enName != null && product.enName!.isNotEmpty) ? product.enName! : safeName;
                              final String imgUrl = product.imageSmallURL ?? product.imageURL ?? "";
@@ -77,7 +76,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                 "p_fr_name": newCacheProps.fr_name,
                                 "p_en_name": newCacheProps.en_name,
                             }).then((_) {}, onError: (e) {
-                                 debugPrint("${loc.fail_update_cache_background} $e");
+                                 debugPrint("Failed to update cache background: $e");
                             });
 
                             return MapEntry(barcode, newCacheProps);
@@ -508,7 +507,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
         title: Text(loc.rename, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
         content: TextField(
           controller: ctrl,
-          decoration: InputDecoration(labelText: loc.name_list, border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+          decoration: InputDecoration(labelText: "Nom liste", border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
           style: GoogleFonts.recursive(),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -594,7 +593,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator(color: primaryPeach))
                   : existing_lists.isEmpty
-                      ? Center(child: Text(loc.no_list_create_one, style: GoogleFonts.recursive(color: Colors.grey)))
+                      ? Center(child: Text("Aucune liste. Créez-en une !", style: GoogleFonts.recursive(color: Colors.grey)))
                       : ListView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           itemCount: existing_lists.length,
