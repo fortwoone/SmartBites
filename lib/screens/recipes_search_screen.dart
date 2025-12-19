@@ -94,7 +94,7 @@ class _RecipesSearchScreenState extends State<RecipesSearchScreen> {
                                     if (!_loading && _error == null)
                                         Expanded(
                                             child: _recipes.isEmpty
-                                                ? const Center(child: Text("Pas de résultats"))
+                                                ? Center(child: Text(loc.no_results))
                                                 : ListView.builder(
                                                 itemCount: _recipes.length,
                                                 itemBuilder: (context, index) {

@@ -101,6 +101,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
     final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+    late final loc = AppLocalizations.of(context)!;
+
     List<Product> _results = [];
     bool _loading = false;
     String? _error;
@@ -108,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Future<void> _search([String? query]) async {
         final q = (query ?? '').trim();
         if (q.isEmpty) {
-            setState(() => _error = 'Veuillez entrer un nom de produit.');
+            setState(() => _error = loc.enter_product_name);
             return;
         }
 

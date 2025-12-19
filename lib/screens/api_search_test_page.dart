@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../APIServices/ApiService.dart';
 import '../APIServices/AuchanApiService.dart';
 import '../APIServices/LeclercApiService.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/side_menu.dart';
 
 class ProductSearchPage extends StatefulWidget {
@@ -53,12 +54,14 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _search,
         backgroundColor: Colors.deepOrangeAccent.shade200,
         icon: const Icon(Icons.search),
-        label: const Text('Search'),
+        label: Text(loc.search),
       ),
       body: Stack(
         children: [
@@ -87,8 +90,8 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                       onPressed: _toggleMenu,
                     ),
                     const SizedBox(width: 8),
-                    const Text(
-                      'Product Search',
+                    Text(
+                      loc.product_search,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -104,8 +107,8 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            'API: ',
+                          Text(
+                            loc.api,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 8),
@@ -133,7 +136,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                       TextField(
                         controller: _controller,
                         decoration: InputDecoration(
-                          labelText: 'Search product',
+                          labelText: loc.product_search,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -155,7 +158,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                             : _error != null
                             ? Center(child: Text(_error!))
                             : _results.isEmpty
-                            ? const Center(child: Text('No results'))
+                            ? Center(child: Text(loc.no_results))
                             : ListView.builder(
                           itemCount: _results.length,
                           itemBuilder: (context, index) {

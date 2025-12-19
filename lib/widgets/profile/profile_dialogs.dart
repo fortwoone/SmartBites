@@ -53,6 +53,8 @@ class ProfileDialogs {
     bool obscureNew = true;
     bool obscureConfirm = true;
     bool isLoading = false;
+    final loc = AppLocalizations.of(context)!;
+
 
     await showDialog<bool>(
       context: context,
@@ -81,21 +83,21 @@ class ProfileDialogs {
                   const SizedBox(height: 20),
                   _buildDialogTextField(
                     controller: oldCtrl,
-                    label: 'Mot de passe actuel',
+                    label: loc.current_password,
                     obscureText: obscureOld,
                     onToggleObscure: () => setStateDialog(() => obscureOld = !obscureOld),
                   ),
                   const SizedBox(height: 12),
                   _buildDialogTextField(
                     controller: newCtrl,
-                    label: 'Nouveau mot de passe',
+                    label: loc.new_password,
                     obscureText: obscureNew,
                     onToggleObscure: () => setStateDialog(() => obscureNew = !obscureNew),
                   ),
                   const SizedBox(height: 12),
                   _buildDialogTextField(
                     controller: confirmCtrl,
-                    label: 'Confirmer',
+                    label: loc.confirm,
                     obscureText: obscureConfirm,
                     onToggleObscure: () => setStateDialog(() => obscureConfirm = !obscureConfirm),
                   ),

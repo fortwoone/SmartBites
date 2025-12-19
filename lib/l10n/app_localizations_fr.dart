@@ -75,7 +75,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get list_name_already_used => 'Il y a déjà une liste de courses avec le nom que vous avez écrit. Choisissez-en un autre.';
 
   @override
-  String get confirm => 'Confirmation';
+  String get confirm => 'Confirmer';
 
   @override
   String get delete_list => 'Voulez-vous vraiment supprimer cette liste de courses ? Attention, cette action est irréversible !';
@@ -103,6 +103,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get hint_search => 'Rechercher ...';
+
+  @override
+  String get search => 'Recherche';
+
+  @override
+  String get product_search => 'Recherche de produits';
 
   @override
   String get slists => 'Listes de courses';
@@ -243,7 +249,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noRecipeFound => 'Aucune recette trouvée.';
 
   @override
-  String get noTitle => 'Sans titre';
+  String get noTitle => 'No title';
 
   @override
   String get recipe => 'Recette';
@@ -378,13 +384,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nova_2_title => 'Ingrédients culinaires transformés';
 
   @override
-  String get nova_2_explanation => 'Les ingrédients culinaires transformés, tels que les huiles, le beurre, le sucre et le sel, sont des substances dérivées d\'aliments du groupe 1 ou de la nature par des procédés qui comprennent le pressage, le raffinage, le concassage, le broyage et le séchage. Le but de ces procédés est de fabriquer des produits durables qui conviennent à une utilisation dans les cuisines domestiques et de restaurant pour préparer, assaisonner et cuire les aliments du groupe 1 et pour en faire des repas et des plats faits maison variés et agréables, tels que des ragoûts, des soupes et bouillons, salades, pains, conserves, boissons et desserts. Ils ne sont pas destinés à être consommés seuls et sont normalement utilisés en combinaison avec des aliments du groupe 1 pour préparer des boissons, des plats et des repas fraîchement préparés.';
+  String get nova_2_explanation => 'Les ingrédients culinaires transformés, tels que les huiles, le beurre, le sucre et le sel, sont des substances dérivées d\'aliments du groupe 1 ou de la nature par des procédés qui comprennent le pressage, le raffinage, le concassage, le broyage et le séchage. Le but de ces procédés est de fabriquer des produits durables qui conviennent à une utilisation dans les cuisines domestiques et de restaurant pour préparer, assaisonner et cuire les aliments du groupe 1 et pour en faire des repas et des plats faits maison variés et agréables, tels que des ragoûts, des soupes et bouillons, salades, pains, conserves, boissons et desserts. Ils ne sont pas destinés à être consommés seuls et sont normalement utilisés en combinaison with des aliments du groupe 1 pour préparer des boissons, des plats et des repas fraîchement préparés.';
 
   @override
   String get nova_3_title => 'Aliments transformés';
 
   @override
-  String get nova_3_explanation => 'Les aliments transformés, tels que les légumes embouteillés, les conserves de poisson, les fruits en sirop, les fromages et les pains fraîchement préparés, sont fabriqués essentiellement en ajoutant du sel, de l’huile, du sucre ou d’autres substances du groupe 2 aux aliments du groupe 1.\n\nLes procédés comprennent diverses méthodes de conservation ou de cuisson et, dans le cas des pains et des fromages, une fermentation non alcoolique. La plupart des aliments transformés contiennent deux ou trois ingrédients et sont reconnaissables comme des versions modifiées des aliments du groupe 1. Ils sont comestibles par eux-mêmes ou, plus généralement, en combinaison avec d\'autres aliments. La transformation a ici pour but d\'augmenter la durabilité des aliments du groupe 1, ou de modifier ou d\'améliorer leurs qualités sensorielles.';
+  String get nova_3_explanation => 'Les aliments transformés, tels que les légumes embouteillés, les conserves de poisson, les fruits en sirop, les fromages et les pains fraîchement préparés, sont fabriqués essentiellement en ajoutant du sel, de l’huile, du sucre ou d’autres substances du groupe 2 aux aliments du groupe 1.\n\nLes procédés comprennent diverses méthodes de conservation ou de cuisson et, dans le cas des pains et des fromages, une fermentation non alcoolique. La plupart des aliments transformés contiennent deux ou trois ingrédients et sont reconnaissables comme des versions modifiées des aliments du groupe 1. Ils sont comestibles par eux-mêmes ou, plus généralement, en combinaison with d\'autres aliments. La transformation a ici pour but d\'augmenter la durabilité des aliments du groupe 1, ou de modifier ou d\'améliorer leurs qualités sensorielles.';
 
   @override
   String get nova_4_title => 'Aliments ultra-transformés';
@@ -495,6 +501,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get testapis => 'Tests des apis';
 
   @override
+  String get api => 'API';
+
+  @override
   String get add => 'Ajouter la liste';
 
   @override
@@ -513,6 +522,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get charge_recipe_error => 'Erreur lors du chargement des recettes';
 
   @override
+  String get loading_error => 'Erreur lors du chargement';
+
+  @override
   String get no_recipes => 'Aucune recette disponible.';
 
   @override
@@ -520,4 +532,103 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get no_shopping_lists_found => 'Aucune liste de courses trouvée.';
+
+  @override
+  String get list_added => 'Liste ajoutée !';
+
+  @override
+  String get error_upload_image => ' Erreur lors du chargement de l\'image';
+
+  @override
+  String get no_results => 'Aucun résultats';
+
+  @override
+  String get no_results_now => 'Aucun résultats pour le moment';
+
+  @override
+  String get nutri_score => 'Nutri-Score';
+
+  @override
+  String get back => 'Retour';
+
+  @override
+  String get product_not_found => 'Produit non trouvé';
+
+  @override
+  String get composition => 'Composition';
+
+  @override
+  String get scores => 'Scores';
+
+  @override
+  String get nutrition => 'Nutrition';
+
+  @override
+  String get brand => 'Marque: ';
+
+  @override
+  String get price => 'Prix: ';
+
+  @override
+  String get view_product_online => 'Voir le produit en ligne';
+
+  @override
+  String get enter_product_error => 'Veuillez entrer un nom de produit';
+
+  @override
+  String get error_search => 'Erreur lors de la recherche. Vérifiez votre connexion';
+
+  @override
+  String get search_product => 'Chercher un produit';
+
+  @override
+  String get hint_product_example => 'Pomme, Lait, Chocolat...';
+
+  @override
+  String get no_image_selected => 'Aucune image sélectionnée';
+
+  @override
+  String get product_without_name => 'Produit sans nom';
+
+  @override
+  String get fail_update_cache_background => 'Erreur lors de la mise à jour du cache: ';
+
+  @override
+  String get no_list_create_one => 'Aucune liste. Créez-en une !';
+
+  @override
+  String get have_to_be_connected_to_create_list => 'Vous devez être connecté pour créer une liste.';
+
+  @override
+  String get no_description => 'Aucune description';
+
+  @override
+  String get no_instructions => 'Aucune instructions';
+
+  @override
+  String get add_to_grocery_list => 'Ajouter à la liste de courses';
+
+  @override
+  String get user_not_connected_exception => 'Utilisateur non connecté';
+
+  @override
+  String get no_title => 'Sans titre';
+
+  @override
+  String get add_photo => 'Ajouter une photo';
+
+  @override
+  String get step => 'Etape';
+
+  @override
+  String get add_step => 'Ajouter une étape';
+
+  @override
+  String get no_step_add_one => 'Aucune étape. Ajoutez en une !';
+
+  @override
+  String get unknown_product => 'Produit inconnu';
+
+  @override
+  String get unknown => 'Inconnu';
 }

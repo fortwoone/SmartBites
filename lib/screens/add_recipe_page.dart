@@ -70,8 +70,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
             _steps = [];
         }
         _existingImageUrl = recipe['image_url'];
-        final ingr = recipe['ingredients'];
-        if (ingr is List) _ingredients = ingr.map((e) => Map<String, dynamic>.from(e)).toList();
+        final ingredients = recipe['ingredients'];
+        if (ingredients is List) _ingredients = ingredients.map((e) => Map<String, dynamic>.from(e)).toList();
     }
 
     @override
@@ -137,10 +137,13 @@ class _AddRecipePageState extends State<AddRecipePage> {
 
     Future<String?> _uploadImage(String userId) async {
         if (_imageFile == null) return _existingImageUrl;
+        final loc = AppLocalizations.of(context)!;
+
 
         final supabase = Supabase.instance.client;
         final fileExt = _imageFile!.path.split('.').last;
         final fileName = '${userId}_${DateTime.now().millisecondsSinceEpoch}.$fileExt';
+
         
         try {
              await supabase.storage.from('recipes').upload(
@@ -152,9 +155,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
             final imageUrl = supabase.storage.from('recipes').getPublicUrl(fileName);
             return imageUrl;
         } catch (e) {
-            print("Erreur upload image: $e");
              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Erreur upload image: $e")),
+                SnackBar(content: Text("${loc.error_upload_image} : $e")),
             );
             return null;
         }

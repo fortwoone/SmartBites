@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/side_menu.dart';
 
 class ProductDetailPagetest extends StatefulWidget {
@@ -27,6 +28,8 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
         : 'Price not available';
     final description = widget.product['product_ingredients'] ?? '';
     final productUrl = widget.product['product_link'] ?? '';
+    final loc = AppLocalizations.of(context)!;
+
 
     return Scaffold(
       body: Stack(
@@ -48,11 +51,11 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
                   if (brand.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Text('Brand: $brand', style: const TextStyle(fontSize: 16)),
+                      child: Text('${loc.brand} $brand', style: const TextStyle(fontSize: 16)),
                     ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Text('Price: $price', style: const TextStyle(fontSize: 16, color: Colors.green)),
+                    child: Text('${loc.price} $price', style: const TextStyle(fontSize: 16, color: Colors.green)),
                   ),
                   if (description.isNotEmpty)
                     Padding(
@@ -64,7 +67,7 @@ class _ProductDetailPagetestState extends State<ProductDetailPagetest> {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: GestureDetector(
                         child: Text(
-                          'View product online',
+                          loc.view_product_online,
                           style: TextStyle(
                             color: Colors.blue.shade700,
                             decoration: TextDecoration.underline,

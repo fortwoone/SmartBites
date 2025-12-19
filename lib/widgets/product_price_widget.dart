@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/product_price.dart';
 import '../repositories/openfoodfacts_repository.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,8 @@ class ProductPriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return FutureBuilder<ProductPrice?>(
       future: repository.getLatestPrice(barcode),
       builder: (context, snapshot) {
@@ -69,7 +72,7 @@ class ProductPriceWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Prix',
+                    loc.price,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

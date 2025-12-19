@@ -47,7 +47,7 @@ class _RecentProductsWidgetState extends State<RecentProductsWidget> {
             }
 
             if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
+              return Center(child: Text("${loc.error}: ${snapshot.error}"));
             }
 
             final products = snapshot.data ?? [];

@@ -157,6 +157,8 @@ class _RecentRecipesWidgetState extends State<RecentRecipesWidget> {
 
   // Widget personnalisé pour la carte de recette
   Widget _buildRecipeCard(Map<String, dynamic> recipe) {
+    final loc = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -209,7 +211,7 @@ class _RecentRecipesWidgetState extends State<RecentRecipesWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      recipe['name'] ?? 'Unknown',
+                      recipe['name'] ?? loc.unknown,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.recursive(

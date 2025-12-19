@@ -76,7 +76,7 @@ class RecipeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        recipe['name'] ?? 'Sans titre',
+                        recipe['name'] ?? loc.no_title,
                         style: GoogleFonts.recursive(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/product.dart';
 import '../../utils/color_constants.dart';
 import '../../repositories/openfoodfacts_repository.dart';
@@ -19,6 +20,8 @@ class ProductSearchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -66,7 +69,7 @@ class ProductSearchItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.name ?? product.brands ?? 'Produit inconnu',
+                        product.name ?? product.brands ?? loc.unknown_product,
                         style: GoogleFonts.recursive(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
