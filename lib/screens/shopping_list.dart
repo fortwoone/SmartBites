@@ -15,7 +15,6 @@ import '../widgets/shopping_list/shopping_list_header.dart';
 import '../widgets/shopping_list/shopping_list_card.dart';
 import '../widgets/shopping_list/shopping_list_item.dart';
 import '../widgets/primary_button.dart';
-import 'package:marquee/marquee.dart';
 
 
 
@@ -92,14 +91,14 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                             "get_cache_entry",
                             params: {"p_barcode": barcode},
                         );
-                        
+
                         if (result != null) {
                             return MapEntry(barcode, CachedProduct.fromMap(result));
                         }
                     } catch (e) {
                         debugPrint("Cache fallback failed for $barcode: $e");
                     }
-                
+
                 return MapEntry(barcode, CachedProduct(
                     barcode: barcode,
                     img_small_url: "",
@@ -110,7 +109,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
             });
 
             final results = await Future.wait(futures);
-            
+
             for (var entry in results) {
                 cachedProducts[entry.key] = entry.value;
             }
@@ -139,7 +138,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
         });
 
         final results = await Future.wait(futures);
-        
+
         for (var entry in results) {
             if (entry != null) {
                 productPrices[entry.key] = entry.value;
@@ -242,66 +241,52 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(12),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              blurRadius: 8,
-                                              offset: Offset(0, 4),
+                                       Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(12),
+                                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: const Offset(0, 4))],
                                             ),
-                                          ],
+                                            child: IconButton(
+                                                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87, size: 20),
+                                                onPressed: () => Navigator.pop(context),
+                                            ),
                                         ),
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-                                          onPressed: () => Navigator.pop(context),
-                                        ),
-                                      ),
 
                                       Expanded(
-                                        child: SizedBox(
-                                          height: 28,
-                                          child: Marquee(
-                                            text: widget.list.name,
-                                            style: GoogleFonts.recursive(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Text(
+                                              widget.list.name,
+                                              style: GoogleFonts.recursive(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                              maxLines: 1,
                                             ),
-                                            blankSpace: 40,
-                                            velocity: 30,
-                                            pauseAfterRound: const Duration(seconds: 1),
-                                            startPadding: 10,
                                           ),
                                         ),
-                                      ),
-
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(12),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              blurRadius: 8,
-                                              offset: Offset(0, 4),
+                                      ),                                        Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(12),
+                                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: const Offset(0, 4))],
                                             ),
-                                          ],
+                                            child: IconButton(
+                                                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                                                onPressed: () async {
+                                                    final result = await askDeleteList(context);
+                                                    if (!context.mounted) return;
+                                                    if (result == true) Navigator.pop(context, true);
+                                                },
+                                            ),
                                         ),
-                                        child: IconButton(
-                                          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-                                          onPressed: () async {
-                                            final result = await askDeleteList(context);
-                                            if (result == true) Navigator.pop(context, true);
-                                          },
-                                        ),
-                                      ),
                                     ],
                                   ),
-
                                 ),
-                                
+
                                 Expanded(
                                     child: _isLoading
                                     ? const Center(child: CircularProgressIndicator(color: primaryPeach))
@@ -411,7 +396,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                                                     fr_name: result.frName ?? result.name!,
                                                                     en_name: result.enName ?? result.name!,
                                                                 );
-                                            
+
                                                                 await supabase.rpc("add_entry_to_cache", params: {
                                                                     "product_barcode": cached.barcode,
                                                                     "p_img_small_url": cached.img_small_url,
@@ -419,10 +404,10 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                                                     "p_fr_name": cached.fr_name,
                                                                     "p_en_name": cached.en_name,
                                                                 });
-                                            
+
                                                                 widget.list.products.add(result.barcode);
-                                                                widget.list.quantities[result.barcode] = 1; 
-                                            
+                                                                widget.list.quantities[result.barcode] = 1;
+
                                                                 await supabase
                                                                     .from("shopping_list")
                                                                     .update({
@@ -430,7 +415,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                                                         "quantities": widget.list.quantities
                                                                     })
                                                                     .eq("id", widget.list.id!);
-                                            
+
                                                                 final repository = OpenFoodFactsRepository();
                                                                 try {
                                                                     final price = await repository.getLatestPrice(result.barcode);
@@ -438,7 +423,7 @@ class _ShoppingListDetailState extends State<ShoppingListDetail> {
                                                                     productPrices[result.barcode] = price.price;
                                                                     }
                                                                 } catch (e) { /* Ignore */ }
-                                            
+
                                                                 setState(() => cachedProducts[cached.barcode] = cached);
                                                         }
                                                     },
@@ -566,7 +551,7 @@ class _ShoppingListMenuState extends State<ShoppingListMenu> {
       builder: (context) => AlertDialog(
         title: Text(loc.new_list, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
         content: TextField(
-            controller: lname_ctrl, 
+            controller: lname_ctrl,
             style: GoogleFonts.recursive(),
             decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))
         ),
