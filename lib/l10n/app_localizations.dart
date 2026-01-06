@@ -1348,6 +1348,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
+
+  /// No description provided for @addComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the recipe'**
+  String get addComment;
+
+  /// No description provided for @successComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment and rating added'**
+  String get successComment;
+
+  /// No description provided for @rateAndComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate & Comments'**
+  String get rateAndComment;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

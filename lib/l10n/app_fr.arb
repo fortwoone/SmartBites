@@ -208,6 +208,9 @@
   "add_step" : "Ajouter une étape",
   "no_step_add_one": "Aucune étape. Ajoutez en une !",
   "unknown_product": "Produit inconnu",
-  "unknown": "Inconnu"
-
+  "unknown": "Inconnu",
+  "addComment": "Noter la recette",
+  "successComment": "Note et commentaire ajouté",
+  "rateAndComment": "Note et commentaires",
+  "comments": "Commentaires"
 }
