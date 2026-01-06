@@ -208,7 +208,12 @@
   "add_step" : "Add a step",
   "no_step_add_one": "No step. Add one !",
   "unknown_product": "Unknown product",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "addComment": "Rate the recipe",
+  "successComment": "Comment and rating added",
+  "rateAndComment": "Rate & Comments",
+  "comments": "Comments"
+
 
 
 

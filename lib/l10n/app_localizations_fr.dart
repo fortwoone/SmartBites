@@ -634,4 +634,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get unknown => 'Inconnu';
+
+  @override
+  String get addComment => 'Noter la recette';
+
+  @override
+  String get successComment => 'Note et commentaire ajouté';
+
+  @override
+  String get rateAndComment => 'Note et commentaires';
+
+  @override
+  String get comments => 'Commentaires';
 }

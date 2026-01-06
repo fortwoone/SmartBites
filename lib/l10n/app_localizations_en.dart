@@ -634,4 +634,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknown => 'Unknown';
+
+  @override
+  String get addComment => 'Rate the recipe';
+
+  @override
+  String get successComment => 'Comment and rating added';
+
+  @override
+  String get rateAndComment => 'Rate & Comments';
+
+  @override
+  String get comments => 'Comments';
 }

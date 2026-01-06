@@ -13,6 +13,7 @@ class RecipeCard extends StatelessWidget {
   final bool isMine;
   final VoidCallback onTap;
   final Function(RecipeMenuAction) onMenuAction;
+  final double? averageRating;
 
   const RecipeCard({
     super.key,
@@ -20,7 +21,23 @@ class RecipeCard extends StatelessWidget {
     required this.isMine,
     required this.onTap,
     required this.onMenuAction,
+    this.averageRating,
   });
+
+  /// Build star widgets for average rating
+  Widget _buildStars(double rating) {
+    final List<Widget> stars = [];
+    for (int i = 1; i <= 5; i++) {
+      if (rating >= i) {
+        stars.add(const Icon(Icons.star, color: primaryPeach, size: 16));
+      } else if (rating > i - 1 && rating < i) {
+        stars.add(const Icon(Icons.star_half, color: primaryPeach, size: 16));
+      } else {
+        stars.add(const Icon(Icons.star_border, color: primaryPeach, size: 16));
+      }
+    }
+    return Row(children: stars);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +75,12 @@ class RecipeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     image: imageUrl != null && imageUrl.isNotEmpty
                         ? DecorationImage(
-                            image: NetworkImage(imageUrl),
-                            fit: BoxFit.cover,
-                            onError: (exception, stackTrace) {
-                                debugPrint('Error loading image: $exception');
-                            },
-                          )
+                      image: NetworkImage(imageUrl),
+                      fit: BoxFit.cover,
+                      onError: (exception, stackTrace) {
+                        debugPrint('Error loading image: $exception');
+                      },
+                    )
                         : null,
                   ),
                   child: imageUrl == null || imageUrl.isEmpty
@@ -105,6 +122,10 @@ class RecipeCard extends StatelessWidget {
                             fontStyle: FontStyle.italic,
                           ),
                         ),
+                      ],
+                      if (averageRating != null) ...[
+                        const SizedBox(height: 6),
+                        _buildStars(averageRating!.clamp(0.0, 5.0)),
                       ]
                     ],
                   ),
