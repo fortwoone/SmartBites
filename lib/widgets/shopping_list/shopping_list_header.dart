@@ -87,7 +87,7 @@ class ShoppingListHeader extends StatelessWidget implements PreferredSizeWidget 
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Text(
-                      loc.shopping_lists,
+                      loc.shopping_list,
                       style: GoogleFonts.recursive(
                           fontSize: 22,
                           fontWeight: FontWeight.bold

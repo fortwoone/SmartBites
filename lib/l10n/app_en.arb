@@ -14,6 +14,7 @@
   "hint_passwd": "Enter your password",
   "login_register_action": " Create an account",
   "shopping_lists": "Last Shopping List",
+  "shopping_list" : "Shopping lists",
   "new_list": "New Shopping List",
   "register_failed": "Error during register",
   "validate": "Validate",

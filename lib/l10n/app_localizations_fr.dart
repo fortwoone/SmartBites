@@ -51,6 +51,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get shopping_lists => 'Derniere Liste de course';
 
   @override
+  String get shopping_list => 'Listes de courses';
+
+  @override
   String get new_list => 'Nouvelle liste de courses';
 
   @override

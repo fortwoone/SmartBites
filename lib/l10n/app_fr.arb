@@ -13,6 +13,7 @@
   "email_hint": "Entrez votre adresse mail",
   "hint_passwd": "Entrez votre mot de passe",
   "login_register_action": " S'inscrire",
+  "shopping_list" : "Listes de courses",
   "shopping_lists": "Derniere Liste de course",
   "new_list": "Nouvelle liste de courses",
   "register_failed": "Erreur lors de l'inscription",

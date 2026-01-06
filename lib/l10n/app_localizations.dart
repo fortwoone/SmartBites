@@ -179,6 +179,12 @@ abstract class AppLocalizations {
   /// **'Last Shopping List'**
   String get shopping_lists;
 
+  /// No description provided for @shopping_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping lists'**
+  String get shopping_list;
+
   /// No description provided for @new_list.
   ///
   /// In en, this message translates to:
