@@ -24,12 +24,23 @@ jobs:
 
       - name: Test analyze dart (fail on warnings)
         run: |
-            dart analyze --fatal-warnings
-            echo $?
+          dart analyze --fatal-warnings
 
-      
       - name: Run tests
         run: flutter test
+
+      - name: Set Gradle & JVM network flags
+        run: |
+          echo "Applying Gradle/Kotlin CI flags..."
+          export GRADLE_OPTS="-Dkotlin.daemon.jvm.options=--illegal-access=permit"
+          export JAVA_OPTS="-Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false"
+
+      - name: Clean and refresh Gradle dependencies
+        run: |
+          cd android
+          ./gradlew clean build --refresh-dependencies || true
+          cd ..
+          flutter clean
 
       - name: Build APK
         run: flutter build apk --release
