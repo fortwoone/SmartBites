@@ -158,7 +158,7 @@ class ProductDetailPage extends StatelessWidget {
                             children: [
                                 Text(loc.nutri_score, style: GoogleFonts.recursive(fontWeight: FontWeight.bold, fontSize: 14)),
                                 const SizedBox(height: 8),
-                                nutriscoreImg(product.nutriscoreGrade!, loc),
+                                nutriscoreImg(product.nutriscoreGrade ?? 'unknown', loc),
                             ],
                         ),
                     ),
