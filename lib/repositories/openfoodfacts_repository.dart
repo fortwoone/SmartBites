@@ -4,16 +4,24 @@ import 'package:http/http.dart' as http;
 import '../models/product.dart';
 
 class OpenFoodFactsRepository {
+    static final OpenFoodFactsRepository _instance = OpenFoodFactsRepository._internal();
+    factory OpenFoodFactsRepository() => _instance;
+    OpenFoodFactsRepository._internal() : client = http.Client();
+
     static const String baseUrl = 'https://world.openfoodfacts.org/api/v2';
     static const String pricesUrl = 'https://prices.openfoodfacts.org/api/v1';
     final http.Client client;
 
     final Map<String, ProductPrice?> _priceCache = {};
+    final Map<String, Product?> _productCache = {};
 
-    OpenFoodFactsRepository({http.Client? client}) : client = client ?? http.Client();
     Future<Product?> fetchProductByBarcode(String barcode) async {
+        if (_productCache.containsKey(barcode)) {
+            return _productCache[barcode];
+        }
+
         final uri = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
-        final response = await client.get(uri).timeout(const Duration(seconds: 60));
+        final response = await client.get(uri).timeout(const Duration(seconds: 10));
 
         if (response.statusCode != 200) {
             throw Exception('Network error: ${response.statusCode}');
@@ -23,9 +31,11 @@ class OpenFoodFactsRepository {
         final status = body['status'];
         if (status == 1) {
             final productJson = body['product'] as Map<String, dynamic>;
-            return Product.fromJson(barcode, productJson);
+            final product = Product.fromJson(barcode, productJson);
+            _productCache[barcode] = product;
+            return product;
         } else {
-            // status != 1 => product not found
+            _productCache[barcode] = null;
             return null;
         }
     }
@@ -34,7 +44,7 @@ class OpenFoodFactsRepository {
         try {
             final response = await http.get(
                 Uri.parse('$pricesUrl/prices?product_code=$barcode&page_size=5'),
-            );
+            ).timeout(const Duration(seconds: 10));
 
             if (response.statusCode == 200) {
                 final data = json.decode(response.body);
@@ -53,7 +63,13 @@ class OpenFoodFactsRepository {
     }
 
     Future<void> preloadPrices(List<String> barcodes) async {
-         await Future.wait(barcodes.map((code) => getLatestPrice(code)));
+        final chunks = <List<String>>[];
+        for (var i = 0; i < barcodes.length; i += 5) {
+            chunks.add(barcodes.sublist(i, i + 5 > barcodes.length ? barcodes.length : i + 5));
+        }
+        for (final chunk in chunks) {
+            await Future.wait(chunk.map((code) => getLatestPrice(code)));
+        }
     }
 
     Future<ProductPrice?> getLatestPrice(String barcode) async {
@@ -67,8 +83,6 @@ class OpenFoodFactsRepository {
         return latest;
     }
 
-    /// Search products by name (returns an empty list if none).
-    /// Uses the OpenFoodFacts search endpoint and maps results to `Product`.
     Future<List<Product>> fetchProductsByName(String query, {int pageSize = 50}) async {
         final encoded = Uri.encodeQueryComponent(query);
         const fields = 'code,product_name,product_name_fr,product_name_en,brands,image_url,image_small_url,ingredients_text,nutriments';
@@ -78,7 +92,7 @@ class OpenFoodFactsRepository {
             '&tagtype_0=countries&tag_contains_0=contains&tag_0=france',
         );
 
-        final response = await client.get(uri).timeout(const Duration(seconds: 360));
+        final response = await client.get(uri).timeout(const Duration(seconds: 15));
         if (response.statusCode != 200) {
             throw Exception('Network error: ${response.statusCode}');
         }
@@ -91,12 +105,24 @@ class OpenFoodFactsRepository {
         return productsJson.map((p) {
                 final productJson = p as Map<String, dynamic>;
                 final code = (productJson['code'] as String?) ?? '';
-                return Product.fromJson(code, productJson);
+                final product = Product.fromJson(code, productJson);
+                _productCache[code] = product;
+                return product;
             })
             .where((p) {
                 final name = (p.name ?? '').toLowerCase();
                 return name.contains(lowerQuery);
             }).toList();
+    }
+
+    void clearCache() {
+        _priceCache.clear();
+        _productCache.clear();
+    }
+
+    void invalidateProduct(String barcode) {
+        _productCache.remove(barcode);
+        _priceCache.remove(barcode);
     }
 }
 
