@@ -1217,6 +1217,12 @@ abstract class AppLocalizations {
   /// **'Brand: '**
   String get brand;
 
+  /// No description provided for @brandOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Brands'**
+  String get brandOnly;
+
   /// No description provided for @price.
   ///
   /// In en, this message translates to:

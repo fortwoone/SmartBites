@@ -570,6 +570,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get brand => 'Marque: ';
 
   @override
+  String get brandOnly => 'Marques';
+
+  @override
   String get price => 'Prix: ';
 
   @override

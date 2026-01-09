@@ -7,6 +7,12 @@ class OpenFoodFactsRepository {
     static const String baseUrl = 'https://world.openfoodfacts.org/api/v2';
     static const String pricesUrl = 'https://prices.openfoodfacts.org/api/v1';
     final http.Client client;
+    String? _selectedNutriscore;
+    String? _selectedNova;
+    String? _selectedBrand;
+    double? _maxCalories;
+    String? _ingredientContains;
+
 
     final Map<String, ProductPrice?> _priceCache = {};
 
@@ -94,9 +100,32 @@ class OpenFoodFactsRepository {
                 return Product.fromJson(code, productJson);
             })
             .where((p) {
-                final name = (p.name ?? '').toLowerCase();
-                return name.contains(lowerQuery);
-            }).toList();
+            final name = (p.name ?? '').toLowerCase();
+            if (!name.contains(lowerQuery)) return false;
+
+
+            if (_selectedNutriscore != null && p.nutriscoreGrade?.toLowerCase() != _selectedNutriscore) {
+                return false;
+            }
+
+            if (_selectedNova != null && p.novaGroup != _selectedNova) return false;
+
+            if (_selectedBrand != null && !(p.brands ?? '').toLowerCase().contains(_selectedBrand!)) {
+                return false;
+            }
+
+            if (_ingredientContains != null && !(p.ingredientsText ?? '').toLowerCase().contains(_ingredientContains!)) {
+                return false;
+            }
+
+            if (_maxCalories != null) {
+                final kcal = p.nutriments?['energy-kcal_100g']?.toDouble();
+                if (kcal == null || kcal > _maxCalories!) return false;
+            }
+
+            return true;
+        })
+            .toList();
     }
 }
 

@@ -28,6 +28,14 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
   bool _loading = false;
   String? _error;
 
+  // --- FILTER VARIABLES ADDED ---
+  String? _selectedNutriscore;
+  String? _selectedNova;
+  String? _selectedBrand;
+  bool _imageOnly = false;
+  double? _maxCalories;
+  String? _ingredientContains;
+
   Future<void> _search() async {
     final query = _controller.text.trim();
     if (query.isEmpty) {
@@ -46,7 +54,38 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
       final barcodes = results.map((p) => p.barcode).toList();
       await widget.repository.preloadPrices(barcodes);
 
-      setState(() => _results = results);
+      // --- APPLY FILTERING HERE ---
+      final lowerQuery = query.toLowerCase();
+
+      final filtered = results.where((p) {
+        final name = (p.name ?? '').toLowerCase();
+        if (!name.contains(lowerQuery)) return false;
+
+        if (_imageOnly && (p.imageURL == null || p.imageURL!.isEmpty)) return false;
+
+        if (_selectedNutriscore != null && p.nutriscoreGrade?.toLowerCase() != _selectedNutriscore) {
+          return false;
+        }
+
+        if (_selectedNova != null && p.novaGroup != _selectedNova) return false;
+
+        if (_selectedBrand != null && !(p.brands ?? '').toLowerCase().contains(_selectedBrand!)) {
+          return false;
+        }
+
+        if (_ingredientContains != null && !(p.ingredientsText ?? '').toLowerCase().contains(_ingredientContains!)) {
+          return false;
+        }
+
+        if (_maxCalories != null) {
+          final kcal = p.nutriments?['energy-kcal_100g']?.toDouble();
+          if (kcal == null || kcal > _maxCalories!) return false;
+        }
+
+        return true;
+      }).toList();
+
+      setState(() => _results = filtered);
     } catch (e) {
       setState(() => _error = loc.error_search);
     } finally {
@@ -150,28 +189,94 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                     ),
                   ),
                 ),
+
+                // --- FILTER UI WIDGETS INSERTED HERE ---
+                if (_results.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    child: Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: [
+                        DropdownButton<String>(
+                          hint: const Text("Nutriscore"),
+                          value: _selectedNutriscore,
+                          items: ["a", "b", "c", "d", "e"]
+                              .map((g) => DropdownMenuItem(value: g, child: Text(g.toUpperCase())))
+                              .toList(),
+                          onChanged: (v) => setState(() => _selectedNutriscore = v),
+                        ),
+                        DropdownButton<String>(
+                          hint: const Text("NOVA"),
+                          value: _selectedNova,
+                          items: ["1", "2", "3", "4"]
+                              .map((n) => DropdownMenuItem(value: n, child: Text("Group $n")))
+                              .toList(),
+                          onChanged: (v) => setState(() => _selectedNova = v),
+                        ),
+                        DropdownButton<String>(
+                          hint: const Text("Brand"),
+                          value: _selectedBrand,
+                          items: _results
+                              .map((p) => (p.brands ?? "").toLowerCase())
+                              .toSet()
+                              .where((b) => b.isNotEmpty)
+                              .map((b) => DropdownMenuItem(value: b, child: Text(b)))
+                              .toList(),
+                          onChanged: (v) => setState(() => _selectedBrand = v),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text("Image only"),
+                            Switch(
+                              value: _imageOnly,
+                              onChanged: (v) => setState(() => _imageOnly = v),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 120,
+                          child: TextField(
+                            decoration: const InputDecoration(hintText: "Max kcal/100g"),
+                            keyboardType: TextInputType.number,
+                            onChanged: (v) => setState(() => _maxCalories = double.tryParse(v)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 140,
+                          child: TextField(
+                            decoration: const InputDecoration(hintText: "Ingredient"),
+                            onChanged: (v) => setState(() => _ingredientContains = v.toLowerCase()),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                // --- RESULTS SECTION ---
                 if (_loading)
                   const Expanded(child: Center(child: CircularProgressIndicator(color: primaryPeach)))
                 else if (_error != null)
                   Expanded(
                       child: Center(
                           child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Text(
-                      _error!,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.recursive(color: Colors.redAccent, fontSize: 16),
-                    ),
-                  )))
+                            padding: const EdgeInsets.all(32.0),
+                            child: Text(
+                              _error!,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.recursive(color: Colors.redAccent, fontSize: 16),
+                            ),
+                          )))
                 else if (_results.isEmpty)
-                   Expanded(
+                    Expanded(
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.withOpacity(0.3)),
                             const SizedBox(height: 16),
-                             Text(
+                            Text(
                               loc.no_results_now,
                               style: GoogleFonts.recursive(
                                 fontSize: 16,
@@ -182,43 +287,43 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                         ),
                       ),
                     )
-                else
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                      itemCount: _results.length,
-                      itemBuilder: (context, index) {
-                        final p = _results[index];
-                        return ProductSearchItem(
-                          product: p,
-                          repository: widget.repository,
-                          onTap: () async {
-                            final code = p.barcode;
-                            if (code.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(loc.no_barcode_available)),
-                              );
-                              return;
-                            }
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetailPage(
-                                  barcode: code,
-                                  repository: widget.repository,
-                                  inAddMode: widget.inAddMode,
+                  else
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        itemCount: _results.length,
+                        itemBuilder: (context, index) {
+                          final p = _results[index];
+                          return ProductSearchItem(
+                            product: p,
+                            repository: widget.repository,
+                            onTap: () async {
+                              final code = p.barcode;
+                              if (code.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(loc.no_barcode_available)),
+                                );
+                                return;
+                              }
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProductDetailPage(
+                                    barcode: code,
+                                    repository: widget.repository,
+                                    inAddMode: widget.inAddMode,
+                                  ),
                                 ),
-                              ),
-                            );
-                            if (!context.mounted) return;
-                            if (widget.inAddMode && result != null) {
-                              Navigator.pop(context, result);
-                            }
-                          },
-                        );
-                      },
+                              );
+                              if (!context.mounted) return;
+                              if (widget.inAddMode && result != null) {
+                                Navigator.pop(context, result);
+                              }
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
               ],
             ),
           ),

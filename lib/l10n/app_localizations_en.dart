@@ -570,6 +570,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get brand => 'Brand: ';
 
   @override
+  String get brandOnly => 'Brands';
+
+  @override
   String get price => 'Price: ';
 
   @override

@@ -187,6 +187,7 @@
   "scores": "Scores",
   "nutrition": "Nutrition",
   "brand" : "Brand: ",
+  "brandOnly" : "Brands",
   "price" : "Price: ",
   "view_product_online": "View product online",
   "enter_product_error": "Please enter a product name",
