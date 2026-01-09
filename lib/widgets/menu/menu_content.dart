@@ -37,12 +37,6 @@ class MenuContent extends StatelessWidget {
           title: loc.recipes,
           routeName: '/recipe',
         ),
-        _buildMenuItem(
-          context,
-          icon: Icons.science,
-          title: loc.testapis,
-          routeName: '/testapis',
-        ),
       ],
     );
   }
