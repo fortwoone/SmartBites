@@ -7,6 +7,9 @@ import '../models/product.dart';
 import '../utils/color_constants.dart';
 import '../widgets/recipe/recipe_background.dart';
 import '../widgets/shopping_list/product_search_item.dart';
+import '../widgets/product_skeleton.dart';
+import '../widgets/error_retry_widget.dart';
+import '../utils/local_cache_service.dart';
 
 class ProductSearchPage extends StatefulWidget {
   final OpenFoodFactsRepository repository;
@@ -26,7 +29,10 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
 
   List<Product> _results = [];
   bool _loading = false;
+  bool _loadingMore = false;
   String? _error;
+  int _currentPage = 1;
+  bool _hasMore = true;
 
   Future<void> _search() async {
     final query = _controller.text.trim();
@@ -39,19 +45,48 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
       _loading = true;
       _error = null;
       _results = [];
+      _currentPage = 1;
+      _hasMore = true;
     });
 
     try {
-      final results = await widget.repository.fetchProductsByName(query);
+      final results = await widget.repository.fetchProductsByName(query, page: 1);
       final barcodes = results.map((p) => p.barcode).toList();
       await widget.repository.preloadPrices(barcodes);
 
+      _hasMore = results.length >= 50;
       setState(() => _results = results);
     } catch (e) {
-      setState(() => _error = loc.error_search);
+      setState(() => _error = 'error');
     } finally {
       setState(() => _loading = false);
     }
+  }
+
+  Future<void> _loadMore() async {
+    if (_loadingMore || !_hasMore) return;
+
+    setState(() => _loadingMore = true);
+
+    try {
+      final nextPage = _currentPage + 1;
+      final results = await widget.repository.fetchProductsByName(_controller.text.trim(), page: nextPage);
+      
+      final barcodes = results.map((p) => p.barcode).toList();
+      await widget.repository.preloadPrices(barcodes);
+
+      _hasMore = results.length >= 50;
+      _currentPage = nextPage;
+      setState(() => _results.addAll(results));
+    } catch (_) {
+    } finally {
+      setState(() => _loadingMore = false);
+    }
+  }
+
+  Future<void> _refresh() async {
+    widget.repository.clearCache();
+    await _search();
   }
 
   @override
@@ -80,7 +115,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -111,7 +146,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -150,79 +185,103 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                     ),
                   ),
                 ),
-                if (_loading)
-                  const Expanded(child: Center(child: CircularProgressIndicator(color: primaryPeach)))
-                else if (_error != null)
-                  Expanded(
-                      child: Center(
-                          child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Text(
-                      _error!,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.recursive(color: Colors.redAccent, fontSize: 16),
-                    ),
-                  )))
-                else if (_results.isEmpty)
-                   Expanded(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.withOpacity(0.3)),
-                            const SizedBox(height: 16),
-                             Text(
-                              loc.no_results_now,
-                              style: GoogleFonts.recursive(
-                                fontSize: 16,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                else
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                      itemCount: _results.length,
-                      itemBuilder: (context, index) {
-                        final p = _results[index];
-                        return ProductSearchItem(
-                          product: p,
-                          repository: widget.repository,
-                          onTap: () async {
-                            final code = p.barcode;
-                            if (code.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(loc.no_barcode_available)),
-                              );
-                              return;
-                            }
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetailPage(
-                                  barcode: code,
-                                  repository: widget.repository,
-                                  inAddMode: widget.inAddMode,
-                                ),
-                              ),
-                            );
-                            if (!context.mounted) return;
-                            if (widget.inAddMode && result != null) {
-                              Navigator.pop(context, result);
-                            }
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                Expanded(child: _buildContent()),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (_loading) {
+      return const ProductSkeletonList();
+    }
+    
+    if (_error != null) {
+      return SearchErrorWidget(onRetry: _search);
+    }
+    
+    if (_results.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.withValues(alpha: 0.3)),
+            const SizedBox(height: 16),
+            Text(
+              loc.no_results_now,
+              style: GoogleFonts.recursive(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      color: primaryPeach,
+      onRefresh: _refresh,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        itemCount: _results.length + (_hasMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index == _results.length) {
+            return _buildLoadMoreButton();
+          }
+          final p = _results[index];
+          return ProductSearchItem(
+            product: p,
+            repository: widget.repository,
+            onTap: () async {
+              final code = p.barcode;
+              if (code.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(loc.no_barcode_available)),
+                );
+                return;
+              }
+              final cacheService = await LocalCacheService.getInstance();
+              await cacheService.saveRecentProduct(p);
+              if (!context.mounted) return;
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProductDetailPage(
+                    barcode: code,
+                    repository: widget.repository,
+                    inAddMode: widget.inAddMode,
+                  ),
+                ),
+              );
+              if (!context.mounted) return;
+              if (widget.inAddMode && result != null) {
+                Navigator.pop(context, result);
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildLoadMoreButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: _loadingMore
+            ? const CircularProgressIndicator(color: primaryPeach)
+            : TextButton.icon(
+                onPressed: _loadMore,
+                icon: const Icon(Icons.add_circle_outline, color: primaryPeach),
+                label: Text(
+                  'Charger plus',
+                  style: TextStyle(color: primaryPeach, fontWeight: FontWeight.w600),
+                ),
+              ),
       ),
     );
   }

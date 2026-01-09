@@ -21,6 +21,9 @@ import 'utils/color_constants.dart';
 import 'widgets/recent_products_widget.dart';
 import 'widgets/recent_recipes_widget.dart';
 import 'widgets/shopping_list/product_search_item.dart';
+import 'widgets/product_skeleton.dart';
+import 'widgets/error_retry_widget.dart';
+import 'utils/local_cache_service.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +41,8 @@ Future<void> main() async {
         anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0dWlqZW9yeXducWpnbXFiY2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA5MDQ4MDcsImV4cCI6MjA3NjQ4MDgwN30._iADlHpMD_9_5Y_tUnuaayvPwBEW2Dqg4osxUo7ox9U',
     );
+
+    await LocalCacheService.getInstance();
 
     final session = Supabase.instance.client.auth.currentSession;
 
@@ -106,10 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<Product> _results = [];
     bool _loading = false;
+    bool _loadingMore = false;
     String? _error;
     bool _isMenuOpen = false;
+    String _currentQuery = '';
+    int _currentPage = 1;
+    bool _hasMore = true;
+
     Future<void> _search([String? query]) async {
-        final q = (query ?? '').trim();
+        final q = (query ?? _currentQuery).trim();
         if (q.isEmpty) {
             setState(() => _error = loc.enter_product_name);
             return;
@@ -119,21 +129,52 @@ class _HomeScreenState extends State<HomeScreen> {
             _loading = true;
             _error = null;
             _results = [];
+            _currentQuery = q;
+            _currentPage = 1;
+            _hasMore = true;
         });
 
         try {
-            final results = await widget.repository.fetchProductsByName(q);
+            final results = await widget.repository.fetchProductsByName(q, page: 1);
             
             final barcodes = results.map((p) => p.barcode).toList();
             await widget.repository.preloadPrices(barcodes);
 
+            _hasMore = results.length >= 50;
             setState(() => _results = results);
         } catch (e) {
-            setState(() => _error = e.toString());
+            setState(() => _error = 'error');
         } finally {
             setState(() => _loading = false);
         }
     }
+
+    Future<void> _loadMore() async {
+        if (_loadingMore || !_hasMore) return;
+
+        setState(() => _loadingMore = true);
+
+        try {
+            final nextPage = _currentPage + 1;
+            final results = await widget.repository.fetchProductsByName(_currentQuery, page: nextPage);
+            
+            final barcodes = results.map((p) => p.barcode).toList();
+            await widget.repository.preloadPrices(barcodes);
+
+            _hasMore = results.length >= 50;
+            _currentPage = nextPage;
+            setState(() => _results.addAll(results));
+        } catch (_) {
+        } finally {
+            setState(() => _loadingMore = false);
+        }
+    }
+
+    Future<void> _refresh() async {
+        widget.repository.clearCache();
+        await _search(_currentQuery);
+    }
+
     void _onSearchSubmitted(String q) => _search(q);
 
     void _toggleMenu() {
@@ -142,9 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     @override
     Widget build(BuildContext context) {
-      // On définit si on est en "mode recherche"
-      // On considère qu'on cherche si on charge ou si on a des résultats
-      bool isSearching = _loading || _results.isNotEmpty;
+      bool isSearching = _loading || _results.isNotEmpty || _error != null;
 
       return Scaffold(
         appBar: AppNavBar(
@@ -160,29 +199,21 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               _results = [];
               _error = null;
+              _currentQuery = '';
             });
           },
         ),
         body: Stack(
           children: [
-            // Contenu principal
             Column(
               children: [
-                if (_error != null)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(_error!, style: const TextStyle(color: Colors.red)),
-                  ),
-
                 Expanded(
                   child: isSearching
-                      ? _buildSearchResultsView() // Vue Recherche
-                      : _buildDashboardView(),    // Vue Dashboard
+                      ? _buildSearchResultsView()
+                      : _buildDashboardView(),
                 ),
               ],
             ),
-
-            // Menu latéral (toujours au-dessus)
             SideMenu(
               key: _sideMenuKey,
               currentRoute: '/home',
@@ -193,7 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-// --- VUE 1 : LE DASHBOARD (Widgets récents) ---
   Widget _buildDashboardView() {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -206,44 +236,72 @@ class _HomeScreenState extends State<HomeScreen> {
           RecentRecipesWidget(),
           SizedBox(height: 16),
           RecentShoppingListsWidget(),
-          SizedBox(height: 30), // Espace en bas pour respirer
+          SizedBox(height: 30),
         ],
       ),
     );
   }
 
-// --- VUE 2 : LES RÉSULTATS DE RECHERCHE ---
   Widget _buildSearchResultsView() {
-    final loc = AppLocalizations.of(context)!;
     if (_loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const ProductSkeletonList();
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-      itemCount: _results.length,
-      itemBuilder: (context, index) {
-        final p = _results[index];
-        return ProductSearchItem(
-          product: p,
-          repository: widget.repository,
-          onTap: () {
-            if (p.barcode.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(loc.no_barcode_available)),
+    if (_error != null) {
+      return SearchErrorWidget(onRetry: () => _search(_currentQuery));
+    }
+
+    return RefreshIndicator(
+      color: primaryPeach,
+      onRefresh: _refresh,
+      child: ListView.builder(
+        padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+        itemCount: _results.length + (_hasMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index == _results.length) {
+            return _buildLoadMoreButton();
+          }
+          final p = _results[index];
+          return ProductSearchItem(
+            product: p,
+            repository: widget.repository,
+            onTap: () async {
+              if (p.barcode.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(loc.no_barcode_available)),
+                );
+                return;
+              }
+              final cacheService = await LocalCacheService.getInstance();
+              await cacheService.saveRecentProduct(p);
+              if (!context.mounted) return;
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ProductDetailPage(barcode: p.barcode, repository: widget.repository),
+                ),
               );
-              return;
-            }
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => ProductDetailPage(barcode: p.barcode, repository: widget.repository),
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildLoadMoreButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: _loadingMore
+            ? const CircularProgressIndicator(color: primaryPeach)
+            : TextButton.icon(
+                onPressed: _loadMore,
+                icon: const Icon(Icons.add_circle_outline, color: primaryPeach),
+                label: Text(
+                  'Charger plus',
+                  style: TextStyle(color: primaryPeach, fontWeight: FontWeight.w600),
+                ),
               ),
-            );
-          },
-        );
-      },
+      ),
     );
   }
 }
-
-

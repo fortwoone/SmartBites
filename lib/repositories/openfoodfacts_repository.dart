@@ -57,7 +57,6 @@ class OpenFoodFactsRepository {
             }
             return [];
         } catch (e) {
-            print('Erreur lors de la récupération des prix: $e');
             return [];
         }
     }
@@ -83,11 +82,11 @@ class OpenFoodFactsRepository {
         return latest;
     }
 
-    Future<List<Product>> fetchProductsByName(String query, {int pageSize = 50}) async {
+    Future<List<Product>> fetchProductsByName(String query, {int pageSize = 50, int page = 1}) async {
         final encoded = Uri.encodeQueryComponent(query);
         const fields = 'code,product_name,product_name_fr,product_name_en,brands,image_url,image_small_url,ingredients_text,nutriments';
         final uri = Uri.parse('https://fr.openfoodfacts.org/cgi/search.pl'
-            '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize'
+            '?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=$pageSize&page=$page'
             '&fields=$fields'
             '&tagtype_0=countries&tag_contains_0=contains&tag_0=france',
         );
