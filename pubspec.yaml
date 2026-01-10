@@ -26,6 +26,7 @@ dependencies:
   riverpod_annotation: ^4.0.0  # Simplifie le code
   freezed_annotation: ^3.1.0   # Modèles solides
   json_annotation: ^4.9.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
@@ -42,7 +43,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - /lib/old/ressources/
+    - .env
+    - lib/old/ressources/
     #- lib/ressources/nova/
     #- lib/ressources/nutriscore/
 l10n:
