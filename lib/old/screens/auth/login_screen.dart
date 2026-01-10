@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:SmartBites/l10n/app_localizations.dart';
-import 'package:SmartBites/main.dart';
+import 'package:SmartBites/old/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'register_screen.dart';
 import '../../widgets/auth/login_header.dart';
