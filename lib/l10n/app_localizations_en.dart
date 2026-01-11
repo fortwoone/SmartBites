@@ -228,6 +228,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete_recipe => 'Delete the recipe';
 
   @override
+  String get confirm_delete_recipe => 'Are you sure you want to delete this recipe?';
+
+  @override
   String get deleteRecipeConfirm => 'Are you sure you want to delete this recipe';
 
   @override

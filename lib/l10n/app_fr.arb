@@ -74,6 +74,7 @@
   "generic_error": "Une erreur s'est produite",
   "recipe_page": "Recettes",
   "delete_recipe": "Supprimer la recette",
+  "confirm_delete_recipe": "Êtes-vous sûr de vouloir supprimer cette recette ?",
   "deleteRecipeConfirm": "Êtes-vous sûr de vouloir supprimer cette recette ?",
   "delete" : "Supprimer",
   "invalidID" : "ID invalide",

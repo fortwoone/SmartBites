@@ -73,6 +73,7 @@
   "generic_error": "An error occurred",
   "recipe_page": "Recipes",
   "delete_recipe": "Delete the recipe",
+  "confirm_delete_recipe": "Are you sure you want to delete this recipe?",
   "deleteRecipeConfirm": "Are you sure you want to delete this recipe",
   "delete" : "Delete",
   "invalidID" : "invalid ID",
