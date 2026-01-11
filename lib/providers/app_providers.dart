@@ -45,3 +45,9 @@ final historyRepositoryProvider = Provider<HistoryRepository>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
   return HistoryRepository(prefs);
 });
+
+// ==============================================================================
+// NAVIGATION PROVIDER
+// ==============================================================================
+final dashboardIndexProvider = StateProvider<int>((ref) => 0);
+

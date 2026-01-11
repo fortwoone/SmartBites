@@ -11,6 +11,7 @@ class Recipe {
   final int prepTime;
   final int bakingTime;
   final String instructions;
+  final String? imageUrl;
 
   //constructeur
   const Recipe({
@@ -23,6 +24,7 @@ class Recipe {
     required this.prepTime,
     required this.bakingTime,
     required this.instructions,
+    this.imageUrl,
   });
 
   // ---------------------------------------------------------------------------
@@ -51,7 +53,8 @@ class Recipe {
       notes: notes,
       prepTime: json['time_preparation'] as int,
       bakingTime: json['time_baking'] as int,
-      instructions: json['instructions'] as String);
+      instructions: json['instructions'] as String,
+      imageUrl: json['image_url'] as String?);
   }
 
   // Convertit l'objet en JSON
@@ -66,6 +69,7 @@ class Recipe {
       'time_preparation': prepTime,
       'time_baking': bakingTime,
       'instructions': instructions,
+      'image_url': imageUrl,
     };
   }
 
@@ -80,6 +84,7 @@ class Recipe {
     int? prepTime,
     int? bakingTime,
     String? instructions,
+    String? imageUrl,
   }) {
     return Recipe(
       id: id ?? this.id,
@@ -91,6 +96,7 @@ class Recipe {
       prepTime: prepTime ?? this.prepTime,
       bakingTime: bakingTime ?? this.bakingTime,
       instructions: instructions ?? this.instructions,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

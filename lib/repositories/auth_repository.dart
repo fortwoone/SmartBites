@@ -95,4 +95,15 @@ class AuthRepository {
         ),
       );
   }
+
+  // ---------------------------------------------------------------------------
+  // Mise à jour du Mot de passe
+  // ---------------------------------------------------------------------------
+  Future<void> updatePassword(String newPassword) async {
+    await _client.auth.updateUser(
+      UserAttributes(
+        password: newPassword,
+      ),
+    );
+  }
 }
