@@ -33,6 +33,30 @@ class RecipeViewModel extends AsyncNotifier<List<Recipe>> {
   }
 
   // ---------------------------------------------------------------------------
+  // Créer une recette
+  // ---------------------------------------------------------------------------
+  Future<void> addRecipe(Recipe recipe) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(recipeRepositoryProvider).createRecipe(recipe);
+      return _fetchRecipes();
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Mettre à jour une recette
+  // ---------------------------------------------------------------------------
+  Future<void> updateRecipe(Recipe recipe) async {
+    if (recipe.id == null) return;
+    try {
+        await ref.read(recipeRepositoryProvider).updateRecipe(recipe);
+        ref.invalidateSelf();
+    } catch (e) {
+        rethrow;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // Supprimer une recette
   // ---------------------------------------------------------------------------
   Future<void> deleteRecipe(int id) async {
@@ -40,7 +64,6 @@ class RecipeViewModel extends AsyncNotifier<List<Recipe>> {
     if (previousState.value != null) {
       state = AsyncData(previousState.value!.where((r) => r.id != id).toList());
     }
-
     try {
       await ref.read(recipeRepositoryProvider).deleteRecipe(id);
     } catch (e) {

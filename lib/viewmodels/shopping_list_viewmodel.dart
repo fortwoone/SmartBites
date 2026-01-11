@@ -24,16 +24,22 @@ class ShoppingListViewModel extends AsyncNotifier<List<ShoppingList>> {
   }
 
   // ---------------------------------------------------------------------------
-  // Créer une liste
+  // Créer une liste (Simple nom)
   // ---------------------------------------------------------------------------
   Future<void> createList(String name) async {
     final user = ref.read(authViewModelProvider).value;
     if (user == null) return;
     final newList = ShoppingList(name: name, userId: user.id, products: [], quantities: {});
+    await addList(newList);
+  }
 
+  // ---------------------------------------------------------------------------
+  // Ajouter une liste complète
+  // ---------------------------------------------------------------------------
+  Future<void> addList(ShoppingList list) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await ref.read(shoppingListRepositoryProvider).createList(newList);
+      await ref.read(shoppingListRepositoryProvider).createList(list);
       ref.invalidateSelf();
       final repository = ref.read(shoppingListRepositoryProvider);
       final user = ref.read(authViewModelProvider).value;
@@ -59,18 +65,23 @@ class ShoppingListViewModel extends AsyncNotifier<List<ShoppingList>> {
   }
 
   // ---------------------------------------------------------------------------
-  // Renommer une liste
+  // Mettre à jour une liste (Nom, Produits, Quantités)
   // ---------------------------------------------------------------------------
-  Future<void> renameList(ShoppingList list, String newName) async {
-    if (list.id == null) {
-      return;
-    }
-    final updatedList = list.copyWith(name: newName);
+  Future<void> updateList(ShoppingList list) async {
+    if (list.id == null) return;
     try {
-        await ref.read(shoppingListRepositoryProvider).updateList(updatedList);
+        await ref.read(shoppingListRepositoryProvider).updateList(list);
         ref.invalidateSelf();
     } catch (e) {
         rethrow;
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Renommer une liste (Keep for convenience or refactor to use updateList)
+  // ---------------------------------------------------------------------------
+  Future<void> renameList(ShoppingList list, String newName) async {
+    final updatedList = list.copyWith(name: newName);
+    await updateList(updatedList);
   }
 }

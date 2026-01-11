@@ -71,4 +71,28 @@ class AuthViewModel extends AsyncNotifier<AppUser?> {
       // Ignore
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // Mise à jour Profil (Nom)
+  // ---------------------------------------------------------------------------
+  Future<void> updateDisplayName(String newName) async {
+     final currentUser = state.value;
+     if (currentUser == null) return;
+     
+     state = const AsyncLoading();
+     state = await AsyncValue.guard(() async {
+         await _authRepository.updateDisplayName(newName);
+         return currentUser.copyWith(displayName: newName);
+     });
+     if (state.hasError) {
+        state = AsyncData(currentUser);
+     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Mise à jour Mot de passe
+  // ---------------------------------------------------------------------------
+  Future<void> updatePassword(String newPassword) async {
+      await _authRepository.updatePassword(newPassword);
+  }
 }
