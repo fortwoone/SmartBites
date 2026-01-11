@@ -216,5 +216,6 @@
   "home_menu": "Accueil",
   "search_menu": "Recherche",
   "recipes_menu": "Recettes",
-  "my_account": "Mon compte"
+  "my_account": "Mon compte",
+  "success": "Succès"
 }
