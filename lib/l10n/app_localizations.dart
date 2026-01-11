@@ -533,6 +533,12 @@ abstract class AppLocalizations {
   /// **'Delete the recipe'**
   String get delete_recipe;
 
+  /// No description provided for @confirm_delete_recipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this recipe?'**
+  String get confirm_delete_recipe;
+
   /// No description provided for @deleteRecipeConfirm.
   ///
   /// In en, this message translates to:
