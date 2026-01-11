@@ -1372,6 +1372,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comments'**
   String get comments;
+
+  /// No description provided for @home_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home_menu;
+
+  /// No description provided for @search_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search_menu;
+
+  /// No description provided for @recipes_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipes_menu;
+
+  /// No description provided for @my_account.
+  ///
+  /// In en, this message translates to:
+  /// **'My Account'**
+  String get my_account;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
