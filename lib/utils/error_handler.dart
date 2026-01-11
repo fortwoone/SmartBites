@@ -5,7 +5,6 @@ import '../l10n/app_localizations.dart';
 // ==============================================================================
 // UTILS : Error Handler
 // ==============================================================================
-
 String getReadableErrorMessage(dynamic error, BuildContext context) {
   final loc = AppLocalizations.of(context)!;
   final msg = error.toString().toLowerCase();
