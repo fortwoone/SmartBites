@@ -7,7 +7,7 @@ class Recipe {
   final String name;
   final String? description;
   final List<RecipeIngredient> ingredients;
-  final List<int> notes;
+  final List<Map<String, dynamic>> notes;
   final int prepTime;
   final int bakingTime;
   final String instructions;
@@ -37,10 +37,10 @@ class Recipe {
         }
       }
     }
-    List<int> notes = [];
+    List<Map<String, dynamic>> notes = [];
     if (json['notes'] is List) {
       for (var v in json['notes']) {
-        if (v is int) notes.add(v);
+        if (v is Map<String, dynamic>) notes.add(v);
       }
     }
     return Recipe(id: json['id'] as int?,
@@ -76,7 +76,7 @@ class Recipe {
     String? name,
     String? description,
     List<RecipeIngredient>? ingredients,
-    List<int>? notes,
+    List<Map<String, dynamic>>? notes,
     int? prepTime,
     int? bakingTime,
     String? instructions,

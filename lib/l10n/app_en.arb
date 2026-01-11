@@ -212,10 +212,9 @@
   "addComment": "Rate the recipe",
   "successComment": "Comment and rating added",
   "rateAndComment": "Rate & Comments",
-  "comments": "Comments"
-
-
-
-
-
+  "comments": "Comments",
+  "home_menu": "Home",
+  "search_menu": "Search",
+  "recipes_menu": "Recipes",
+  "my_account": "My Account"
 }

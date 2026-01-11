@@ -212,5 +212,9 @@
   "addComment": "Noter la recette",
   "successComment": "Note et commentaire ajouté",
   "rateAndComment": "Note et commentaires",
-  "comments": "Commentaires"
+  "comments": "Commentaires",
+  "home_menu": "Accueil",
+  "search_menu": "Recherche",
+  "recipes_menu": "Recettes",
+  "my_account": "Mon compte"
 }

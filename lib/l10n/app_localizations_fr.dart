@@ -646,4 +646,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get comments => 'Commentaires';
+
+  @override
+  String get home_menu => 'Accueil';
+
+  @override
+  String get search_menu => 'Recherche';
+
+  @override
+  String get recipes_menu => 'Recettes';
+
+  @override
+  String get my_account => 'Mon compte';
 }
