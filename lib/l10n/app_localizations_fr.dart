@@ -658,4 +658,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get my_account => 'Mon compte';
+
+  @override
+  String get success => 'Succès';
 }

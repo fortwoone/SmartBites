@@ -1396,6 +1396,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My Account'**
   String get my_account;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
