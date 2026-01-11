@@ -8,7 +8,8 @@ import 'package:smartbites/l10n/app_localizations.dart';
 import 'package:smartbites/providers/app_providers.dart';
 import 'package:smartbites/views/auth/login_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'viewmodels/auth_viewmodel.dart';
+import 'package:smartbites/viewmodels/auth_viewmodel.dart';
+import 'package:smartbites/views/home/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,9 +58,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Auhtentification routeur
 class AuthWrapper extends ConsumerWidget {
   const AuthWrapper({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authViewModelProvider);
@@ -67,7 +68,7 @@ class AuthWrapper extends ConsumerWidget {
     return authState.when(
       data: (user) {
         if (user != null) {
-          return const Scaffold(body: Center(child: Text("Home Screen")));
+          return const HomePage();
         } else {
           return const LoginPage();
         }
