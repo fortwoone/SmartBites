@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:SmartBites/l10n/app_localizations.dart';
+import 'package:smartbites/l10n/app_localizations.dart';
 import '../../utils/color_constants.dart';
 
 class LoginHeader extends StatelessWidget {
@@ -13,7 +13,6 @@ class LoginHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
-
     return Column(
       children: [
         Container(

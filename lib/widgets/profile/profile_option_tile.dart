@@ -31,7 +31,7 @@ class ProfileOptionTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: optionColor.withAlpha(20),
+                color: optionColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(
@@ -72,4 +72,3 @@ class ProfileOptionTile extends StatelessWidget {
     );
   }
 }
-

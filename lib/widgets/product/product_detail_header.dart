@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../utils/color_constants.dart';
 
 class ProductDetailHeader extends StatelessWidget {
   final String? imageUrl;
@@ -15,41 +14,37 @@ class ProductDetailHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: 300,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0,
-      leading: Center(
-        child: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.9),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87, size: 20),
-            onPressed: onBack,
-            padding: EdgeInsets.zero,
-          ),
+      pinned: true,
+      leading: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.9),
+          shape: BoxShape.circle,
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: onBack,
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        background: imageUrl != null && imageUrl!.isNotEmpty
+        background: imageUrl != null
             ? Image.network(
                 imageUrl!,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Container(color: Colors.grey.shade200, child: const Icon(Icons.broken_image, size: 50, color: Colors.grey)),
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[100],
+                    child: Icon(Icons.broken_image,
+                        size: 64, color: Colors.grey[400]),
+                  );
+                },
               )
             : Container(
-                color: primaryPeach.withOpacity(0.2),
-                child: const Icon(Icons.shopping_bag_outlined, size: 80, color: primaryPeach),
+                color: Colors.grey[100],
+                child:
+                    Icon(Icons.image_not_supported, size: 64, color: Colors.grey[400]),
               ),
       ),
     );

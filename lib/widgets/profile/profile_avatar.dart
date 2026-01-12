@@ -24,7 +24,7 @@ class ProfileAvatar extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(30),
+              color: Colors.black.withOpacity(0.1),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -45,7 +45,6 @@ class ProfileAvatar extends StatelessWidget {
         imageProvider = NetworkImage(avatarUrl!);
       }
     }
-
     return GestureDetector(
       onTap: onTap,
       child: Stack(
@@ -58,7 +57,7 @@ class ProfileAvatar extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(30),
+                  color: Colors.black.withOpacity(0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -85,7 +84,7 @@ class ProfileAvatar extends StatelessWidget {
                 border: Border.all(color: Colors.white, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(20),
+                    color: Colors.black.withOpacity(0.15),
                     blurRadius: 8,
                     offset: const Offset(0, 3),
                   ),
@@ -99,4 +98,3 @@ class ProfileAvatar extends StatelessWidget {
     );
   }
 }
-

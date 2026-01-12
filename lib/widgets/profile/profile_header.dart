@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:SmartBites/widgets/profile/profile_avatar.dart';
+import 'profile_avatar.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String displayName;
@@ -36,12 +36,18 @@ class ProfileHeader extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  displayName.isNotEmpty ? displayName : 'Utilisateur',
-                  style: GoogleFonts.recursive(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black87,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 250),
+                  child: Text(
+                    displayName.isNotEmpty ? displayName : 'Utilisateur',
+                    style: GoogleFonts.recursive(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -63,4 +69,3 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 }
-

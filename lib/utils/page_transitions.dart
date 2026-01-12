@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+// Animation de transition de page
 class SlideAndFadePageRoute<T> extends PageRouteBuilder<T> {
   final Widget page;
   final AxisDirection direction;
-
   SlideAndFadePageRoute({
     required this.page,
     this.direction = AxisDirection.right,

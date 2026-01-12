@@ -176,7 +176,7 @@ abstract class AppLocalizations {
   /// No description provided for @shopping_lists.
   ///
   /// In en, this message translates to:
-  /// **'Last Shopping List'**
+  /// **'Shopping Lists'**
   String get shopping_lists;
 
   /// No description provided for @shopping_list.
@@ -532,6 +532,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete the recipe'**
   String get delete_recipe;
+
+  /// No description provided for @confirm_delete_recipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this recipe?'**
+  String get confirm_delete_recipe;
 
   /// No description provided for @deleteRecipeConfirm.
   ///
@@ -1372,6 +1378,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comments'**
   String get comments;
+
+  /// No description provided for @home_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home_menu;
+
+  /// No description provided for @search_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search_menu;
+
+  /// No description provided for @recipes_menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipes_menu;
+
+  /// No description provided for @my_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get my_account;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

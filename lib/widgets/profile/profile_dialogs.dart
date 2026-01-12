@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:SmartBites/l10n/app_localizations.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileDialogs {
@@ -45,7 +44,10 @@ class ProfileDialogs {
     );
   }
 
-  static Future<void> showChangePasswordDialog(BuildContext context) async {
+  // Popup de dialogue pour changer le mot de passe
+  static Future<void> showChangePasswordDialog(
+      BuildContext context,
+      Future<void> Function(String oldPwd, String newPwd) onConfirm) async {
     final oldCtrl = TextEditingController();
     final newCtrl = TextEditingController();
     final confirmCtrl = TextEditingController();
@@ -54,8 +56,6 @@ class ProfileDialogs {
     bool obscureConfirm = true;
     bool isLoading = false;
     final loc = AppLocalizations.of(context)!;
-
-
     await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -66,14 +66,13 @@ class ProfileDialogs {
             backgroundColor: Colors.white,
             elevation: 10,
             insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.change_password,
+                    loc.change_password,
                     style: GoogleFonts.recursive(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -105,18 +104,11 @@ class ProfileDialogs {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade200,
-                          foregroundColor: Colors.grey.shade700,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
+                      TextButton(
+                        onPressed: isLoading ? null : () => Navigator.pop(context, false),
                         child: Text(
-                          AppLocalizations.of(context)!.cancel,
-                          style: GoogleFonts.recursive(fontSize: 14, fontWeight: FontWeight.w600),
+                          loc.cancel,
+                          style: GoogleFonts.recursive(color: Colors.grey[600], fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -137,35 +129,31 @@ class ProfileDialogs {
                                 final confirm = confirmCtrl.text.trim();
                                 if (oldPwd.isEmpty || newPwd.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(AppLocalizations.of(context)!.fields_required)),
+                                    SnackBar(content: Text(loc.fields_required)),
                                   );
                                   return;
                                 }
                                 if (newPwd != confirm) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(AppLocalizations.of(context)!.passwords_mismatch)),
+                                    SnackBar(content: Text(loc.passwords_mismatch)),
                                   );
                                   return;
                                 }
                                 setStateDialog(() => isLoading = true);
                                 try {
-                                  final client = Supabase.instance.client;
-                                  await client.auth.updateUser(UserAttributes(password: newPwd));
-                                  if (!context.mounted) return;
-                                  Navigator.of(context).pop();
-                                  await client.auth.signOut();
-                                  if (!context.mounted) return;
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/login',
-                                    (route) => false,
-                                  );
+                                  await onConfirm(oldPwd, newPwd);
+                                  if (context.mounted) {
+                                    Navigator.pop(context, true);
+                                  }
                                 } catch (e) {
                                   if (context.mounted) {
-                                    setStateDialog(() => isLoading = false);
-                                    final loc = AppLocalizations.of(context)!;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('${loc.password_update_failed}: ${e.toString()}')),
                                     );
+                                  }
+                                } finally {
+                                  if (context.mounted) {
+                                    setStateDialog(() => isLoading = false);
                                   }
                                 }
                               },
@@ -175,7 +163,7 @@ class ProfileDialogs {
                                 height: 20,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : Text(AppLocalizations.of(context)!.validate),
+                            : Text(loc.validate),
                       ),
                     ],
                   ),
@@ -188,13 +176,15 @@ class ProfileDialogs {
     );
   }
 
+  // Popup de dialogue pour éditer le nom d'utilisateur
   static Future<void> showEditNameDialog(
     BuildContext context,
     String currentName,
-    Function(String) onNameUpdated,
+    Future<void> Function(String) onConfirm,
   ) async {
     final ctrl = TextEditingController(text: currentName);
     bool isLoading = false;
+    final loc = AppLocalizations.of(context)!;
 
     await showDialog<bool>(
       context: context,
@@ -211,8 +201,8 @@ class ProfileDialogs {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.edit_name_title,
+                   Text(
+                    loc.edit_name_title,
                     style: GoogleFonts.recursive(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -222,24 +212,17 @@ class ProfileDialogs {
                   const SizedBox(height: 20),
                   _buildDialogTextField(
                     controller: ctrl,
-                    label: AppLocalizations.of(context)!.edit_name_label,
+                    label: loc.edit_name_label,
                   ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade200,
-                          foregroundColor: Colors.grey.shade700,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
+                       TextButton(
+                        onPressed: isLoading ? null : () => Navigator.pop(context, false),
                         child: Text(
-                          AppLocalizations.of(context)!.cancel,
-                          style: GoogleFonts.recursive(fontSize: 14, fontWeight: FontWeight.w600),
+                          loc.cancel,
+                          style: GoogleFonts.recursive(color: Colors.grey[600], fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -258,7 +241,7 @@ class ProfileDialogs {
                                 final newName = ctrl.text.trim();
                                 if (newName.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(AppLocalizations.of(context)!.fields_required)),
+                                    SnackBar(content: Text(loc.fields_required)),
                                   );
                                   return;
                                 }
@@ -268,22 +251,23 @@ class ProfileDialogs {
                                 }
                                 setStateDialog(() => isLoading = true);
                                 try {
-                                  final client = Supabase.instance.client;
-                                  await client.auth.updateUser(UserAttributes(data: {'display_name': newName}));
-                                  onNameUpdated(newName);
+                                  await onConfirm(newName);
+                                  if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text(loc.name_updated)),
+                                      );
+                                      Navigator.pop(context, true);
+                                  }
+                                } catch (e) {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(AppLocalizations.of(context)!.name_updated)),
+                                      SnackBar(content: Text('${loc.name_update_failed}: ${e.toString()}')),
                                     );
                                   }
-                                  Navigator.pop(context, true);
-                                } catch (e) {
-                                  final loc = AppLocalizations.of(context)!;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('${loc.name_update_failed}: ${e.toString()}')),
-                                  );
                                 } finally {
-                                  setStateDialog(() => isLoading = false);
+                                  if (context.mounted) {
+                                    setStateDialog(() => isLoading = false);
+                                  }
                                 }
                               },
                         child: isLoading
@@ -292,7 +276,7 @@ class ProfileDialogs {
                                 height: 20,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : Text(AppLocalizations.of(context)!.validate),
+                            : Text(loc.validate),
                       ),
                     ],
                   ),
@@ -305,10 +289,12 @@ class ProfileDialogs {
     );
   }
 
+  // Popup de dialogue pour choisir la source de l'image
   static Future<void> showImageSourceDialog(
     BuildContext context,
     Function(ImageSource) onSourceSelected,
   ) async {
+    final loc = AppLocalizations.of(context)!;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -322,7 +308,7 @@ class ProfileDialogs {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.change_photo_title,
+                  loc.change_photo_title,
                   style: GoogleFonts.recursive(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -332,11 +318,11 @@ class ProfileDialogs {
                 ListTile(
                   leading: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.blue.withAlpha(20), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: Colors.blue.withOpacity(0.1), shape: BoxShape.circle),
                     child: const Icon(Icons.camera_alt_rounded, color: Colors.blue, size: 22),
                   ),
                   title: Text(
-                    AppLocalizations.of(context)!.take_photo,
+                    loc.take_photo,
                     style: GoogleFonts.recursive(fontSize: 15),
                   ),
                   onTap: () {
@@ -347,11 +333,11 @@ class ProfileDialogs {
                 ListTile(
                   leading: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.green.withAlpha(20), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), shape: BoxShape.circle),
                     child: const Icon(Icons.photo_library_rounded, color: Colors.green, size: 22),
                   ),
                   title: Text(
-                    AppLocalizations.of(context)!.choose_from_gallery,
+                    loc.choose_from_gallery,
                     style: GoogleFonts.recursive(fontSize: 15),
                   ),
                   onTap: () {
@@ -360,18 +346,11 @@ class ProfileDialogs {
                   },
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: Colors.grey.shade700,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
                   child: Text(
-                    AppLocalizations.of(context)!.cancel,
-                    style: GoogleFonts.recursive(fontSize: 14, fontWeight: FontWeight.w600),
+                    loc.cancel,
+                    style: GoogleFonts.recursive(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),
                   ),
                 ),
               ],
@@ -382,4 +361,3 @@ class ProfileDialogs {
     );
   }
 }
-

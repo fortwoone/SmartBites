@@ -228,6 +228,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get delete_recipe => 'Supprimer la recette';
 
   @override
+  String get confirm_delete_recipe => 'Êtes-vous sûr de vouloir supprimer cette recette ?';
+
+  @override
   String get deleteRecipeConfirm => 'Êtes-vous sûr de vouloir supprimer cette recette ?';
 
   @override
@@ -646,4 +649,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get comments => 'Commentaires';
+
+  @override
+  String get home_menu => 'Accueil';
+
+  @override
+  String get search_menu => 'Recherche';
+
+  @override
+  String get recipes_menu => 'Recettes';
+
+  @override
+  String get my_account => 'Mon compte';
+
+  @override
+  String get success => 'Succès';
 }

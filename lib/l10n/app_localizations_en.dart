@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login_register_action => ' Create an account';
 
   @override
-  String get shopping_lists => 'Last Shopping List';
+  String get shopping_lists => 'Shopping Lists';
 
   @override
   String get shopping_list => 'Shopping lists';
@@ -226,6 +226,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete_recipe => 'Delete the recipe';
+
+  @override
+  String get confirm_delete_recipe => 'Are you sure you want to delete this recipe?';
 
   @override
   String get deleteRecipeConfirm => 'Are you sure you want to delete this recipe';
@@ -646,4 +649,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comments => 'Comments';
+
+  @override
+  String get home_menu => 'Home';
+
+  @override
+  String get search_menu => 'Search';
+
+  @override
+  String get recipes_menu => 'Recipes';
+
+  @override
+  String get my_account => 'Account';
+
+  @override
+  String get success => 'Success';
 }
