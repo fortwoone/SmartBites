@@ -19,7 +19,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  // int _currentIndex = 0; // Removed local state
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -28,18 +27,41 @@ class _HomePageState extends ConsumerState<HomePage> {
     // Pages pour la navigation
     final List<Widget> pages = [
       _buildDashboard(loc),
-      const ProductSearchPage(),
       const ShoppingListsPage(),
       const RecipesPage(),
       const ProfilePage(),
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text('SmartBites', style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'lib/ressources/logo_App.png',
+            fit: BoxFit.contain,
+          ),
+        ),
+        title: Text(
+          'SmartBites',
+          style: GoogleFonts.recursive(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ProductSearchPage(),
+                ),
+              );
+
+            },
+          ),
+        ],
       ),
       body: IndexedStack(
         index: currentIndex,
@@ -55,11 +77,6 @@ class _HomePageState extends ConsumerState<HomePage> {
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home),
             label: loc.home_menu,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.search_outlined),
-            selectedIcon: const Icon(Icons.search),
-            label: loc.search_menu,
           ),
           NavigationDestination(
             icon: const Icon(Icons.shopping_cart_outlined),

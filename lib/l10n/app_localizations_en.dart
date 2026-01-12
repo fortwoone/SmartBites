@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login_register_action => ' Create an account';
 
   @override
-  String get shopping_lists => 'Last Shopping List';
+  String get shopping_lists => 'Shopping Lists';
 
   @override
   String get shopping_list => 'Shopping lists';
@@ -660,7 +660,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipes_menu => 'Recipes';
 
   @override
-  String get my_account => 'My Account';
+  String get my_account => 'Account';
 
   @override
   String get success => 'Success';
