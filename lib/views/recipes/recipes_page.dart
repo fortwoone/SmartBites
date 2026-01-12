@@ -20,6 +20,13 @@ class RecipesPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'lib/ressources/cuisine_icon.png',
+            fit: BoxFit.contain,
+          ),
+        ),
         title: Text(loc.recipes_menu, style: GoogleFonts.recursive(fontWeight: FontWeight.bold)),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,

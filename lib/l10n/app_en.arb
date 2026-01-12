@@ -13,7 +13,7 @@
   "email_hint": "Enter your email",
   "hint_passwd": "Enter your password",
   "login_register_action": " Create an account",
-  "shopping_lists": "Last Shopping List",
+  "shopping_lists": "Shopping Lists",
   "shopping_list" : "Shopping lists",
   "new_list": "New Shopping List",
   "register_failed": "Error during register",
@@ -217,6 +217,6 @@
   "home_menu": "Home",
   "search_menu": "Search",
   "recipes_menu": "Recipes",
-  "my_account": "My Account",
+  "my_account": "Account",
   "success": "Success"
 }

@@ -176,7 +176,7 @@ abstract class AppLocalizations {
   /// No description provided for @shopping_lists.
   ///
   /// In en, this message translates to:
-  /// **'Last Shopping List'**
+  /// **'Shopping Lists'**
   String get shopping_lists;
 
   /// No description provided for @shopping_list.
@@ -1400,7 +1400,7 @@ abstract class AppLocalizations {
   /// No description provided for @my_account.
   ///
   /// In en, this message translates to:
-  /// **'My Account'**
+  /// **'Account'**
   String get my_account;
 
   /// No description provided for @success.

@@ -8,7 +8,7 @@ import '../../models/product.dart';
 import '../../utils/color_constants.dart';
 import '../../viewmodels/shopping_list_viewmodel.dart';
 import '../../providers/app_providers.dart';
-import '../../old/screens/product_search_page.dart';
+import '../product/product_search_page.dart';
 
 class ShoppingListDetailPage extends ConsumerStatefulWidget {
   final int listId;

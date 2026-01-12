@@ -41,9 +41,9 @@ flutter:
 
   assets:
     - .env
-    - lib/old/ressources/
-    #- lib/ressources/nova/
-    #- lib/ressources/nutriscore/
+    - lib/ressources/
+    - lib/ressources/nova/
+    - lib/ressources/nutriscore/
 l10n:
   template-arb-file: app_en.arb
   output-localization-file: app_localizations.dart
