@@ -218,5 +218,12 @@
   "search_menu": "Recherche",
   "recipes_menu": "Recettes",
   "my_account": "Mon compte",
-  "success": "Succès"
+  "success": "Succès",
+  "any" :"N'importe",
+  "category": "Catégories",
+  "price_order": "Prix",
+  "no_sort": "Aucun tri",
+  "lowest_to_highest": "Croissant",
+  "highest_to_lowest": "Décroissant",
+  "filters": "Filtres"
 }

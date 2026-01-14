@@ -1408,6 +1408,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Success'**
   String get success;
+
+  /// No description provided for @any.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get any;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @price_order.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price_order;
+
+  /// No description provided for @no_sort.
+  ///
+  /// In en, this message translates to:
+  /// **'No sort'**
+  String get no_sort;
+
+  /// No description provided for @lowest_to_highest.
+  ///
+  /// In en, this message translates to:
+  /// **'Ascendant'**
+  String get lowest_to_highest;
+
+  /// No description provided for @highest_to_lowest.
+  ///
+  /// In en, this message translates to:
+  /// **'Descendant'**
+  String get highest_to_lowest;
+
+  /// No description provided for @filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
