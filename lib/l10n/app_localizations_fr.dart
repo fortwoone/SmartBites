@@ -664,4 +664,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get success => 'Succès';
+
+  @override
+  String get any => 'N\'importe';
+
+  @override
+  String get category => 'Catégories';
+
+  @override
+  String get price_order => 'Prix';
+
+  @override
+  String get no_sort => 'Aucun tri';
+
+  @override
+  String get lowest_to_highest => 'Croissant';
+
+  @override
+  String get highest_to_lowest => 'Décroissant';
+
+  @override
+  String get filters => 'Filtres';
 }

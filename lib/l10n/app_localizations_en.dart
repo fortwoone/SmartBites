@@ -664,4 +664,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get success => 'Success';
+
+  @override
+  String get any => 'Any';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get price_order => 'Price';
+
+  @override
+  String get no_sort => 'No sort';
+
+  @override
+  String get lowest_to_highest => 'Ascendant';
+
+  @override
+  String get highest_to_lowest => 'Descendant';
+
+  @override
+  String get filters => 'Filters';
 }
