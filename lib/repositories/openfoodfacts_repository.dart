@@ -130,7 +130,6 @@ class OpenFoodFactsRepository {
               .whereType<String>()
               .where((c) =>
               c.startsWith('$locale:')) // keep only locale-specific categories
-              .map((c) => c.split(':')[1]) // remove "fr:" or "en:"
               .toList();
         }
 

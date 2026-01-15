@@ -38,7 +38,7 @@ class _ProductSearchPageState extends ConsumerState<ProductSearchPage> {
       ref.read(productSearchViewModelProvider.notifier).loadMore(locale: locale);
     }
   }
-  String get locale => Localizations.localeOf(context).languageCode;
+
 
 
   @override
@@ -48,67 +48,33 @@ class _ProductSearchPageState extends ConsumerState<ProductSearchPage> {
     super.dispose();
   }
 
-  void _performSearch() {
+  String get locale => Localizations.localeOf(context).languageCode;
 
+  void _performSearch() {
     ref.read(productSearchViewModelProvider.notifier).search(
       _searchCtrl.text,
       filters: _filters,
-      locale:locale,
+      locale: locale,
     );
   }
 
-  Future<void> _openFilters(List<Product> currentProducts) async {
-    final locale = Localizations.localeOf(context).languageCode;
 
-    // Extract unique brands (case-insensitive)
-    final allBrands = currentProducts
-        .map((p) => p.brands)
-        .whereType<String>()
-        .expand((s) => s.split(','))
-        .map((s) => s.trim())
-        .map((s) => s.trim())
-        .toSet()
-        .toList()
-      ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
-
-
-
-    // Extract unique categories for the current locale only
-    final allCategories = currentProducts
-        .expand((p) => p.categories)  // flatten all categories from products
-        .map((c) {
-      // Categories are like "en:breakfasts" or "fr:petits-dejeuners"
-      if (c.contains(':')) {
-        final parts = c.split(':');
-        // Keep only if the prefix matches the locale
-        return parts[0] == locale ? parts[1] : null;
-      }
-      return null; // ignore categories without a locale prefix
-    })
-        .whereType<String>()  // remove nulls
-        .toSet()              // remove duplicates
-        .toList()
-      ..sort();               // sort alphabetically
-
+  Future<void> _openFilters(List<Product> products) async {
+    final notifier = ref.read(productSearchViewModelProvider.notifier);
 
     final result = await showModalBottomSheet<ProductSearchFilters>(
       context: context,
       isScrollControlled: true,
       builder: (_) => ProductFiltersSheet(
         initialFilters: _filters,
-        availableBrands: allBrands,
-        availableCategories: allCategories,
+        availableBrands: notifier.extractBrands(products),
+        availableCategories: notifier.extractCategories(products),
       ),
     );
 
-
     if (result != null) {
       setState(() => _filters = result);
-
-      if (_searchCtrl.text.isNotEmpty) {
-        ref.read(productSearchViewModelProvider.notifier)
-            .search(_searchCtrl.text, filters: _filters, locale: locale);
-      }
+      if (_searchCtrl.text.isNotEmpty) _performSearch();
     }
   }
 
