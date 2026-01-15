@@ -27,6 +27,9 @@ class Recipe {
     this.imageUrl,
   });
 
+  // Temps total (préparation + cuisson)
+  int get totalTime => prepTime + bakingTime;
+
   // ---------------------------------------------------------------------------
   // FACTORY : Crée une instance de Product (JSON -> Objet)
   // ---------------------------------------------------------------------------
