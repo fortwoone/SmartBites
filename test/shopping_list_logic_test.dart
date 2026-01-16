@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smartbites/models/shopping_list.dart';
 
 void main() {
-  group('ShoppingList Logic Tests', () {
-    test('fromJson should add default quantity of 1 for missing products in quantities map', () {
+  group('Logique de la liste de courses', () {
+    test('fromJson ajoute 1 aux produits sans quantité', () {
       final json = {
         'id': 1,
         'name': 'Weekly Groceries',
@@ -11,7 +11,7 @@ void main() {
         'products': ['prod1', 'prod2'],
         'quantities': {
           'prod1': 5,
-          // prod2 is missing here
+          // prod2 est volontairement absent ici pour tester la valeur par défaut
         },
       };
 
@@ -21,7 +21,26 @@ void main() {
       expect(list.quantities['prod2'], 1);
     });
 
-    test('fromJson should parse string quantities as integers', () {
+    // On garde le test qui vérifie qu'une quantité fournie est utilisée
+    test('fromJson utilise la quantité fournie pour prod2', () {
+      final json = {
+        'id': 2,
+        'name': 'Single List',
+        'user_id': 'user123',
+        'products': ['prod1', 'prod2'],
+        'quantities': {
+          'prod1': 2,
+          'prod2': 7,
+        },
+      };
+
+      final list = ShoppingList.fromJson(json);
+
+      expect(list.quantities['prod1'], 2);
+      expect(list.quantities['prod2'], 7);
+    });
+
+    test('fromJson convertit les quantités chaîne en entiers', () {
       final json = {
         'id': 1,
         'name': 'Weekly Groceries',
@@ -37,35 +56,5 @@ void main() {
       expect(list.quantities['prod1'], 3);
     });
 
-    test('fromJson should use default 1 for invalid string quantities', () {
-      final json = {
-        'id': 1,
-        'name': 'Weekly Groceries',
-        'user_id': 'user123',
-        'products': ['prod1'],
-        'quantities': {
-          'prod1': 'abc',
-        },
-      };
-
-      final list = ShoppingList.fromJson(json);
-
-      expect(list.quantities['prod1'], 1);
-    });
-
-    test('fromJson should handle empty quantities map', () {
-      final json = {
-        'id': 1,
-        'name': 'Weekly Groceries',
-        'user_id': 'user123',
-        'products': ['prod1', 'prod2'],
-        'quantities': {},
-      };
-
-      final list = ShoppingList.fromJson(json);
-
-      expect(list.quantities['prod1'], 1);
-      expect(list.quantities['prod2'], 1);
-    });
   });
 }

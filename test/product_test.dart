@@ -3,7 +3,7 @@ import "package:smartbites/models/product.dart";
 
 void main(){
   test(
-      "Product example",
+      "Exemple de Product",
           (){
         final Product p = Product(barcode: "blabla");
         expect("blabla", p.barcode);
