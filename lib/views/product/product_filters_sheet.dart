@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../../l10n/app_localizations.dart';
 import '../../models/product_search_filters.dart';
+import '../../utils/color_constants.dart';
+
 class ProductFiltersSheet extends StatefulWidget {
   final ProductSearchFilters initialFilters;
   final List<String> availableBrands;
@@ -42,75 +46,150 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
     final loc = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(16)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(loc.filters,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-
-          const SizedBox(height: 12),
-
-          DropdownButtonFormField<String>(
-            value: brand,
-            decoration: InputDecoration(labelText: loc.brand),
-            items: [
-              DropdownMenuItem(value: null, child: Text(loc.any)),
-              ...widget.availableBrands.map(
-                    (b) => DropdownMenuItem(value: b, child: Text(b)),
-              ),
-            ],
-            onChanged: (v) => setState(() => brand = v),
-          ),
-
-          const SizedBox(height: 12),
-
-          DropdownButtonFormField<String>(
-            value: category,
-            decoration: InputDecoration(labelText: loc.category),
-            items: [
-              DropdownMenuItem(value: null, child: Text(loc.any)),
-              ...widget.availableCategories.map(
-                    (c) => DropdownMenuItem(value: c, child: Text(c)),
-              ),
-            ],
-            onChanged: (v) => setState(() => category = v),
-          ),
-
-          const SizedBox(height: 12),
-
-          DropdownButtonFormField<String>(
-            value: nutriScore,
-            decoration: const InputDecoration(labelText: "NutriScore"),
-            items: [
-              DropdownMenuItem(value: null, child: Text(loc.any)),
-              ...['A', 'B', 'C', 'D', 'E'].map(
-                    (e) => DropdownMenuItem(
-                  value: e.toLowerCase(),
-                  child: Text(e),
+      padding: MediaQuery.of(context).viewInsets,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(15),
+              blurRadius: 12,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Center(
+              child: Text(
+                loc.filters,
+                style: GoogleFonts.recursive(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-            onChanged: (v) => setState(() => nutriScore = v),
-          ),
+            ),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(
-                context,
-                ProductSearchFilters(
-                  brand: brand,
-                  category: category,
-                  nutriScore: nutriScore,
+            _buildDropdown(
+              label: loc.brand,
+              value: brand,
+              items: widget.availableBrands,
+              anyLabel: loc.any,
+              onChanged: (v) => setState(() => brand = v),
+            ),
+
+            const SizedBox(height: 16),
+
+            _buildDropdown(
+              label: loc.category,
+              value: category,
+              items: widget.availableCategories,
+              anyLabel: loc.any,
+              onChanged: (v) => setState(() => category = v),
+            ),
+
+            const SizedBox(height: 16),
+
+            _buildDropdown(
+              label: "NutriScore",
+              value: nutriScore,
+              items: const ['a', 'b', 'c', 'd', 'e'],
+              displayUppercase: true,
+              anyLabel: loc.any,
+              onChanged: (v) => setState(() => nutriScore = v),
+            ),
+
+            const SizedBox(height: 28),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
-              );
-            },
-            child: Text(loc.apply),
-          ),
-        ],
+                onPressed: () {
+                  Navigator.pop(
+                    context,
+                    ProductSearchFilters(
+                      brand: brand,
+                      category: category,
+                      nutriScore: nutriScore,
+                    ),
+                  );
+                },
+                child: Text(
+                  loc.apply,
+                  style: GoogleFonts.recursive(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildDropdown({
+    required String label,
+    required String? value,
+    required List<String> items,
+    required String anyLabel,
+    required ValueChanged<String?> onChanged,
+    bool displayUppercase = false,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      isExpanded: true,
+      menuMaxHeight: 280,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.recursive(),
+        filled: true,
+        fillColor: Colors.grey.withAlpha(15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      items: [
+        DropdownMenuItem(
+          value: null,
+          child: Text(
+            anyLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.recursive(),
+          ),
+        ),
+        ...items.map(
+              (e) => DropdownMenuItem(
+            value: e,
+            child: Text(
+              displayUppercase ? e.toUpperCase() : e,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.recursive(),
+            ),
+          ),
+        ),
+      ],
+      onChanged: onChanged,
+    );
+  }
+
 }
