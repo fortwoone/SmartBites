@@ -71,12 +71,12 @@ class _ListCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                     ),
                 ],
-                border: Border.all(color: Colors.grey.withOpacity(0.05)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.05)),
             ),
             child: Material(
               color: Colors.transparent,
@@ -98,7 +98,7 @@ class _ListCard extends StatelessWidget {
                         Container(
                            padding: const EdgeInsets.all(12),
                            decoration: BoxDecoration(
-                             color: AppColors.primary.withOpacity(0.1), // Pastel Peach
+                             color: AppColors.primary.withValues(alpha: 0.1), // Pastel Peach
                              borderRadius: BorderRadius.circular(12),
                            ),
                            child: const Icon(Icons.shopping_cart_outlined, color: AppColors.primary, size: 24),
