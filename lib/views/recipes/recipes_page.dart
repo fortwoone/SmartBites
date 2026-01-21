@@ -121,9 +121,14 @@ class _RecipesPageState extends ConsumerState<RecipesPage> {
                         if (showMyRecipes && r.userId != currentUserId) {
                           return false;
                         }
-                        if (searchQuery.isNotEmpty && !r.name.toLowerCase().contains(searchQuery)) {
-                          return false;
+
+                        if (searchQuery.isNotEmpty) {
+                           final nameMatch = r.name.toLowerCase().contains(searchQuery);
+                           if (!nameMatch) {
+                             return false;
+                           }
                         }
+                        
                         return true;
                       }).toList();
 
