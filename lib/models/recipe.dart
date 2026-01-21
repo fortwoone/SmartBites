@@ -134,7 +134,7 @@ class RecipeIngredient {
 
   factory RecipeIngredient.fromJson(Map<String, dynamic> json) {
     return RecipeIngredient(
-      ingredient: json['name'] as String,
+      ingredient: (json['name'] ?? json['ingredient']) as String,
       barcode: json['barcode'] as String?,
     );
   }
