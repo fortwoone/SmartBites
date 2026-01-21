@@ -26,7 +26,7 @@ class CustomHomeHeader extends StatelessWidget {
             right: 20,
           ),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.15),
+            color: AppColors.primary.withOpacity(0.5),
             border: Border(
               bottom: BorderSide(
                 color: Colors.black.withOpacity(0.05),
