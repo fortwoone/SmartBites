@@ -172,7 +172,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
     Map<String, String>? displayLabels, // Add optional display labels
   }) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       isExpanded: true,
       menuMaxHeight: 280,
       decoration: InputDecoration(
