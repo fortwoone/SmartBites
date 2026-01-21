@@ -225,5 +225,6 @@
   "no_sort": "Aucun tri",
   "lowest_to_highest": "Croissant",
   "highest_to_lowest": "Décroissant",
-  "filters": "Filtres"
+  "filters": "Filtres",
+  "goTo": "Aller à la liste"
 }

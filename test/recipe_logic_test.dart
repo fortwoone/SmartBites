@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smartbites/models/recipe.dart';
 
 void main() {
-  group('Recipe Logic Tests', () {
+  group('recipe Logic Tests', () {
     test('totalTime calculation should sum prepTime and bakingTime', () {
       const recipe = Recipe(
         userId: 'user1',

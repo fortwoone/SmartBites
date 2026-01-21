@@ -685,4 +685,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filters => 'Filters';
+
+  @override
+  String get goTo => 'Go to the list';
 }

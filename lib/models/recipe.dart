@@ -1,5 +1,5 @@
 // ==============================================================================
-// MODÈLE : Recipe
+// MODÈLE : recipe
 // ==============================================================================
 class Recipe {
   final int? id;
@@ -49,15 +49,15 @@ class Recipe {
       }
     }
     return Recipe(id: json['id'] as int?,
-      userId: json['user_id_creator'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      ingredients: ingredients,
-      notes: notes,
-      prepTime: json['time_preparation'] as int,
-      bakingTime: json['time_baking'] as int,
-      instructions: json['instructions'] as String,
-      imageUrl: json['image_url'] as String?);
+        userId: json['user_id_creator'] as String,
+        name: json['name'] as String,
+        description: json['description'] as String?,
+        ingredients: ingredients,
+        notes: notes,
+        prepTime: json['time_preparation'] as int,
+        bakingTime: json['time_baking'] as int,
+        instructions: json['instructions'] as String,
+        imageUrl: json['image_url'] as String?);
   }
 
   // Convertit l'objet en JSON
@@ -102,6 +102,21 @@ class Recipe {
       imageUrl: imageUrl ?? this.imageUrl,
     );
   }
+
+  double get averageRating {
+    if (notes.isEmpty) return 0.0;
+    final ratings = notes
+        .map((n) => (n['rating'] as num?)?.toDouble() ?? 0.0)
+        .where((r) => r > 0)
+        .toList();
+
+    if (ratings.isEmpty) return 0.0;
+
+    final sum = ratings.reduce((a, b) => a + b);
+    return sum / ratings.length;
+  }
+
+  int get ratingCount => notes.length;
 }
 
 // ==============================================================================
@@ -131,3 +146,4 @@ class RecipeIngredient {
     };
   }
 }
+

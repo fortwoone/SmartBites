@@ -9,7 +9,10 @@ import '../../utils/color_constants.dart';
 import '../../viewmodels/recipe_viewmodel.dart';
 import '../../viewmodels/shopping_list_viewmodel.dart';
 import '../../viewmodels/auth_viewmodel.dart';
+import '../shopping_list/shopping_list_detail_page.dart';
 import 'add_recipe_page.dart';
+import '../../widgets/recipe/notes_list.dart';
+
 
 class RecipeDetailPage extends ConsumerStatefulWidget {
   final Recipe initialRecipe;
@@ -141,6 +144,8 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
                                     ),
                                 ),
                                 const SizedBox(height: 40),
+                              const SizedBox(height: 20),
+                              RecipeNotesList(notes: _recipe.notes),
                             ],
                         ),
                     )
@@ -255,34 +260,72 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
   }
 
   // Ajouter les ingrédients de la recette à une liste de courses
-  Future<void> _addToShoppingList(BuildContext context, AppLocalizations loc, dynamic user) async {
-      if (user == null) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.have_to_be_connected_to_create_list)));
-          return;
-      }
-      
-      final products = _recipe.ingredients.map((i) {
-          return i.barcode ?? "TEXT:${i.ingredient}";
-      }).toList();
-      
-      final quantities = { for (var e in products) e : 1 };
-      
-      final newList = ShoppingList(
-          userId: user.id,
-          name: "Recette: ${_recipe.name}",
-          products: products,
-          quantities: quantities
+  Future<void> _addToShoppingList(
+      BuildContext context,
+      AppLocalizations loc,
+      dynamic user,
+      ) async {
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loc.have_to_be_connected_to_create_list)),
       );
-      
-      try {
-          await ref.read(shoppingListViewModelProvider.notifier).addList(newList);
-          if (context.mounted) {
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.list_added)));
-          }
-      } catch (e) {
-          if (context.mounted) {
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erreur: $e")));
-          }
+      return;
+    }
+
+    final products = _recipe.ingredients.map((i) {
+      return i.barcode ?? "TEXT:${i.ingredient}";
+    }).toList();
+
+    final quantities = {for (var e in products) e: 1};
+
+    final newList = ShoppingList(
+      userId: user.id,
+      name: "Recette: ${_recipe.name}",
+      products: products,
+      quantities: quantities,
+    );
+
+    try {
+      // 👇 IMPORTANT: use the method that RETURNS the created list
+      final createdList = await ref
+          .read(shoppingListViewModelProvider.notifier)
+          .addListWithReturn(newList);
+
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Expanded(child: Text(loc.list_added)),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ShoppingListDetailPage(
+                        listId: createdList.id!,
+                        initialList: createdList,
+                      ),
+                    ),
+                  );
+                },
+                child: Text(
+                  loc.goTo,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur: $e")),
+        );
       }
+    }
   }
 }

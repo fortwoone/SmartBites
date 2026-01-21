@@ -225,7 +225,8 @@
   "no_sort": "No sort",
   "lowest_to_highest": "Ascendant",
   "highest_to_lowest": "Descendant",
-  "filters": "Filters"
+  "filters": "Filters",
+  "goTo": "Go to the list"
 
 
 }

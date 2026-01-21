@@ -1450,6 +1450,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filters'**
   String get filters;
+
+  /// No description provided for @goTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the list'**
+  String get goTo;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

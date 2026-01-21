@@ -32,7 +32,7 @@ class RecentShoppingListsWidget extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () {
-                   ref.read(dashboardIndexProvider.notifier).state = 2;
+                   ref.read(dashboardIndexProvider.notifier).state = 1;
                 },
                 child: Text(loc.see_all, style: GoogleFonts.recursive(color: AppColors.primary)),
               ),

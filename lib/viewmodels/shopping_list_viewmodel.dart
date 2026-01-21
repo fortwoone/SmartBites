@@ -48,6 +48,25 @@ class ShoppingListViewModel extends AsyncNotifier<List<ShoppingList>> {
   }
 
   // ---------------------------------------------------------------------------
+  // Ajouter une liste complète avec renvoie de la liste
+  // ---------------------------------------------------------------------------
+  Future<ShoppingList> addListWithReturn(ShoppingList list) async {
+    final repository = ref.read(shoppingListRepositoryProvider);
+    final user = ref.read(authViewModelProvider).value!;
+
+    final createdList = await repository.createList(list);
+
+    // Update state locally (no full refetch needed, but allowed)
+    state = AsyncData([
+      ...(state.value ?? []),
+      createdList,
+    ]);
+
+    return createdList;
+  }
+
+
+  // ---------------------------------------------------------------------------
   // Supprimer une liste
   // ---------------------------------------------------------------------------
   Future<void> deleteList(int listId) async {

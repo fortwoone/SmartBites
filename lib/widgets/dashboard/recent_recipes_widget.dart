@@ -35,7 +35,7 @@ class RecentRecipesWidget extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () {
-                   ref.read(dashboardIndexProvider.notifier).state = 3;
+                   ref.read(dashboardIndexProvider.notifier).state = 2;
                 },
                 child: Text(
                     loc.see_all,
