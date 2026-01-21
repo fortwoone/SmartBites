@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
+import '../models/product_price.dart';
 import '../providers/app_providers.dart';
 import '../models/product_search_filters.dart';
 
@@ -10,6 +11,7 @@ import '../models/product_search_filters.dart';
 final productSearchViewModelProvider = AsyncNotifierProvider<ProductSearchViewModel, List<Product>>(() {
   return ProductSearchViewModel();
 });
+
 class ProductSearchViewModel extends AsyncNotifier<List<Product>> {
   int _page = 1;
   bool _hasMore = true;
@@ -17,6 +19,9 @@ class ProductSearchViewModel extends AsyncNotifier<List<Product>> {
   String _currentQuery = "";
 
   ProductSearchFilters _filters = const ProductSearchFilters();
+
+  // Cache to store prices for products (barcode -> list of prices)
+  final Map<String, List<ProductPrice>> _pricesCache = {};
 
   bool get hasMore => _hasMore;
   bool get isLoadingMore => _isLoadingMore;
@@ -52,6 +57,13 @@ class ProductSearchViewModel extends AsyncNotifier<List<Product>> {
         locale: locale,
       );
       _hasMore = results.length >= 20;
+
+      // Fetch prices for sorting if needed
+      if (_filters.sortBy != null && _filters.sortBy!.startsWith('price_')) {
+        await _fetchPricesForProducts(results);
+        return _applySorting(results, _filters.sortBy);
+      }
+
       return results;
     });
   }
@@ -76,7 +88,16 @@ class ProductSearchViewModel extends AsyncNotifier<List<Product>> {
         _hasMore = false;
       } else {
         _page++;
-        state = AsyncData([...state.value!, ...newResults]);
+
+        // Fetch prices for new products if sorting by price
+        if (_filters.sortBy != null && _filters.sortBy!.startsWith('price_')) {
+          await _fetchPricesForProducts(newResults);
+          // Combine results and re-sort the entire list
+          final combined = [...state.value!, ...newResults];
+          state = AsyncData(_applySorting(combined, _filters.sortBy));
+        } else {
+          state = AsyncData([...state.value!, ...newResults]);
+        }
       }
     } finally {
       _isLoadingMore = false;
@@ -89,7 +110,83 @@ class ProductSearchViewModel extends AsyncNotifier<List<Product>> {
     _page = 1;
     _hasMore = true;
     _filters = const ProductSearchFilters();
+    _pricesCache.clear();
     state = const AsyncData([]);
+  }
+
+  // ---------------------------------------------------------------------------
+  // PRICE FETCHING
+  // ---------------------------------------------------------------------------
+
+  /// Fetch prices for a list of products and store in cache
+  Future<void> _fetchPricesForProducts(List<Product> products) async {
+    final priceRepo = ref.read(priceRepositoryProvider);
+
+    for (final product in products) {
+      // Skip if already in cache
+      if (_pricesCache.containsKey(product.barcode)) {
+        continue;
+      }
+
+      try {
+        // Fetch prices for this product
+        final prices = await priceRepo.getPrices(product.barcode);
+        _pricesCache[product.barcode] = prices;
+      } catch (e) {
+        // If fetching fails, store empty list to avoid retrying
+        _pricesCache[product.barcode] = [];
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // SORTING
+  // ---------------------------------------------------------------------------
+
+  List<Product> _applySorting(List<Product> products, String? sortBy) {
+    if (sortBy == null || products.isEmpty) return products;
+
+    final sorted = List<Product>.from(products);
+
+    switch (sortBy) {
+      case 'price_asc':
+        sorted.sort((a, b) {
+          final priceA = _getLatestPrice(a.barcode);
+          final priceB = _getLatestPrice(b.barcode);
+          return priceA.compareTo(priceB);
+        });
+        break;
+      case 'price_desc':
+        sorted.sort((a, b) {
+          final priceA = _getLatestPrice(a.barcode);
+          final priceB = _getLatestPrice(b.barcode);
+          return priceB.compareTo(priceA);
+        });
+        break;
+    }
+
+    return sorted;
+  }
+
+  /// Get the most recent price from cache for a product barcode
+  /// Returns infinity for products without prices (they'll be sorted to the end)
+  double _getLatestPrice(String barcode) {
+    final prices = _pricesCache[barcode];
+
+    if (prices == null || prices.isEmpty) {
+      return double.infinity;
+    }
+
+    // Get the most recent price
+    final sortedPrices = List<ProductPrice>.from(prices)
+      ..sort((a, b) => b.date.compareTo(a.date));
+
+    return sortedPrices.first.price;
+  }
+
+  /// Get prices for a specific product (for UI usage)
+  List<ProductPrice>? getPricesForProduct(String barcode) {
+    return _pricesCache[barcode];
   }
 
   // ---------------------------------------------------------------------------

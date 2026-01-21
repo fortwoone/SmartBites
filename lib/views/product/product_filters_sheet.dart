@@ -25,6 +25,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
   String? brand;
   String? category;
   String? nutriScore;
+  String? sortBy;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
         : null;
 
     nutriScore = widget.initialFilters.nutriScore;
+    sortBy = widget.initialFilters.sortBy; // Initialize sortBy
   }
 
   @override
@@ -106,6 +108,21 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
               onChanged: (v) => setState(() => nutriScore = v),
             ),
 
+            const SizedBox(height: 16),
+
+            // Sort by price dropdown
+            _buildDropdown(
+              label: loc.price_order,
+              value: sortBy,
+              items: const ['price_asc', 'price_desc'],
+              anyLabel: loc.any,
+              displayLabels: {
+                'price_asc': loc.lowest_to_highest,
+                'price_desc': loc.highest_to_lowest,
+              },
+              onChanged: (v) => setState(() => sortBy = v),
+            ),
+
             const SizedBox(height: 28),
 
             SizedBox(
@@ -125,6 +142,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
                       brand: brand,
                       category: category,
                       nutriScore: nutriScore,
+                      sortBy: sortBy, // Include sortBy in the result
                     ),
                   );
                 },
@@ -151,6 +169,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
     required String anyLabel,
     required ValueChanged<String?> onChanged,
     bool displayUppercase = false,
+    Map<String, String>? displayLabels, // Add optional display labels
   }) {
     return DropdownButtonFormField<String>(
       value: value,
@@ -180,7 +199,7 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
               (e) => DropdownMenuItem(
             value: e,
             child: Text(
-              displayUppercase ? e.toUpperCase() : e,
+              displayLabels?[e] ?? (displayUppercase ? e.toUpperCase() : e),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.recursive(),
@@ -191,5 +210,4 @@ class _ProductFiltersSheetState extends State<ProductFiltersSheet> {
       onChanged: onChanged,
     );
   }
-
 }

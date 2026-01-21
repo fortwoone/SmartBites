@@ -51,3 +51,7 @@ final historyRepositoryProvider = Provider<HistoryRepository>((ref) {
 // ==============================================================================
 final dashboardIndexProvider = StateProvider<int>((ref) => 0);
 
+
+final priceRepositoryProvider = Provider<OpenFoodFactsRepository>((ref) {
+  return OpenFoodFactsRepository(); // or however you instantiate it
+});
