@@ -52,7 +52,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                width: 350,
                height: 350,
                decoration: BoxDecoration(
-                 color: const Color(0xFFFF8C61).withOpacity(0.2),
+                 color: const Color(0xFFFF8C61).withValues(alpha: 0.2),
                  shape: BoxShape.circle,
                ),
                child: BackdropFilter(
@@ -68,7 +68,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                width: 300,
                height: 300,
                decoration: BoxDecoration(
-                 color: Colors.blueAccent.withOpacity(0.1),
+                 color: Colors.blueAccent.withValues(alpha: 0.1),
                  shape: BoxShape.circle,
                ),
                 child: BackdropFilter(

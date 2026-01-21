@@ -83,7 +83,7 @@ class AvatarWidget extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 2,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  borderColor?.withOpacity(0.5) ?? Colors.grey,
+                  borderColor?.withValues(alpha: 0.5) ?? Colors.grey,
                 ),
               ),
             ),
@@ -131,7 +131,7 @@ class NavigationAvatarIcon extends StatelessWidget {
       boxShadow: isSelected
           ? [
         BoxShadow(
-          color: selectedColor.withOpacity(0.3),
+          color: selectedColor.withValues(alpha: 0.3),
           blurRadius: 8,
           offset: const Offset(0, 2),
         ),

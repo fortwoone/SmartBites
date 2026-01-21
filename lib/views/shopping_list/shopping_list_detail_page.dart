@@ -108,7 +108,7 @@ class _ShoppingListDetailPageState
                 });
              }
         } catch (e) {
-             print("Error fetching price for new product: $e");
+             debugPrint("Error fetching price for new product: $e");
         }
     }
   }
@@ -196,7 +196,7 @@ class _ShoppingListDetailPageState
                 color: Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20, offset: const Offset(0, 5))
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, 5))
                 ]
               ),
               child: const Icon(Icons.add_shopping_cart_rounded, size: 48, color: AppColors.primary),
@@ -261,19 +261,19 @@ class _ShoppingListDetailPageState
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isSelected 
-                  ? AppColors.primary.withOpacity(0.08)
+                  ? AppColors.primary.withValues(alpha: 0.08)
                   : isChecked ? Colors.grey.shade50 : Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isSelected 
-                    ? AppColors.primary.withOpacity(0.3)
+                    ? AppColors.primary.withValues(alpha: 0.3)
                     : isChecked ? Colors.transparent : Colors.grey.shade100,
                 width: isSelected ? 2 : 1
               ),
               boxShadow: isChecked ? [
               ] : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
+                  color: Colors.black.withValues(alpha: 0.03),
                   blurRadius: 8,
                   offset: const Offset(0, 2)
                 )
@@ -406,10 +406,10 @@ class _ShoppingListDetailPageState
             child: Container(
             padding: const EdgeInsets.fromLTRB(24, 20, 24, 30),
             decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.white.withValues(alpha: 0.85),
                 border: Border(top: BorderSide(color: Colors.grey.shade200)),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5))
                 ]
             ),
             child: Row(
@@ -449,7 +449,7 @@ class _ShoppingListDetailPageState
                             color: AppColors.primary,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
-                                BoxShadow(color: AppColors.primary.withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 4))
+                                BoxShadow(color: AppColors.primary.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))
                             ]
                         ),
                         child: Row(
@@ -571,7 +571,7 @@ class _ShoppingListDetailPageState
             right: 16,
           ),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.85),
+            color: Colors.white.withValues(alpha: 0.85),
             border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
           ),
           child: Row(
@@ -637,7 +637,7 @@ class _ShoppingListDetailPageState
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.error.withOpacity(0.3),
+                        color: AppColors.error.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       )
@@ -684,7 +684,7 @@ class _QuantityBtn extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0, 1))
+                        BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 4, offset: const Offset(0, 1))
                     ]
                 ),
                 child: Icon(icon, size: 16, color: Colors.black87),

@@ -90,7 +90,7 @@ class _RecipesPageState extends ConsumerState<RecipesPage> {
                               ref.read(showMyRecipesProvider.notifier).state = selected;
                             },
                             backgroundColor: Colors.white,
-                            selectedColor: AppColors.primary.withOpacity(0.2),
+                            selectedColor: AppColors.primary.withValues(alpha: 0.2),
                             checkmarkColor: AppColors.primary,
                             labelStyle: GoogleFonts.inter(
                               color: showMyRecipes ? AppColors.primary : Colors.black87,
@@ -193,7 +193,7 @@ class _RecipesPageState extends ConsumerState<RecipesPage> {
           Icon(
             isSearchEmpty ? Icons.search_off : Icons.restaurant_menu,
             size: 64,
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 16),
           Text(
@@ -221,9 +221,9 @@ class _RecipeCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-           BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))
+           BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))
         ],
-        border: Border.all(color: Colors.grey.withOpacity(0.05)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.05)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -245,7 +245,7 @@ class _RecipeCard extends StatelessWidget {
                      return Container(
                         height: 150,
                         width: double.infinity,
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         child: const Icon(Icons.restaurant, size: 60, color: AppColors.primary),
                       );
                   },
@@ -253,7 +253,7 @@ class _RecipeCard extends StatelessWidget {
                     : Container(
                   height: 150,
                   width: double.infinity,
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   child: const Icon(Icons.restaurant, size: 60, color: AppColors.primary),
                 ),
               ),

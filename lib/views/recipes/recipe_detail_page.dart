@@ -95,9 +95,9 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                       colors: [
-                                        Colors.black.withOpacity(0.3),
+                                        Colors.black.withValues(alpha: 0.3),
                                         Colors.transparent,
-                                        Colors.black.withOpacity(0.7),
+                                        Colors.black.withValues(alpha: 0.7),
                                       ],
                                       stops: const [0, 0.5, 1],
                                     ),
@@ -195,10 +195,10 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.9),
+                      color: AppColors.primary.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
-                        BoxShadow(color: AppColors.primary.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 10)),
+                        BoxShadow(color: AppColors.primary.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10)),
                       ]
                     ),
                     child: ElevatedButton(
@@ -243,7 +243,7 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
       return Container(
           margin: const EdgeInsets.only(right: 8),
           decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha: 0.2),
               shape: BoxShape.circle,
           ),
           child: ClipOval(
@@ -297,7 +297,7 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
                       children: [
                           Container(
                               padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle),
+                              decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
                               child: const Icon(Icons.check, size: 16, color: AppColors.primary),
                           ),
                           const SizedBox(width: 16),
@@ -337,7 +337,7 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))]
+                                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))]
                                 ),
                                 child: Text(entry.value, style: GoogleFonts.inter(fontSize: 15, height: 1.5)),
                             )
@@ -356,7 +356,7 @@ class _RecipeDetailPageState extends ConsumerState<RecipeDetailPage> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.grey.shade100),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15)]
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 15)]
           ),
           child: Column(
               children: [

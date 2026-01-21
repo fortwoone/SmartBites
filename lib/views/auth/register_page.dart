@@ -24,7 +24,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmCtrl = TextEditingController();
 
   // Fonction d'inscription
-  Future<void> _register(BuildContext context) async {
+  Future<void> _register() async {
     final loc = AppLocalizations.of(context)!;
 
     if (_emailCtrl.text.isEmpty || _passwdCtrl.text.isEmpty || _confirmCtrl.text.isEmpty) {
@@ -86,7 +86,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     _buildForm(loc),
                     const SizedBox(height: 20),
                     PrimaryButton(
-                      onPressed: () => _register(context),
+                      onPressed: () => _register(),
                       label: loc.validate,
                       isLoading: isLoading,
                     ),

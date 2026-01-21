@@ -82,7 +82,7 @@ class ProfileDialogs {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: primaryPeach.withOpacity(0.1),
+                        color: primaryPeach.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(CupertinoIcons.lock_shield, color: primaryPeach, size: 32),
@@ -256,7 +256,7 @@ class ProfileDialogs {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.1),
+                        color: Colors.blueAccent.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(CupertinoIcons.person_solid, color: Colors.blueAccent, size: 32),
@@ -455,7 +455,7 @@ class ProfileDialogs {
                       width: 64,
                       height: 64,
                       decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          color: color.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                       ),
                       child: Icon(icon, color: color, size: 30),
