@@ -67,19 +67,16 @@ class _ListCard extends StatelessWidget {
         return Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
             decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                   colors: [AppColors.primary, Color(0xFFFF8A65)],
-                   begin: Alignment.topLeft,
-                   end: Alignment.bottomRight,
-                ),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                     BoxShadow(
-                        color: AppColors.primary.withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                     ),
                 ],
+                border: Border.all(color: Colors.grey.withOpacity(0.05)),
             ),
             child: Material(
               color: Colors.transparent,
@@ -94,18 +91,20 @@ class _ListCard extends StatelessWidget {
                   },
                   borderRadius: BorderRadius.circular(16),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
+                        // Icone dans une bulle pastel
                         Container(
-                           padding: const EdgeInsets.all(10),
+                           padding: const EdgeInsets.all(12),
                            decoration: BoxDecoration(
-                             color: Colors.white.withOpacity(0.2),
-                             shape: BoxShape.circle,
+                             color: AppColors.primary.withOpacity(0.1), // Pastel Peach
+                             borderRadius: BorderRadius.circular(12),
                            ),
-                           child: const Icon(Icons.shopping_basket_rounded, color: Colors.white, size: 24),
+                           child: const Icon(Icons.shopping_cart_outlined, color: AppColors.primary, size: 24),
                         ),
                         const SizedBox(width: 16),
+                        // Textes
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,18 +114,19 @@ class _ListCard extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary, // Dark text
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                   "${list.products.length} ${loc.products}",
-                                  style: GoogleFonts.inter(color: Colors.white.withOpacity(0.9), fontSize: 13),
+                                  style: GoogleFonts.inter(color: Colors.grey, fontSize: 13),
                               ),
                             ],
                           ),
                         ),
-                        const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white70, size: 18),
+                        // Arrow
+                        Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey.shade300, size: 16),
                       ],
                     ),
                   ),

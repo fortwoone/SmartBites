@@ -45,14 +45,14 @@ class CustomHomeHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: 40,
-                width: 40,
+                height: 52,
+                width: 52,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: Image.asset(
                     'lib/ressources/logo_App.png',
                     fit: BoxFit.contain,
