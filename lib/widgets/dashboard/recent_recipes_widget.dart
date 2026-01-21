@@ -8,6 +8,8 @@ import '../../models/recipe.dart';
 import '../../utils/color_constants.dart';
 import '../../viewmodels/recipe_viewmodel.dart';
 import '../../views/recipes/recipe_detail_page.dart';
+import '../../views/recipes/recipes_page.dart'; // Import needed for showMyRecipesProvider
+import 'dashboard_section_header.dart';
 
 class RecentRecipesWidget extends ConsumerWidget {
   const RecentRecipesWidget({super.key});
@@ -20,47 +22,36 @@ class RecentRecipesWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                loc.last_recipes,
-                style: GoogleFonts.recursive(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                   ref.read(dashboardIndexProvider.notifier).state = 2;
-                },
-                child: Text(
-                    loc.see_all,
-                    style: GoogleFonts.recursive(color: AppColors.primary)
-                ),
-              ),
-            ],
-          ),
+        DashboardSectionHeader(
+          title: loc.last_recipes,
+          seeAllLabel: loc.see_all,
+          onMoreTap: () {
+             ref.read(showMyRecipesProvider.notifier).state = false; 
+             ref.read(dashboardIndexProvider.notifier).state = 2;
+          },
         ),
         recipesState.when(
           data: (recipes) {
             if (recipes.isEmpty) {
                return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(loc.no_recipes),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(loc.no_recipes, style: GoogleFonts.inter(color: Colors.grey)),
               );
             }
             final recentRecipes = recipes.take(3).toList();
             
             return SizedBox(
-               height: 280, 
+               height: 260, 
                child: PageView.builder(
-                 controller: PageController(viewportFraction: 0.9),
+                 controller: PageController(viewportFraction: 0.85),
+                 padEnds: false,
                  itemCount: recentRecipes.length,
-                 itemBuilder: (context, index) => _RecipeCard(recipe: recentRecipes[index]),
+                 itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10), // Add left padding here instead
+                      child: _RecipeCard(recipe: recentRecipes[index]),
+                    );
+                 },
                ),
             );
           },
@@ -75,7 +66,6 @@ class RecentRecipesWidget extends ConsumerWidget {
   }
 }
 
-// Widget pour une carte de recette
 class _RecipeCard extends StatelessWidget {
   final Recipe recipe;
   const _RecipeCard({required this.recipe});
@@ -91,15 +81,15 @@ class _RecipeCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(26),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
             )
           ],
         ),
@@ -107,23 +97,49 @@ class _RecipeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                child: recipe.imageUrl != null
-                    ? Image.network(
-                        recipe.imageUrl!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      )
-                    : Container(
-                        color: Colors.grey[200],
-                        child: const Icon(Icons.restaurant, color: Colors.grey, size: 40),
+              flex: 5,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    child: recipe.imageUrl != null
+                        ? Image.network(
+                            recipe.imageUrl!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                        : Container(
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.restaurant, color: Colors.grey, size: 40),
+                          ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.star_rounded, color: Colors.amber, size: 16),
+                          const SizedBox(width: 4),
+                          Text(
+                             recipe.averageRating.toStringAsFixed(1),
+                             style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -134,8 +150,8 @@ class _RecipeCard extends StatelessWidget {
                       recipe.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.recursive(
-                          color: Colors.black,
+                      style: GoogleFonts.poppins(
+                          color: Colors.black87,
                           fontSize: 16,
                           fontWeight: FontWeight.w600
                       ),
@@ -143,15 +159,9 @@ class _RecipeCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(Icons.timer_outlined, size: 16, color: Colors.grey),
-                        const SizedBox(width: 4),
-                        Text(
-                          "${recipe.prepTime} min",
-                          style: GoogleFonts.recursive(
-                              color: Colors.grey.shade600,
-                              fontSize: 13
-                          ),
-                        ),
+                        _buildInfoChip(Icons.timer_outlined, "${recipe.prepTime} min"),
+                        const SizedBox(width: 12),
+                         _buildInfoChip(Icons.local_fire_department_outlined, "${recipe.bakingTime} min bake"),
                       ],
                     ),
                   ],
@@ -161,6 +171,23 @@ class _RecipeCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoChip(IconData icon, String label) {
+    return Row(
+      children: [
+        Icon(icon, size: 14, color: AppColors.textSecondary),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: GoogleFonts.inter(
+            color: AppColors.textSecondary,
+            fontSize: 12,
+            fontWeight: FontWeight.w500
+          ),
+        ),
+      ],
     );
   }
 }
