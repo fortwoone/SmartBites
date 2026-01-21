@@ -3,14 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/color_constants.dart';
+import '../../widgets/profile/avatar_widget.dart';
 import '../../widgets/dashboard/recent_products_widget.dart';
 import '../../widgets/dashboard/recent_recipes_widget.dart';
 import '../../widgets/dashboard/recent_shopping_lists_widget.dart';
-import '../../providers/app_providers.dart'; // Added
+import '../../providers/app_providers.dart';
 import '../shopping_list/shopping_lists_page.dart';
 import '../recipes/recipes_page.dart';
 import '../product/product_search_page.dart';
 import '../profile/profile_page.dart';
+import '../../viewmodels/auth_viewmodel.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -23,7 +25,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final currentIndex = ref.watch(dashboardIndexProvider);
-    
+    final authState = ref.watch(authViewModelProvider);
+    final user = authState.value;
+
     // Pages pour la navigation
     final List<Widget> pages = [
       _buildDashboard(loc),
@@ -31,6 +35,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       const RecipesPage(),
       const ProfilePage(),
     ];
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -58,7 +63,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   builder: (_) => const ProductSearchPage(),
                 ),
               );
-
             },
           ),
         ],
@@ -70,7 +74,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
-           ref.read(dashboardIndexProvider.notifier).state = index;
+          ref.read(dashboardIndexProvider.notifier).state = index;
         },
         destinations: [
           NavigationDestination(
@@ -88,9 +92,17 @@ class _HomePageState extends ConsumerState<HomePage> {
             selectedIcon: const Icon(Icons.restaurant_menu),
             label: loc.recipes_menu,
           ),
-           NavigationDestination(
-            icon: const Icon(Icons.person_outline),
-            selectedIcon: const Icon(Icons.person),
+          NavigationDestination(
+            icon: NavigationAvatarIcon(
+              avatarUrl: user?.avatarUrl,
+              isSelected: false,
+              selectedColor: primaryPeach,
+            ),
+            selectedIcon: NavigationAvatarIcon(
+              avatarUrl: user?.avatarUrl,
+              isSelected: true,
+              selectedColor: primaryPeach,
+            ),
             label: loc.my_account,
           ),
         ],
