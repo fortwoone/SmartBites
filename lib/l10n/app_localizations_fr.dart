@@ -48,7 +48,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get login_register_action => ' S\'inscrire';
 
   @override
-  String get shopping_lists => 'Derniere Liste de course';
+  String get shopping_lists => 'Liste de courses';
 
   @override
   String get shopping_list => 'Listes de courses';
@@ -688,4 +688,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get goTo => 'Aller à la liste';
+
+  @override
+  String get search_recipe_hint => 'Rechercher une recette...';
 }

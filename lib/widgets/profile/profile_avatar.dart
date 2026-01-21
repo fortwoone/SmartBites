@@ -5,20 +5,22 @@ class ProfileAvatar extends StatelessWidget {
   final String? avatarUrl;
   final bool isLoading;
   final VoidCallback onTap;
+  final double size;
 
   const ProfileAvatar({
     super.key,
     this.avatarUrl,
     required this.isLoading,
     required this.onTap,
+    this.size = 110,
   });
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return Container(
-        width: 110,
-        height: 110,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
@@ -50,8 +52,8 @@ class ProfileAvatar extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 110,
-            height: 110,
+            width: size,
+            height: size,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -65,11 +67,11 @@ class ProfileAvatar extends StatelessWidget {
               border: Border.all(color: Colors.white, width: 4),
             ),
             child: CircleAvatar(
-              radius: 50,
+              radius: size / 2,
               backgroundColor: Colors.grey.shade100,
               backgroundImage: imageProvider,
               child: imageProvider == null
-                  ? Icon(Icons.person, size: 50, color: Colors.grey.shade300)
+                  ? Icon(Icons.person, size: size * 0.5, color: Colors.grey.shade300)
                   : null,
             ),
           ),
@@ -90,7 +92,7 @@ class ProfileAvatar extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Icon(Icons.camera_alt_rounded, color: Colors.white, size: 18),
+              child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: size * 0.16),
             ),
           ),
         ],

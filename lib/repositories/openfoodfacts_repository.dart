@@ -48,6 +48,9 @@ class OpenFoodFactsRepository {
   // ---------------------------------------------------------------------------
   // Recherche de produits par Nom
   // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // Recherche de produits par Nom
+  // ---------------------------------------------------------------------------
   Future<List<Product>> searchProducts(
       String query, {
         int page = 1,
@@ -56,7 +59,8 @@ class OpenFoodFactsRepository {
         required String locale, // pass 'en' or 'fr'
       }) async {
     try {
-      final encodedQuery = Uri.encodeQueryComponent(query);
+      final cleanQuery = _removeDiacritics(query.toLowerCase()).trim();
+      if (cleanQuery.isEmpty) return [];
 
       const fields =
           'code,product_name,product_name_fr,product_name_en,brands,'
@@ -64,20 +68,24 @@ class OpenFoodFactsRepository {
           'nutriscore_grade,nova_group,categories_tags';
 
       final Map<String, String> params = {
-        'search_terms': encodedQuery,
         'search_simple': '1',
         'action': 'process',
         'json': '1',
         'page_size': pageSize.toString(),
         'page': page.toString(),
         'fields': fields,
-        // keep your France filter
-        'tagtype_0': 'countries',
-        'tag_contains_0': 'contains',
-        'tag_0': 'france',
       };
 
-      int tagIndex = 1;
+      int tagIndex = 0;
+      params['tagtype_$tagIndex'] = 'countries';
+      params['tag_contains_$tagIndex'] = 'contains';
+      params['tag_$tagIndex'] = 'france';
+      tagIndex++;
+
+      params['tagtype_$tagIndex'] = 'product_name';
+      params['tag_contains_$tagIndex'] = 'contains';
+      params['tag_$tagIndex'] = cleanQuery;
+      tagIndex++;
 
       if (filters?.brand != null && filters!.brand!.isNotEmpty) {
         params['tagtype_$tagIndex'] = 'brands';
@@ -122,18 +130,16 @@ class OpenFoodFactsRepository {
         final p = jsonItem as Map<String, dynamic>;
         final barcode = p['code'] as String? ?? '';
 
-        // Filter categories by locale
         List<String> categories = [];
         final rawCategories = p['categories_tags'] ?? <String>[];
         if (rawCategories is List) {
           categories = rawCategories
               .whereType<String>()
               .where((c) =>
-              c.startsWith('$locale:')) // keep only locale-specific categories
+              c.startsWith('$locale:'))
               .toList();
         }
 
-        // Brands: normalize capitalization
         String? brands = p['brands'] as String?;
         if (brands != null) {
           brands = brands
@@ -156,6 +162,16 @@ class OpenFoodFactsRepository {
     } catch (e) {
       return [];
     }
+  }
+
+  String _removeDiacritics(String str) {
+    var withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    var withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz';
+
+    for (int i = 0; i < withDia.length; i++) {
+      str = str.replaceAll(withDia[i], withoutDia[i]);
+    }
+    return str;
   }
 
 

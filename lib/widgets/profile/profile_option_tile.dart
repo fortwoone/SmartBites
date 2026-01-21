@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileOptionTile extends StatelessWidget {
@@ -7,6 +8,7 @@ class ProfileOptionTile extends StatelessWidget {
   final String subtitle;
   final VoidCallback onTap;
   final Color? color;
+  final bool isDestructive;
 
   const ProfileOptionTile({
     super.key,
@@ -15,58 +17,81 @@ class ProfileOptionTile extends StatelessWidget {
     required this.subtitle,
     required this.onTap,
     this.color,
+    this.isDestructive = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final optionColor = color ?? const Color(0xFFFF8C61);
+    final themeColor = isDestructive ? Colors.redAccent : (color ?? Colors.black87);
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: optionColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Icon(
-                icon,
-                color: optionColor,
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.recursive(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.5),
+          width: 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: (isDestructive ? Colors.red : const Color(0xFFFF8C61)).withOpacity(0.1),
+                    shape: BoxShape.circle,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.recursive(
-                      fontSize: 12,
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Icon(
+                    icon,
+                    color: isDestructive ? Colors.red : const Color(0xFFFF8C61),
+                    size: 22,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: isDestructive ? Colors.red : Colors.black87,
+                        ),
+                      ),
+                      if (subtitle.isNotEmpty) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.grey.shade500,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                Icon(
+                  CupertinoIcons.chevron_right,
+                  size: 16,
+                  color: Colors.grey.shade300,
+                ),
+              ],
             ),
-            Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey.shade300),
-          ],
+          ),
         ),
       ),
     );
