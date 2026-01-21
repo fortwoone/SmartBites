@@ -8,6 +8,7 @@ import '../../widgets/navigation/bottom_nav_bar.dart';
 import '../../widgets/dashboard/recent_products_widget.dart';
 import '../../widgets/dashboard/recent_recipes_widget.dart';
 import '../../widgets/dashboard/recent_shopping_lists_widget.dart';
+import '../../widgets/common/custom_home_header.dart';
 import '../../providers/app_providers.dart';
 import '../shopping_list/shopping_lists_page.dart';
 import '../recipes/recipes_page.dart';
@@ -28,46 +29,15 @@ class _HomePageState extends ConsumerState<HomePage> {
     final currentIndex = ref.watch(dashboardIndexProvider);
     final authState = ref.watch(authViewModelProvider);
     final user = authState.value;
-
-    // Pages pour la navigation
     final List<Widget> pages = [
-      _buildDashboard(loc),
+      _buildDashboard(context), // Modification ici pour passer le contexte si besoin
       const ShoppingListsPage(),
       const RecipesPage(),
       const ProfilePage(),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(
-            'lib/ressources/logo_App.png',
-            fit: BoxFit.contain,
-          ),
-        ),
-        title: Text(
-          'SmartBites',
-          style: GoogleFonts.recursive(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ProductSearchPage(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      extendBody: true, // Pour que la navbar du bas soit flottante si on veut (optionnel, mais sympa avec glassmorphism)
       body: IndexedStack(
         index: currentIndex,
         children: pages,
@@ -86,21 +56,44 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  // Tableau de bord avec les widgets récents
-  Widget _buildDashboard(AppLocalizations loc) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: const [
-          SizedBox(height: 12),
-          RecentProductsWidget(),
-          SizedBox(height: 16),
-          RecentRecipesWidget(),
-          SizedBox(height: 16),
-          RecentShoppingListsWidget(),
-          SizedBox(height: 30),
-        ],
-      ),
+  // Tableau de bord avec header custom et widgets récents
+  Widget _buildDashboard(BuildContext context) {
+    return Stack(
+      children: [
+        // Contenu scrollable
+        SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(top: 100, bottom: 100), // Padding pour le header et la nav bar
+          child: Column(
+            children: const [
+              SizedBox(height: 12),
+              RecentProductsWidget(),
+              SizedBox(height: 16),
+              RecentRecipesWidget(),
+              SizedBox(height: 16),
+              RecentShoppingListsWidget(),
+              SizedBox(height: 30),
+            ],
+          ),
+        ),
+        
+        // Header Custom Fixe (Glassmorphism)
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomHomeHeader(
+             onSearchTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProductSearchPage(),
+                  ),
+                );
+             },
+          ),
+        ),
+      ],
     );
   }
 }

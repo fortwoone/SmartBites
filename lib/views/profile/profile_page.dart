@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../../l10n/app_localizations.dart';
-import '../../utils/color_constants.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../widgets/profile/profile_header.dart';
 import '../../widgets/profile/profile_option_tile.dart';
@@ -22,8 +21,6 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
-
-  // Récupérer et téléverser l'avatar
   Future<void> _pickAndUploadAvatar(ImageSource source) async {
     final picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: source, maxWidth: 300, maxHeight: 300, imageQuality: 80,);
@@ -48,7 +45,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
        backgroundColor: const Color(0xFFFAFAFA),
        body: Stack(
          children: [
-           // Animated Background
            Positioned(
              top: -100,
              right: -50,
@@ -105,8 +101,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                      ),
                      
                      const SizedBox(height: 40),
-                     
-                     // Options
                      Align(
                        alignment: Alignment.centerLeft,
                        child: Text(
@@ -120,22 +114,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                        ),
                      ),
                      const SizedBox(height: 12),
-                     
                      ProfileOptionTile(
                         icon: CupertinoIcons.doc_text,
                         title: loc.shopping_lists, 
                         subtitle: loc.history_subtitle,
                         onTap: () {
-                           ref.read(dashboardIndexProvider.notifier).state = 2; // Index of recipes/lists?? (original code said 2)
-                           // Wait, navigation bar index 2 is recipes. 1 is cart. Let's fix this based on BottomNavBar config
-                           // BottomNavBar: 0=Home, 1=Cart, 2=Recipes, 3=Profile
-                           // So this should probably be 1 if it's shopping lists.
-                           // Original code verification:
-                           // destinations: [Home, Cart, Recipes, Profile]
-                           // So Cart is 1. Original code had ref.read(dashboardIndexProvider.notifier).state = 2;
-                           // It said "shopping_lists" but navigated to 2 ??
-                           // Let's assume user wants to go to Shopping Lists (1).
-                           ref.read(dashboardIndexProvider.notifier).state = 1;
+                           ref.read(dashboardIndexProvider.notifier).state = 1; 
                         },
                      ),
                      ProfileOptionTile(
@@ -183,7 +167,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                        isDestructive: true,
                      ),
                      
-                     const SizedBox(height: 100), // Bottom padding for nav bar
+                     const SizedBox(height: 100),
                    ],
                  ),
                ),
