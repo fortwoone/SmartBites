@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,8 @@ class ShoppingListsPage extends ConsumerStatefulWidget {
 }
 
 class _ShoppingListsPageState extends ConsumerState<ShoppingListsPage> {
+  final Set<int> _selectedListIds = {};
+  bool get _isSelectionMode => _selectedListIds.isNotEmpty;
   
   @override
   Widget build(BuildContext context) {
@@ -58,12 +61,15 @@ class _ShoppingListsPageState extends ConsumerState<ShoppingListsPage> {
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final list = lists[index];
+                  final isSelected = _selectedListIds.contains(list.id);
                   return _ShoppingListCard(
                     list: list,
+                    isSelected: isSelected,
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => ShoppingListDetailPage(listId: list.id!, initialList: list)),
                     ),
+                    onCheckboxTap: () => _toggleSelection(list.id!),
                     onDelete: () => _confirmDelete(context, list, loc),
                     onRename: () => _showRenameDialog(context, list, loc),
                   );
@@ -77,10 +83,12 @@ class _ShoppingListsPageState extends ConsumerState<ShoppingListsPage> {
             top: 0, 
             left: 0, 
             right: 0,
-            child: CustomPageHeader(
-              title: loc.shopping_lists,
-              onAddTap: () => _showAddDialog(context, loc),
-            ),
+            child: _isSelectionMode
+                ? _buildSelectionHeader(shoppingListsAsync.value ?? [])
+                : CustomPageHeader(
+                    title: loc.shopping_lists,
+                    onAddTap: () => _showAddDialog(context, loc),
+                  ),
           ),
         ],
       ),
@@ -277,28 +285,172 @@ class _ShoppingListsPageState extends ConsumerState<ShoppingListsPage> {
       },
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // SELECTION MODE METHODS
+  // ---------------------------------------------------------------------------
+  
+  void _toggleSelection(int listId) {
+    setState(() {
+      if (_selectedListIds.contains(listId)) {
+        _selectedListIds.remove(listId);
+      } else {
+        _selectedListIds.add(listId);
+      }
+    });
+  }
+
+  Future<void> _deleteSelectedLists() async {
+    if (_selectedListIds.isEmpty) return;
+    
+    for (final listId in _selectedListIds) {
+      await ref.read(shoppingListViewModelProvider.notifier).deleteList(listId);
+    }
+    
+    setState(() => _selectedListIds.clear());
+  }
+
+  Widget _buildSelectionHeader(List<ShoppingList> allLists) {
+    final loc = AppLocalizations.of(context)!;
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + 8,
+            bottom: 16,
+            left: 16,
+            right: 16,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.85),
+            border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          ),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => setState(() => _selectedListIds.clear()),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(Icons.close_rounded, size: 22, color: Colors.black87),
+                ),
+              ),
+              
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  "${_selectedListIds.length} sélectionnée${_selectedListIds.length > 1 ? 's' : ''}",
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_selectedListIds.length == allLists.length) {
+                      _selectedListIds.clear();
+                    } else {
+                      _selectedListIds.addAll(allLists.map((l) => l.id!));
+                    }
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    _selectedListIds.length == allLists.length 
+                      ? Icons.deselect_rounded 
+                      : Icons.select_all_rounded, 
+                    size: 22, 
+                    color: Colors.black87
+                  ),
+                ),
+              ),
+              
+              const SizedBox(width: 12),
+              GestureDetector(
+                onTap: _deleteSelectedLists,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: AppColors.error,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.error.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.delete_outline_rounded, size: 20, color: Colors.white),
+                      const SizedBox(width: 6),
+                      Text(
+                        loc.delete,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _ShoppingListCard extends StatelessWidget {
   final ShoppingList list;
+  final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback onCheckboxTap;
   final VoidCallback onDelete;
   final VoidCallback onRename;
 
-  const _ShoppingListCard({required this.list, required this.onTap, required this.onDelete, required this.onRename});
+  const _ShoppingListCard({
+    required this.list, 
+    required this.isSelected,
+    required this.onTap, 
+    required this.onCheckboxTap,
+    required this.onDelete, 
+    required this.onRename,
+  });
+
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isSelected ? AppColors.primary.withOpacity(0.08) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))
         ],
-        border: Border.all(color: Colors.grey.withOpacity(0.05)),
+        border: Border.all(
+          color: isSelected ? AppColors.primary.withOpacity(0.3) : Colors.grey.withOpacity(0.05),
+          width: isSelected ? 2 : 1,
+        ),
       ),
       child: Material(
         color: Colors.transparent,
@@ -309,7 +461,26 @@ class _ShoppingListCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                // Icone dans une bulle pastel
+                GestureDetector(
+                  onTap: onCheckboxTap,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.only(right: 12),
+                    decoration: BoxDecoration(
+                      color: isSelected ? AppColors.primary : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected ? AppColors.primary : Colors.grey.shade300,
+                        width: 2,
+                      ),
+                    ),
+                    child: isSelected
+                        ? const Icon(Icons.check, size: 16, color: Colors.white)
+                        : null,
+                  ),
+                ),
                 Container(
                    padding: const EdgeInsets.all(12),
                    decoration: BoxDecoration(
@@ -374,3 +545,5 @@ class _ShoppingListCard extends StatelessWidget {
     );
   }
 }
+
+

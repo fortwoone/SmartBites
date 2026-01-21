@@ -8,6 +8,7 @@ class ShoppingList {
   final List<String> products;
   final Map<String, int> quantities;
   final Map<String, double> prices;
+  final List<String> checkedItems;
 
   // Constructeur
   ShoppingList({
@@ -16,6 +17,7 @@ class ShoppingList {
     required this.userId,
     this.products = const [],
     this.quantities = const {},
+    this.checkedItems = const [],
     Map<String, double>? prices,
   }) : prices = prices ?? {};
 
@@ -28,6 +30,14 @@ class ShoppingList {
     if (json['products'] is List) {
       for (var p in json['products']) {
         products.add(p.toString());
+      }
+    }
+
+    // Checked Items
+    List<String> checkedItems = [];
+    if (json['checked_items'] is List) {
+      for (var c in json['checked_items']) {
+        checkedItems.add(c.toString());
       }
     }
 
@@ -62,6 +72,7 @@ class ShoppingList {
       userId: json['user_id'] as String,
       products: products,
       quantities: quantities,
+      checkedItems: checkedItems,
       prices: prices,
     );
   }
@@ -76,6 +87,7 @@ class ShoppingList {
       'user_id': userId,
       'products': products,
       'quantities': quantities,
+      // Note: checked_items is managed locally, not stored in database
     };
   }
 
@@ -88,6 +100,7 @@ class ShoppingList {
     String? userId,
     List<String>? products,
     Map<String, int>? quantities,
+    List<String>? checkedItems,
     Map<String, double>? prices,
   }) {
     return ShoppingList(
@@ -96,6 +109,7 @@ class ShoppingList {
       userId: userId ?? this.userId,
       products: products ?? this.products,
       quantities: quantities ?? this.quantities,
+      checkedItems: checkedItems ?? this.checkedItems,
       prices: prices ?? this.prices,
     );
   }

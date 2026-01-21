@@ -6,11 +6,15 @@ import '../../utils/color_constants.dart';
 class CustomPageHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onAddTap;
+  final bool showBackButton;
+  final VoidCallback? onBackTap;
 
   const CustomPageHeader({
     super.key,
     required this.title,
     this.onAddTap,
+    this.showBackButton = false,
+    this.onBackTap,
   });
 
   @override
@@ -39,6 +43,21 @@ class CustomPageHeader extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
+              if (showBackButton)
+                Positioned(
+                  left: 0,
+                  child: GestureDetector(
+                    onTap: onBackTap ?? () => Navigator.pop(context),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87, size: 20),
+                    ),
+                  ),
+                ),
               Text(
                 title,
                 textAlign: TextAlign.center,
