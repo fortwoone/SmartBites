@@ -48,7 +48,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get login_register_action => ' S\'inscrire';
 
   @override
-  String get shopping_lists => 'Derniere Liste de course';
+  String get shopping_lists => 'Liste de course';
 
   @override
   String get shopping_list => 'Listes de courses';

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/color_constants.dart';
 import '../../widgets/profile/avatar_widget.dart';
+import '../../widgets/navigation/bottom_nav_bar.dart';
 import '../../widgets/dashboard/recent_products_widget.dart';
 import '../../widgets/dashboard/recent_recipes_widget.dart';
 import '../../widgets/dashboard/recent_shopping_lists_widget.dart';
@@ -71,41 +72,16 @@ class _HomePageState extends ConsumerState<HomePage> {
         index: currentIndex,
         children: pages,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: (index) {
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
           ref.read(dashboardIndexProvider.notifier).state = index;
         },
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
-            label: loc.home_menu,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            selectedIcon: const Icon(Icons.shopping_cart),
-            label: loc.shopping_lists,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.restaurant_menu_outlined),
-            selectedIcon: const Icon(Icons.restaurant_menu),
-            label: loc.recipes_menu,
-          ),
-          NavigationDestination(
-            icon: NavigationAvatarIcon(
-              avatarUrl: user?.avatarUrl,
-              isSelected: false,
-              selectedColor: primaryPeach,
-            ),
-            selectedIcon: NavigationAvatarIcon(
-              avatarUrl: user?.avatarUrl,
-              isSelected: true,
-              selectedColor: primaryPeach,
-            ),
-            label: loc.my_account,
-          ),
-        ],
+        userAvatarUrl: user?.avatarUrl,
+        homeLabel: loc.home_menu,
+        cartLabel: loc.shopping_lists,
+        recipesLabel: loc.recipes_menu,
+        profileLabel: loc.my_account,
       ),
     );
   }
