@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
-import '../../utils/color_constants.dart';
-import '../../widgets/profile/avatar_widget.dart';
 import '../../widgets/navigation/bottom_nav_bar.dart';
 import '../../widgets/dashboard/recent_products_widget.dart';
 import '../../widgets/dashboard/recent_recipes_widget.dart';

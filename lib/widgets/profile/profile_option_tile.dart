@@ -22,7 +22,7 @@ class ProfileOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = isDestructive ? Colors.redAccent : (color ?? Colors.black87);
+
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
