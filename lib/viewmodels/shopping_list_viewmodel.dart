@@ -52,7 +52,6 @@ class ShoppingListViewModel extends AsyncNotifier<List<ShoppingList>> {
   // ---------------------------------------------------------------------------
   Future<ShoppingList> addListWithReturn(ShoppingList list) async {
     final repository = ref.read(shoppingListRepositoryProvider);
-    final user = ref.read(authViewModelProvider).value!;
 
     final createdList = await repository.createList(list);
 
