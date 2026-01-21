@@ -50,7 +50,7 @@ class _RecipesPageState extends ConsumerState<RecipesPage> {
                         controller: _searchController,
                         onChanged: (val) => setState(() {}),
                         decoration: InputDecoration(
-                          hintText: loc.search_recipe_hint ?? "Rechercher une recette...", 
+                          hintText: loc.search_recipe_hint, 
                           prefixIcon: const Icon(Icons.search, color: AppColors.primary),
                           suffixIcon: _searchController.text.isNotEmpty
                               ? IconButton(

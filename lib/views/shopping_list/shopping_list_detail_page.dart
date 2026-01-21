@@ -393,13 +393,11 @@ class _ShoppingListDetailPageState
   Widget _buildBottomBar(
       BuildContext context, AppLocalizations loc, ShoppingList list, double totalPrice) {
     double total = 0;
-    double checkedTotal = 0;
     for (final barcode in list.products) {
       final qty = list.quantities[barcode] ?? 1;
       final price = _productPrices[barcode] ?? 0;
       final t = price * qty;
       total += t;
-      if (list.checkedItems.contains(barcode)) checkedTotal += t;
     }
 
     return ClipRRect(

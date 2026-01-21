@@ -5,7 +5,6 @@ import '../../l10n/app_localizations.dart';
 import '../../models/product.dart';
 import '../../viewmodels/history_viewmodel.dart';
 import '../../views/product/product_detail_page.dart';  
-import '../../utils/color_constants.dart';
 import 'dashboard_section_header.dart';
 
 class RecentProductsWidget extends ConsumerWidget {
