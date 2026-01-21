@@ -42,7 +42,7 @@ class Product {
     String? brandsFr = json['brands_fr'] as String?;
     String? brandsEn = json['brands_en'] as String?;
 
-    List<String> _cleanBrands(String? raw) {
+    List<String> cleanBrands(String? raw) {
       if (raw == null || raw.isEmpty) return [];
       final parts = raw.split(',').map((b) => b.trim().toLowerCase()).toSet().toList();
       return parts.map((b) => b[0].toUpperCase() + b.substring(1)).toList();
@@ -64,9 +64,9 @@ class Product {
       name: json['product_name'] as String?,
       frName: json['product_name_fr'] as String?,
       enName: json['product_name_en'] as String?,
-      brands: _cleanBrands(brandsRaw).join(', '),
-      brandsFr: _cleanBrands(brandsFr).join(', '),
-      brandsEn: _cleanBrands(brandsEn).join(', '),
+      brands: cleanBrands(brandsRaw).join(', '),
+      brandsFr: cleanBrands(brandsFr).join(', '),
+      brandsEn: cleanBrands(brandsEn).join(', '),
       ingredientsText: json['ingredients_text'] as String?,
       imageURL: json['image_url'] as String?,
       imageSmallURL: json['image_small_url'] as String?,
