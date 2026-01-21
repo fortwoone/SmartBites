@@ -15,7 +15,8 @@ Lien vers le trello : https://trello.com/b/LFk8NWPo/sae-app-food
 
 Pour exécuter l'application après avoir cloné le code il faut rajouter un fichier .env à la racine du fichier avec ce contenu 
 
-```SUPABASE_URL=https://ftuijeorywnqjgmqbcfk.supabase.co \n
+```
+SUPABASE_URL=https://ftuijeorywnqjgmqbcfk.supabase.co \n
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0dWlqZW9yeXducWpnbXFiY2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA5MDQ4MDcsImV4cCI6MjA3NjQ4MDgwN30._iADlHpMD_9_5Y_tUnuaayvPwBEW2Dqg4osxUo7ox9U
 ```
 
