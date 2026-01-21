@@ -688,4 +688,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goTo => 'Go to the list';
+
+  @override
+  String get search_recipe_hint => 'Search for a recipe...';
 }

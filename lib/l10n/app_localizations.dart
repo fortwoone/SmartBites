@@ -1456,6 +1456,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to the list'**
   String get goTo;
+
+  /// No description provided for @search_recipe_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a recipe...'**
+  String get search_recipe_hint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

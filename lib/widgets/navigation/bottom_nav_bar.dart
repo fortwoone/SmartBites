@@ -55,32 +55,40 @@ class BottomNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _NavBarItem(
-                icon: CupertinoIcons.house,
-                activeIcon: CupertinoIcons.house_fill,
-                label: homeLabel,
-                isActive: currentIndex == 0,
-                onTap: () => onTap(0),
+              Expanded(
+                child: _NavBarItem(
+                  icon: CupertinoIcons.house,
+                  activeIcon: CupertinoIcons.house_fill,
+                  label: homeLabel,
+                  isActive: currentIndex == 0,
+                  onTap: () => onTap(0),
+                ),
               ),
-              _NavBarItem(
-                icon: CupertinoIcons.cart,
-                activeIcon: CupertinoIcons.cart_fill,
-                label: cartLabel,
-                isActive: currentIndex == 1,
-                onTap: () => onTap(1),
+              Expanded(
+                child: _NavBarItem(
+                  icon: CupertinoIcons.cart,
+                  activeIcon: CupertinoIcons.cart_fill,
+                  label: cartLabel,
+                  isActive: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
               ),
-              _NavBarItem(
-                icon: CupertinoIcons.book,
-                activeIcon: CupertinoIcons.book_fill,
-                label: recipesLabel,
-                isActive: currentIndex == 2,
-                onTap: () => onTap(2),
+              Expanded(
+                child: _NavBarItem(
+                  icon: CupertinoIcons.book,
+                  activeIcon: CupertinoIcons.book_fill,
+                  label: recipesLabel,
+                  isActive: currentIndex == 2,
+                  onTap: () => onTap(2),
+                ),
               ),
-              _ProfileNavBarItem(
-                avatarUrl: userAvatarUrl,
-                label: profileLabel,
-                isActive: currentIndex == 3,
-                onTap: () => onTap(3),
+              Expanded(
+                child: _ProfileNavBarItem(
+                  avatarUrl: userAvatarUrl,
+                  label: profileLabel,
+                  isActive: currentIndex == 3,
+                  onTap: () => onTap(3),
+                ),
               ),
             ],
           ),

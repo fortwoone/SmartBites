@@ -226,5 +226,6 @@
   "lowest_to_highest": "Croissant",
   "highest_to_lowest": "Décroissant",
   "filters": "Filtres",
-  "goTo": "Aller à la liste"
+  "goTo": "Aller à la liste",
+  "search_recipe_hint": "Rechercher une recette..."
 }

@@ -226,7 +226,8 @@
   "lowest_to_highest": "Ascendant",
   "highest_to_lowest": "Descendant",
   "filters": "Filters",
-  "goTo": "Go to the list"
+  "goTo": "Go to the list",
+  "search_recipe_hint": "Search for a recipe..."
 
 
 }
