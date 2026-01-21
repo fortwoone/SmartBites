@@ -40,7 +40,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
+    - .env.exemple
     - lib/ressources/
     - lib/ressources/nova/
     - lib/ressources/nutriscore/
